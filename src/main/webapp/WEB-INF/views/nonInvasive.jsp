@@ -32,7 +32,7 @@
                         <table class="table table-striped">
                             <c:forEach var="diagnose" items="${diagnoseDetails}">
                                 <tr>
-                                    <td><input type="checkbox" value="${diagnose.value}"/></td>
+                                    <td><input type="checkbox" value="${diagnose.value}">${diagnose.value}</td>
                                 </tr>
                             </c:forEach>
                         </table>
@@ -53,7 +53,7 @@
                         <table class="table table-striped">
                             <c:forEach var="procedure" items="${procedures}">
                                 <tr>
-                                    <td><input type="checkbox">${procedure.value}</input></td>
+                                    <td><input type="checkbox" value="${procedure.value}">${procedure.value}</td>
                                 </tr>
                             </c:forEach>
                         </table>
@@ -114,9 +114,8 @@
                         <input class='form-control' name="mtpIndication" type='text'/>
                     </div>
                 </div>
-                <input type="hidden" id="patientID" name="patientID"
-                       value="${invasive.patientID}"> <input type="hidden" id="patientName"
-                                                             name="patientName" value="${invasive.patientName}">
+                <input type="hidden" id="patientID" name="patientID" value="${nonInvasive.patientID}"/>
+                <input type="hidden" id="patientName" name="patientName" value="${nonInvasive.patientName}">
 
                 <div class="form-actions">
                     <label class="control-label col-md-3 col-lg-3"/>

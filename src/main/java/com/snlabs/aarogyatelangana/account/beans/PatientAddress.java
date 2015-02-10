@@ -67,6 +67,7 @@ public class PatientAddress implements Serializable{
 		this.patientAddressID = patientAddressID;
 	}
 
+
 	@Override
     public String toString() {
         return "PatientAddress [district=" + district + ", state=" + state

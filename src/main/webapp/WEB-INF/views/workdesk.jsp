@@ -15,25 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" href="../../../favicon.ico">
-    <script type="text/javascript"
-            src="<%=request.getContextPath()%>/resources/dist/js/vendor/jquery-2.1.3.js"></script>
-    <script type="text/javascript"
-            src="<%=request.getContextPath()%>/resources/dist/js/app/apputils.js"></script>
 
-    <!-- Loading Bootstrap -->
-    <link
-            href="<%=request.getContextPath()%>/resources/dist/css/vendor/bootstrap.min.css"
-            rel="stylesheet">
-    <!-- Loading Flat UI -->
-    <link
-            href="<%=request.getContextPath()%>/resources/dist/css/flat-ui.css"
-            rel="stylesheet">
-    <link
-            href="<%=request.getContextPath()%>/resources/docs/assets/css/demo.css"
-            rel="stylesheet">
-
-    <script type="text/javascript"
-            src="<%=request.getContextPath()%>/resources/dist/js/bootstrap/bootstrap.min.js"></script>
 
     <link rel="shortcut icon" href="img/favicon.ico">
 </head>
@@ -93,7 +75,7 @@
 							<div class="input-group">
 								<span>
 									<button type="submit" class="btn"
-										onclick="submitForm('/account/home.action', 'NO-DATA', 'canvas');">
+										onclick="submitForm('/account/logout.action', 'NO-DATA', 'canvas');">
 										<span>Log out:${userDetails.displayName} </span>
 									</button>
 								</span>
@@ -124,6 +106,25 @@
 			</div>
 		</div>
 	</div>
+    <script type="text/javascript"
+            src="<%=request.getContextPath()%>/resources/dist/js/vendor/jquery-2.1.3.js"></script>
+    <script type="text/javascript"
+            src="<%=request.getContextPath()%>/resources/dist/js/app/apputils.js"></script>
+    <!-- Loading Bootstrap -->
+    <link
+            href="<%=request.getContextPath()%>/resources/dist/css/vendor/bootstrap.min.css"
+            rel="stylesheet">
+    <link
+            href="<%=request.getContextPath()%>/resources/dist/css/vendor/normalize.css"
+            rel="stylesheet">
+    <link
+            href="<%=request.getContextPath()%>/resources/dist/css/vendor/style.css"
+            rel="stylesheet">
+    <link
+            href="<%=request.getContextPath()%>/resources/docs/assets/css/demo.css"
+            rel="stylesheet">
 
+    <script type="text/javascript"
+            src="<%=request.getContextPath()%>/resources/dist/js/bootstrap/bootstrap.min.js"></script>
 </body>
 </html>

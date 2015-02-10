@@ -10,6 +10,18 @@
             <form class="form-horizontal" method="POST" name="clinicForm"
                   id="clinicForm" modelAttribute="clinicAddress">
                 <div class="form-group">
+                    <c:if test="${errorMessage != null}">
+                        <div class="form-group">
+                            <div class="alert alert-success">
+                                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                <c:choose>
+                                    <c:when test="${errorMessage != null}">${errorMessage}</c:when>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3"> Patient ID:
                     </label>
 
@@ -48,7 +60,7 @@
 
                     <div class="col-md-9 col-lg-9">
                         <textarea class='form-control' name="address"
-                                  value="${clinicAddress.address}"></textarea>
+                                  value="${clinicAddress.address}">${clinicAddress.address}</textarea>
                     </div>
 
                 </div>

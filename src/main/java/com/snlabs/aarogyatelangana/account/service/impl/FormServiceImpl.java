@@ -24,7 +24,11 @@ public class FormServiceImpl implements FormService {
     @Override
     public ClinicAddress saveClinicDetails(ClinicAddress clinicAddress) {
         try {
-            return formDao.saveClinicDetails(clinicAddress);
+            if (clinicAddress.getPatientID() > 0 && formDao.updateClinicDetails(clinicAddress)) {
+                return clinicAddress;
+            } else {
+                return formDao.saveClinicDetails(clinicAddress);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,17 +68,29 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public SectionA saveSectionA(SectionA section) {
-        return formDao.saveSectionA(section);
+        if (section.getPatientID() > 0 && formDao.updateSectionA(section)) {
+            return section;
+        } else {
+            return formDao.saveSectionA(section);
+        }
     }
 
     @Override
     public NonInvasive saveNonInvasiveDetails(NonInvasive nonInvasive) {
-        return formDao.saveNonInvasive(nonInvasive);
+        if (nonInvasive.getPatientID() > 0 && formDao.updateNonInvasiveDetails(nonInvasive)) {
+            return nonInvasive;
+        } else {
+            return formDao.saveNonInvasive(nonInvasive);
+        }
     }
 
     @Override
     public Invasive saveInvasiveDetails(Invasive invasive) {
-        return formDao.saveInvasive(invasive);
+        if (invasive.getPatientID() > 0 && formDao.updateInvasiveDetails(invasive)) {
+            return invasive;
+        } else {
+            return formDao.saveInvasive(invasive);
+        }
     }
 
     @Override

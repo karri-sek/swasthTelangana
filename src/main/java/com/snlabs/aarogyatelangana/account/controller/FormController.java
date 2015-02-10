@@ -3,6 +3,7 @@ package com.snlabs.aarogyatelangana.account.controller;
 import com.snlabs.aarogyatelangana.account.beans.*;
 import com.snlabs.aarogyatelangana.account.service.DownloadService;
 import com.snlabs.aarogyatelangana.account.service.FormService;
+import com.snlabs.aarogyatelangana.account.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.ArrayList;
 
 @Controller
@@ -22,6 +24,9 @@ public class FormController {
 
     @Autowired
     DownloadService downloadService;
+
+    @Autowired
+    PatientService patientService;
 
     @RequestMapping(value = {"enterFormDetails.action"}, method = RequestMethod.POST)
     public String enterFormDetails(HttpSession session) {
@@ -34,12 +39,16 @@ public class FormController {
     @RequestMapping(value = {"previousClinicDetails.action"}, method = RequestMethod.POST)
     public String previousClinicDetails(@RequestBody ClinicAddress clinicAddress,
                                         HttpSession session, ModelMap model) {
-        if (formService.saveClinicDetails(clinicAddress) != null) {
-            model.put("patient", formService.getPatientDetails(clinicAddress.getPatientID()));
-            return "patientForm";
+        if (clinicAddress != null && clinicAddress.getPatientID() > 0) {
+            if (formService.saveClinicDetails(clinicAddress) != null) {
+                model.put("patient", formService.getPatientDetails(clinicAddress.getPatientID()));
+                return "patientForm";
+            }
         } else {
-            return "clinicDetails";
+            System.out.println("Unable to get the Details patientID:" + clinicAddress.getPatientID());
+            model.put("errorMessage", "Failed to get the Details");
         }
+        return "clinicDetails";
     }
 
     @RequestMapping(value = {"saveClinicDetails.action"}, method = RequestMethod.POST)
@@ -73,8 +82,15 @@ public class FormController {
     public String previousSectionA(@RequestBody SectionA sectionA,
                                    HttpSession session, ModelMap model) {
         if (formService.saveSectionA(sectionA) != null) {
-            model.put("clinicAddress", formService.getClinicDetails(sectionA.getPatientID()));
-            return "clinicDetails";
+            ClinicAddress clinicAddress = formService.getClinicDetails(sectionA.getPatientID());
+            if (clinicAddress != null) {
+                clinicAddress.setPatientName(sectionA.getPatientName());
+                model.put("clinicAddress", clinicAddress);
+                return "clinicDetails";
+            } else {
+                model.put("error", "unable to get the clinic details");
+                return "sectionA";
+            }
         } else {
             return "sectionA";
         }
@@ -225,14 +241,28 @@ public class FormController {
     @RequestMapping(value = {"saveDeclarationDetails.action"}, method = RequestMethod.POST)
     public String saveDeclaration(@RequestBody Declaration declaration,
                                   HttpSession session, ModelMap model, HttpServletRequest request) {
-        if (formService.saveDeclarationDetails(declaration) != null) {
-            model.put("message", "Saved Successfully");
-            downloadService.downloadForm(declaration.getPatientID(), request, session);
-            return "declaration";
+        if (declaration.getPatientID() > 0) {
+            if (formService.saveDeclarationDetails(declaration) != null) {
+                File patientExcelFile = downloadService.downloadForm(declaration.getPatientID(), request, session);
+                if (patientExcelFile != null) {
+                    Patient patient = patientService.searchPatientById(declaration.getPatientID());
+                    if (patient != null) {
+                        patient.setFormFDownloadPath(patientExcelFile.getAbsolutePath());
+                        patientService.createPatientRecord(patient);
+                    } else {
+                        model.put("result", "Failed to get the Patient Details...");
+                    }
+                    model.put("result", "Saved Patient Details in the Excel File Successfully");
+                } else {
+                    model.put("result", "Failed to Save Patient Details in the Excel File...");
+                }
+            } else {
+                model.put("result", "Failed in saving the Patient Details ");
+            }
         } else {
-            model.put("message", "Failed");
-            return "failed";
+            model.put("result", "Unable to Save the Declaration for the patient name " + declaration.getPatientName());
         }
+        return "declaration";
     }
 
     public FormService getFormService() {

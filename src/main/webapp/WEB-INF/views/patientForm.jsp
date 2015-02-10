@@ -8,21 +8,11 @@
         <fieldset>
             <form class="form-horizontal" method="POST" id="patientDetails"
                   role="form">
-                <c:if test="${patient.patientID} > 0">
-                    <div class="form-group" id="resultDev">
-                        <div class="alert alert-success">
-                            <a href="#" class="close" data-dismiss="alert">&times;</a>
-                            <c:choose>
-                                <c:when test="${result}">Patient Details has been saved successfully.!</c:when>
-                            </c:choose>
-                        </div>
-                    </div>
-                </c:if>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">Patient Name:</label>
 
                     <div class="col-md-9 col-lg-9">
-                        <input class="form-control" type="text" name="patientName"
+                        <input class="form-control required" type="text" name="patientName"
                                id="patientName" value="${patient.patientName}"/>
                     </div>
                 </div>

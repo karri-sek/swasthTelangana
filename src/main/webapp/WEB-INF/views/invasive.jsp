@@ -10,7 +10,7 @@
             <form class="form-horizontal" method="POST" name="invasive"
                   id="invasive" modelAttribute="invasive">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-lg-3">Doctor Name
+                    <label class="control-label col-md-3 col-lg-3">Doctor Name:
                     </label>
 
                     <div class="col-md-9 col-lg-9">
@@ -29,13 +29,13 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">Basis of
-                        diagnosis</label>
+                        diagnosis:</label>
 
                     <div class="col-md-9 col-lg-9">
                         <table class="table table-striped">
                             <c:forEach var="diagnose" items="${diagnosisBasis}">
                                 <tr>
-                                    <td><input type="checkbox" value="${diagnose.value}"/></td>
+                                    <td><input type="checkbox" value="${diagnose.value}">${diagnose.value}</td>
                                 </tr>
                             </c:forEach>
                         </table>
@@ -49,7 +49,7 @@
                         <table class="table table-striped">
                             <c:forEach var="diagnose" items="${diagnosisIndication}">
                                 <tr>
-                                    <td><input type="checkbox" value="${diagnose.value}"/></td>
+                                    <td><input type="checkbox" value="${diagnose.value}">${diagnose.value}</td>
                                 </tr>
                             </c:forEach>
                         </table>
@@ -90,7 +90,7 @@
                         <table class="table table-striped">
                             <c:forEach var="procedure" items="${invasiveProcedures}">
                                 <tr>
-                                    <td><input type="checkbox" value="${procedure.value}"/></td>
+                                    <td><input type="checkbox" value="${procedure.value}">${procedure.value}</td>
                                 </tr>
                             </c:forEach>
                         </table>
@@ -151,19 +151,17 @@
                     <label class="control-label col-md-3 col-lg-3"></label>
 
                     <div class="col-md-9 col-lg-9">
-                        <div class="col-md-9 col-lg-9">
-                            <div class="col-md-3 col-lg-3">
-                                <a class="btn btn-primary col-md-9 col-lg-9" href="#"
-                                   onclick="submitForm('/account/previousInvasiveDetails.action', 'invasive', 'containerdiv');">Previous</a>
-                            </div>
-                            <div class="col-md-3 col-lg-3">
-                                <a class="btn btn-primary col-md-9 col-lg-9" href="#"
-                                   onclick="submitForm('/account/saveInvasiveDetails.action', 'invasive', 'containerdiv');">Save</a>
-                            </div>
-                            <div class="col-md-3 col-lg-3">
-                                <a class="btn btn-primary col-md-9 col-lg-9" href="#"
-                                   onclick="submitForm('/account/nextInvasiveDetails.action', 'invasive', 'containerdiv');">Next>></a>
-                            </div>
+                        <div class="col-md-3 col-lg-3">
+                            <a class="btn btn-primary col-md-9 col-lg-9" href="#"
+                               onclick="submitForm('/account/previousInvasiveDetails.action', 'invasive', 'containerdiv');">Previous</a>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <a class="btn btn-primary col-md-9 col-lg-9" href="#"
+                               onclick="submitForm('/account/saveInvasiveDetails.action', 'invasive', 'containerdiv');">Save</a>
+                        </div>
+                        <div class="col-md-3 col-lg-3">
+                            <a class="btn btn-primary col-md-9 col-lg-9" href="#"
+                               onclick="submitForm('/account/nextInvasiveDetails.action', 'invasive', 'containerdiv');">Next>></a>
                         </div>
                     </div>
                 </div>

@@ -23,8 +23,7 @@ public class FormDaoImpl implements FormDao {
         patientDetailsQuery.append("SELECT * FROM T_PATIENT patient, T_PATIENT_ADDRESS address")
                 .append(" WHERE patient.F_PATIENT_ID=").append(patientID).append(" AND address.F_PATIENT_ID=").append(patientID);
         final Patient patient = new Patient();
-        System.out.println(" Query45 :" + patientDetailsQuery.toString());
-
+        patient.setPatientID(patientID);
         try {
             jdbcTemplate.queryForObject(patientDetailsQuery.toString(), new RowMapper() {
                 @Override
@@ -48,7 +47,7 @@ public class FormDaoImpl implements FormDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return patient;
+        return null;
     }
 
     @Autowired
@@ -96,6 +95,93 @@ public class FormDaoImpl implements FormDao {
     @Override
     public boolean update(Form form) {
         // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean updateClinicDetails(ClinicAddress clinicAddress) {
+        StringBuilder updateClinicRecord = new StringBuilder();
+        updateClinicRecord.append("UPDATE T_CLINIC_DETAILS SET F_CLINIC_OWNER_NAME = ?,")
+                .append(" F_TYPE = ?,").append(" F_ADDRESS  = ?,")
+                .append(" F_DISTRICT = ?,").append(" F_STATE = ?,")
+                .append(" F_PINCODE = ?,").append(" F_CONTACT_NO = ?,")
+                .append(" F_CLINIC_NAME = ?")
+                .append(" WHERE F_PATIENT_ID = ?");
+        Object[] args = {clinicAddress.getOwnerName(), clinicAddress.getType(), clinicAddress.getAddress(),
+                clinicAddress.getDistrict(), clinicAddress.getState(), clinicAddress.getPincode(),
+                clinicAddress.getContactNum(), clinicAddress.getClinicName(), clinicAddress.getPatientID()};
+        try {
+            return jdbcTemplate.update(updateClinicRecord.toString(), args) > 0 ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateSectionA(SectionA sectionA) {
+        StringBuilder updateFormRecord = new StringBuilder();
+        updateFormRecord.append("UPDATE T_FORM SET F_NO_OF_CHILDREN = ?,")
+                .append(" F_GUARDIAN_NAME = ?,").append(" F_NO_OF_MALE_KIDS  = ?,")
+                .append(" F_NO_OF_FEMALE_KIDS = ?,").append(" F_MENSTRUAL_PERIOD = ?")
+                .append(" WHERE F_PATIENT_ID = ?");
+        Object[] args = {sectionA.getNoOfChildren(), sectionA.getGuardianName(), sectionA.getNoOfMaleKids(),
+                sectionA.getNoOfFemaleKids(), sectionA.getMenstrualPeriod(), sectionA.getPatientID()};
+        try {
+            return jdbcTemplate.update(updateFormRecord.toString(), args) > 0 ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateNonInvasiveDetails(NonInvasive nonInvasive) {
+        StringBuilder updateNonInvasiveRecord = new StringBuilder();
+        updateNonInvasiveRecord.append("UPDATE T_NON_INVASIVE_PROCEDURES SET F_DOCTOR_NAME = ?,")
+                .append(" F_DIAGNOSIS_INDICATION = ?,").append(" F_CARRIED_NON_INVASIVE_PROCEDURE  = ?,")
+                .append(" F_DECLARATION_DATE = ?,").append(" F_PROCEDURE_CARRIED_DATE = ?,")
+                .append(" F_PROCEDURE_RESULT = ?,").append(" F_CONVEY_ID = ?,")
+                .append(" F_MTP_INDICATION = ?,").append(" F_DATE = ?,")
+                .append(" F_PLACE = ?,").append(" F_SELECTED_DIAGNOSE = ?")
+                .append(" WHERE F_PATIENT_ID = ?");
+        Object[] args = {nonInvasive.getDoctorName(),
+                nonInvasive.getDiagnosisIndication(), nonInvasive.getCarriedNonInvasiveProcedure(),
+                nonInvasive.getDeclarationDate(), nonInvasive.getProcedureCarriedDate(),
+                nonInvasive.getProcedureResult(), nonInvasive.getConveyID(),
+                nonInvasive.getMtpIndication(), nonInvasive.getDate(),
+                nonInvasive.getPlace(), nonInvasive.getSelectedDiagnoseDetails(),
+                nonInvasive.getPatientID()};
+        try {
+            return jdbcTemplate.update(updateNonInvasiveRecord.toString(), args) > 0 ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateInvasiveDetails(Invasive invasive) {
+        StringBuilder updateInvasiveRecord = new StringBuilder();
+        updateInvasiveRecord.append("UPDATE T_INVASIVE_PROCEDURES SET F_DOCTOR_NAME = ?,")
+                .append(" F_DIAGNOSIS_BASICS = ?,").append(" F_DIAGNOSIS_INDICATION  = ?,")
+                .append(" F_ADVANCED_MATERNAL_AGE = ?,").append(" F_GENETIC_DISEASE = ?,")
+                .append(" F_CONTEST_DATE = ?,").append(" F_CARRIED_INVASIVE_PROCEDURE = ?,")
+                .append(" F_COMPILICATION = ?,").append(" F_ADDITIONAL_TEST = ?,")
+                .append(" F_PROCEDURE_RESULT = ?,").append(" F_PROCEDURE_CARRIED_DATE = ?,")
+                .append(" F_MTP_INDICATION = ?").append(" WHERE F_PATIENT_ID = ?");
+        Object[] args = {invasive.getDoctorName(),
+                invasive.getDignosisBasics(), invasive.getDiagnosisIndications(),
+                invasive.getAdvancedMaternalAge(), invasive.getGeneticDisease(),
+                invasive.getContestDate(), invasive.getCarriedInvasiveProcedure(),
+                invasive.getCompilication(), invasive.getAdditionalTest(),
+                invasive.getProcedureResult(), invasive.getProcedureCarriedDate(),
+                invasive.getMtpIndication(), invasive.getPatientID()};
+        try {
+            return jdbcTemplate.update(updateInvasiveRecord.toString(), args) > 0 ? true : false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -174,7 +260,7 @@ public class FormDaoImpl implements FormDao {
             e.printStackTrace();
 
         }
-        return form;
+        return null;
     }
 
     @Override
@@ -196,13 +282,13 @@ public class FormDaoImpl implements FormDao {
     public NonInvasive saveNonInvasive(NonInvasive nonInvasive) {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO T_NON_INVASIVE_PROCEDURES(")
-                .append("F_DOCTOR_NAME," + "F_DIAGNOSIS_INDICATION,"
+                .append("F_PATIENT_ID, F_DOCTOR_NAME," + "F_DIAGNOSIS_INDICATION,"
                         + "F_CARRIED_NON_INVASIVE_PROCEDURE,"
                         + "F_DECLARATION_DATE," + "F_PROCEDURE_CARRIED_DATE,"
                         + "F_PROCEDURE_RESULT," + "F_MTP_INDICATION,"
                         + "F_SELECTED_DIAGNOSE")
-                .append(")VALUES(?,?,?,?,?,?,?,?)");
-        Object[] args = new Object[]{nonInvasive.getDoctorName(),
+                .append(")VALUES(?,?,?,?,?,?,?,?,?)");
+        Object[] args = new Object[]{nonInvasive.getPatientID(), nonInvasive.getDoctorName(),
                 nonInvasive.getDiagnosisIndication(),
                 nonInvasive.getCarriedNonInvasiveProcedure(),
                 nonInvasive.getDeclarationDate(),
@@ -211,19 +297,18 @@ public class FormDaoImpl implements FormDao {
                 nonInvasive.getMtpIndication(),
                 nonInvasive.getSelectedDiagnoseDetails()};
         return jdbcTemplate.update(sb.toString(), args) > 0 ? nonInvasive : null;
-
     }
 
     @Override
     public Invasive saveInvasive(Invasive invasive) {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO T_INVASIVE_PROCEDURES(")
-                .append("F_PATIENT_ID,F_DOCTOR_NAME," + "F_DIAGNOSIS_BASICS,"
-                        + "F_ADVANCED_MATERNAL_AGE," + "F_GENETIC_DISEASE,"
-                        + "F_CONTEST_DATE," + "F_CARRIED_INVASIVE_PROCEDURE,"
-                        + "F_COMPILICATION," + "F_ADDITIONAL_TEST,"
-                        + "F_PROCEDURE_RESULT," + "F_PROCEDURE_CARRIED_DATE,"
-                        + "F_MTP_INDICATION")
+                .append("F_PATIENT_ID, F_DOCTOR_NAME, F_DIAGNOSIS_BASICS,")
+                .append(" F_ADVANCED_MATERNAL_AGE, F_GENETIC_DISEASE,")
+                .append(" F_CONTEST_DATE, F_CARRIED_INVASIVE_PROCEDURE,")
+                .append(" F_COMPILICATION, F_ADDITIONAL_TEST,")
+                .append(" F_PROCEDURE_RESULT, F_PROCEDURE_CARRIED_DATE,")
+                .append(" F_MTP_INDICATION")
                 .append(")VALUES(?,?,?,?,?,SYSDATE(),?,?,?,?,SYSDATE(),?)");
         Object[] args = new Object[]{invasive.getPatientID(),
                 invasive.getDoctorName(), invasive.getDignosisBasics(),
@@ -270,7 +355,7 @@ public class FormDaoImpl implements FormDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return sectionA;
+        return null;
     }
 
     @Override
@@ -289,6 +374,7 @@ public class FormDaoImpl implements FormDao {
                     clinicAddress.setAddress(resultSet.getString("F_ADDRESS"));
                     clinicAddress.setDistrict(resultSet.getString("F_DISTRICT"));
                     clinicAddress.setClinicName(resultSet.getString("F_CLINIC_NAME"));
+                    clinicAddress.setState(resultSet.getString("F_STATE"));
                     clinicAddress.setContactNum(resultSet.getInt("F_CONTACT_NO"));
                     return clinicAddress;
                 }
@@ -296,7 +382,7 @@ public class FormDaoImpl implements FormDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return clinicAddress;
+        return null;
     }
 
     @Override
@@ -327,7 +413,7 @@ public class FormDaoImpl implements FormDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return nonInvasive;
+        return null;
     }
 
     @Override
@@ -360,7 +446,7 @@ public class FormDaoImpl implements FormDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return invasive;
+        return null;
     }
 
 }

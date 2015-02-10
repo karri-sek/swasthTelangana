@@ -4,6 +4,7 @@ import com.snlabs.aarogyatelangana.account.beans.Patient;
 import com.snlabs.aarogyatelangana.account.dao.PatientDao;
 import com.snlabs.aarogyatelangana.account.service.PatientService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -59,6 +60,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public List<Patient> getPatientProfiles(String createdBy) {
         return patientDao.searchPatientProfilesByCreator(createdBy);
+    }
+
+    @Override
+    public List<Patient> getPatientProfilesByDate(Date fromDate, Date toDate, String createdBy) {
+        return patientDao.listPatientProfilesByDate(fromDate, toDate, createdBy);
     }
 
 }

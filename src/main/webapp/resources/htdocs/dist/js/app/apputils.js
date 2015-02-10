@@ -55,7 +55,7 @@ function OpenInNewTab() {
 }
 
 function submitForm(url, formId, targetId) {	
-	if ('NO-DATA' != formId) {
+	if ('NO-DATA' != formId && isFormValid()) {
 		formData = JSON.stringify($("#" + formId).serializeObject());
 		processRequest(url, formData, targetId);
 	} else if ('NO-DATA' == formId) {
@@ -114,7 +114,7 @@ $.fn.serializeObject = function() {
 
 function getDomainName(requiredDomain) {
 	// return 'http://swasthtelangana.com:8080';
-	return 'http://localhost:8000';
+	return 'http://localhost:8080';
 
 }
 
@@ -132,7 +132,32 @@ $(document).ready(function(){
     });
 });
 
+function isFormValid(){
+    var isValid = true;
 
+    $('li',$(this).parents('form')).removeClass('error');
+    $('span.error').remove();
+
+    $('.required').each(function() {
+        if($(this).val() == ''){
+            isValid = false;
+            $(this).parent().addClass('error').append('<span class="error" style="color:red">Cannot be left blank</span>');
+        }
+    });
+    $('.onlyNumber').each(function() {
+        if(!isANumber($(this).val())){
+            isValid = false;
+            $(this).parent().addClass('error').append('<span class="error" style="color:red">Required only Number</span>');
+        }
+    });
+    $('.onlyMobileNum').each(function() {
+        if(!isOfLength($(this).val(), 10)||!isANumber($(this).val())){
+            isValid = false;
+            $(this).parent().addClass('error').append('<span class="error" style="color:red">Mobile number must be a number with size 10.</span>');
+        }
+    });
+    return isValid;
+}
 
 
 
@@ -151,3 +176,33 @@ $(document.body).on(
 			return false;
 
 		});
+function isOfLength(str, length){
+    if(str.length == length){
+        return true;
+    }
+    return false;
+}
+
+function isANumber(numStr){
+    var regExp = /^[0-9]+$/;
+    if (regExp.test(numStr)) {
+        return true;
+    }
+    return false;
+}
+
+/*
+$(function() {
+    $('.date-picker').datepicker( {
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        dateFormat: 'MMyy',
+        onClose: function(dateText, inst) {
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).datepicker('setDate', new Date(year, month, 1));
+        }
+    });
+});
+*/

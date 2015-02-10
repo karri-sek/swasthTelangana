@@ -181,44 +181,48 @@ public class DownloadDaoImpl implements DownloadDao {
 
     @Override
     public File downloadDetails(int patientID, HttpServletRequest request, HttpSession session) {
+        File patientFile = null;
         try {
             CustomDate date = new CustomDate(new SimpleDateFormat("yyyy-MMMM-dd").format(new Date()));
             StringBuilder patientFilePath = new StringBuilder();
             patientFilePath.append("D:\\home\\telangana\\")
                     .append(date.YEAR).append("\\").append(date.MONTH)
                     .append("\\").append(patientID).append(".xls");
-
-            File patientFile = new File(patientFilePath.toString());
+            patientFile = new File(patientFilePath.toString());
             Boolean fileCreation = patientFile.getParentFile().exists() ? true : patientFile.getParentFile().mkdirs();
             if (fileCreation) {
                 if (patientFile.createNewFile()) {
                     System.out.println("Created File successfully");
+                    System.out.print("  path : "+patientFile.getAbsolutePath());
+                    System.out.print("  path : "+patientFile.getCanonicalPath());
+                    StringBuilder patientDetailsQuery = new StringBuilder();
+                    patientDetailsQuery.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
+                            .append(" patient.F_AGE, patient.F_GENDER, patient.F_AADHAR_NO,")
+                            .append(" patient_address.F_CURRENT_ADDRESS, patient_address.F_ADDRESS,")
+                            .append(" clinic.F_CLINIC_OWNER_NAME, clinic.F_TYPE, clinic.F_ADDRESS,")
+                            .append(" referral.F_REFERRAL_NAME")
+                            .append(" FROM T_PATIENT patient, T_PATIENT_ADDRESS patient_address,")
+                            .append(" T_REFERRAL_ADDRESS referral,").append(" T_CLINIC_DETAILS clinic")
+                            .append(" WHERE patient.F_PATIENT_ID=? AND referral.F_PATIENT_ID=?")
+                            .append(" AND clinic.F_PATIENT_ID=? AND patient_address.F_PATIENT_ID=?");
+                    Object[] arguments = new Object[]{patientID, patientID, patientID, patientID};
+                    HSSFWorkbook workBook = new HSSFWorkbook();
+                    HSSFSheet sheet = workBook.createSheet("Details");
+                    int rowNum = 0;
+                    Row row = sheet.createRow(++rowNum);
+                    jdbcTemplate.query(patientDetailsQuery.toString(), arguments, new CompleteDetailsRowMapper(row));
+                    FileOutputStream fos = new FileOutputStream(patientFile);
+                    workBook.write(fos);
+                    fos.close();
                 } else {
                     System.out.println("Failed in creation");
                 }
             }
-            StringBuilder patientDetailsQuery = new StringBuilder();
-            patientDetailsQuery.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
-                    .append("patient.F_AGE, patient.F_GENDER, patient.F_AADHAR_NO,")
-                    .append("patient.F_CURRENT_ADDRESS, patient.F_ADDRESS,")
-                    .append("clinic.F_CLINIC_OWNER_NAME,clinic.F_TYPE,clinic.F_ADDRESS,")
-                    .append("referral.F_REFERRAL_NAME FROM T_PATIENT patient,T_REFERRAL_ADDRESS referral,")
-                    .append("T_CLINIC_DETAILS clinic WHERE patient.F_PATIENT_ID=? AND referral.F_PATIENT_ID")
-                    .append("=? AND clinic.F_PATIENT_ID=?");
-            Object[] arguments = new Object[]{patientID, patientID, patientID};
-            HSSFWorkbook workBook = new HSSFWorkbook();
-            HSSFSheet sheet = workBook.createSheet("Details");
-            int rowNum = 0;
-            Row row = sheet.createRow(++rowNum);
-            jdbcTemplate.query(patientDetailsQuery.toString(), arguments, new CompleteDetailsRowMapper(row));
-            FileOutputStream fos = new FileOutputStream(patientFile);
-            workBook.write(fos);
-            fos.close();
+
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            return null;
         }
+        return patientFile;
     }
 
     private void setWorkBookStyles(HSSFWorkbook wb) {

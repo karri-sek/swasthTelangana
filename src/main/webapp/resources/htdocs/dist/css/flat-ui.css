@@ -1247,11 +1247,11 @@ legend {
 	border-bottom: none;
 }
 
-textarea {
+/*textarea {
 	padding: 5px 11px;
 	font-size: 20px;
 	line-height: 24px;
-}
+}*/
 
 input[type="search"] {
 	-webkit-appearance: none !important;
@@ -1337,10 +1337,10 @@ select.input-sm,select.select2-search input[type="text"] {
 	line-height: 35px;
 }
 
-textarea.input-sm,select[multiple].input-sm,textarea.select2-search input[type="text"],select[multiple].select2-search input[type="text"]
+/*textarea.input-sm,select[multiple].input-sm,textarea.select2-search input[type="text"],select[multiple].select2-search input[type="text"]
 	{
 	height: auto;
-}
+}*/
 
 .input-lg,.form-horizontal .form-group-lg .form-control,.form-horizontal .form-group-lg .select2-search input[type="text"]
 	{
@@ -1356,9 +1356,9 @@ select.input-lg {
 	line-height: 45px;
 }
 
-textarea.input-lg,select[multiple].input-lg {
+/*textarea.input-lg,select[multiple].input-lg {
 	height: auto;
-}
+}*/
 
 .input-hg,.form-horizontal .form-group-hg .form-control,.form-horizontal .form-group-hg .select2-search input[type="text"]
 	{
@@ -1374,9 +1374,9 @@ select.input-hg {
 	line-height: 53px;
 }
 
-textarea.input-hg,select[multiple].input-hg {
+/*textarea.input-hg,select[multiple].input-hg {
 	height: auto;
-}
+}*/
 
 .form-control-feedback {
 	position: absolute;
@@ -1632,10 +1632,12 @@ select.input-group-hg>.form-control,select.input-group-hg>.input-group-addon,sel
 	line-height: 53px;
 }
 
+/*
 textarea.input-group-hg>.form-control,textarea.input-group-hg>.input-group-addon,textarea.input-group-hg>.input-group-btn>.btn,select[multiple].input-group-hg>.form-control,select[multiple].input-group-hg>.input-group-addon,select[multiple].input-group-hg>.input-group-btn>.btn,textarea.input-group-hg>.select2-search input[type="text"],select[multiple].input-group-hg>.select2-search input[type="text"]
 	{
 	height: auto;
 }
+*/
 
 .input-group-lg>.form-control,.input-group-lg>.input-group-addon,.input-group-lg>.input-group-btn>.btn,.input-group-lg>.select2-search input[type="text"]
 	{
@@ -1652,10 +1654,10 @@ select.input-group-lg>.form-control,select.input-group-lg>.input-group-addon,sel
 	line-height: 45px;
 }
 
-textarea.input-group-lg>.form-control,textarea.input-group-lg>.input-group-addon,textarea.input-group-lg>.input-group-btn>.btn,select[multiple].input-group-lg>.form-control,select[multiple].input-group-lg>.input-group-addon,select[multiple].input-group-lg>.input-group-btn>.btn,textarea.input-group-lg>.select2-search input[type="text"],select[multiple].input-group-lg>.select2-search input[type="text"]
+/*textarea.input-group-lg>.form-control,textarea.input-group-lg>.input-group-addon,textarea.input-group-lg>.input-group-btn>.btn,select[multiple].input-group-lg>.form-control,select[multiple].input-group-lg>.input-group-addon,select[multiple].input-group-lg>.input-group-btn>.btn,textarea.input-group-lg>.select2-search input[type="text"],select[multiple].input-group-lg>.select2-search input[type="text"]
 	{
 	height: auto;
-}
+}*/
 
 .input-group-sm>.form-control,.input-group-sm>.input-group-addon,.input-group-sm>.input-group-btn>.btn,.input-group-sm>.select2-search input[type="text"]
 	{
@@ -1672,10 +1674,10 @@ select.input-group-sm>.form-control,select.input-group-sm>.input-group-addon,sel
 	line-height: 35px;
 }
 
-textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon,textarea.input-group-sm>.input-group-btn>.btn,select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.input-group-addon,select[multiple].input-group-sm>.input-group-btn>.btn,textarea.input-group-sm>.select2-search input[type="text"],select[multiple].input-group-sm>.select2-search input[type="text"]
+/*textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon,textarea.input-group-sm>.input-group-btn>.btn,select[multiple].input-group-sm>.form-control,select[multiple].input-group-sm>.input-group-addon,select[multiple].input-group-sm>.input-group-btn>.btn,textarea.input-group-sm>.select2-search input[type="text"],select[multiple].input-group-sm>.select2-search input[type="text"]
 	{
 	height: auto;
-}
+}*/
 
 .input-group-addon {
 	padding: 10px 12px;
@@ -4301,9 +4303,9 @@ select.navbar-input {
 	line-height: 35px;
 }
 
-textarea.navbar-input,select[multiple].navbar-input {
+/*textarea.navbar-input,select[multiple].navbar-input {
 	height: auto;
-}
+}*/
 
 .navbar-form {
 	padding-top: 9px;
@@ -4337,10 +4339,10 @@ select.navbar-form .form-control,select.navbar-form .input-group-addon,select.na
 	line-height: 35px;
 }
 
-textarea.navbar-form .form-control,textarea.navbar-form .input-group-addon,textarea.navbar-form .btn,select[multiple].navbar-form .form-control,select[multiple].navbar-form .input-group-addon,select[multiple].navbar-form .btn,textarea.navbar-form .select2-search input[type="text"],select[multiple].navbar-form .select2-search input[type="text"]
+/*textarea.navbar-form .form-control,textarea.navbar-form .input-group-addon,textarea.navbar-form .btn,select[multiple].navbar-form .form-control,select[multiple].navbar-form .input-group-addon,select[multiple].navbar-form .btn,textarea.navbar-form .select2-search input[type="text"],select[multiple].navbar-form .select2-search input[type="text"]
 	{
 	height: auto;
-}
+}*/
 
 .navbar-form .btn {
 	margin: 0;

@@ -2,21 +2,20 @@
 	<div class="panel-heading">Create account</div>
 	<div class="panel-body">
 		<fieldset>
-			<form name="createaccount" id="createaccount"
-				commandName="createaccount" enctype="multipart/form-data"
+			<form name="createaccount" id="createaccount" enctype="multipart/form-data"
 				method="POST" class="form-horizontal">
 
 				<div class="form-group">
 					<label class="control-label col-md-3 col-lg-3">Login id</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" value="" name="loginId"
-							id="loginId" />
+						<input type="text" class="required form-control" value="" name="loginId"
+							id="loginId"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3 col-lg-3">Display name</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control login-field" value=""
+						<input type="text" class="required form-control login-field" value=""
 							name="displayName" id="displayName" />
 					</div>
 				</div>
@@ -33,6 +32,29 @@
 						</select>
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-md-3 col-lg-3">Mobile number</label>
+					<div class="col-md-6">
+						<input type="text" class="onlyMobileNum form-control login-field" value=""
+							name="mobileNumber" id="mobileNumber" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3 col-lg-3">District</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control login-field" value=""
+							name="district" id="district" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3 col-lg-3">State</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control login-field" value=""
+							name="state" id="state" />
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<label class="control-label col-md-3 col-lg-3">Password</label>
 					<div class="col-md-6">

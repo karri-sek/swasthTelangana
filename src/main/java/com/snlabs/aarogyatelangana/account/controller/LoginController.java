@@ -38,11 +38,11 @@ public class LoginController {
 				model.put("userDetails", userDetails);
 				return "workdesk";
 			} else {
-				model.put("failedLogin", "Invalid User Name(OR) Password");
-				return "home";
+				model.put("result", "Invalid User Name(OR) Password");
+				return "login";
 			}
 		} catch (Exception e) {
-			model.put("error", "Failed to login" + e.getMessage());
+			model.put("result", "Failed to login" + e.getMessage());
 		}
 		return null;
 	}

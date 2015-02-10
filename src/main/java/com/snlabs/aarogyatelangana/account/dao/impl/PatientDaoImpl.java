@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public class PatientDaoImpl implements PatientDao {
@@ -31,7 +32,11 @@ public class PatientDaoImpl implements PatientDao {
                 patient.getAge(), patient.getGender(), patient.getCreatedBy(), patient.getAadharNo()};
         try {
             if (jdbcTemplate.update(insertPatientQuery, args) > 0) {
-                return savePatientAddress(patient.getPatientID(), patient.getPatientAddress()) > 0 ? patient : null;
+                if (patient.getPatientAddress() != null) {
+                    return savePatientAddress(patient.getPatientID(), patient.getPatientAddress()) > 0 ? patient : null;
+                } else {
+                    return null;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,10 +60,11 @@ public class PatientDaoImpl implements PatientDao {
         StringBuilder updatePatientRecord = new StringBuilder();
         updatePatientRecord.append("UPDATE T_PATIENT SET F_PATIENT_NAME = ?,")
                 .append(" F_UPDATED_TIMESTAMP = SYSDATE(),").append(" F_AGE = ?,")
-                .append(" F_GENDER = ?,").append(" F_AADHAR_NO = ?")
+                .append(" F_GENDER = ?,").append(" F_AADHAR_NO = ?,")
+                .append(" F_DOWNLOAD_PATH = ?")
                 .append(" WHERE F_PATIENT_ID = ?");
         Object[] args = {patient.getPatientName(), patient.getAge(), patient.getGender(),
-                patient.getAadharNo(), patient.getPatientID()};
+                patient.getAadharNo(), patient.getFormFDownloadPath(), patient.getPatientID()};
         try {
             return jdbcTemplate.update(updatePatientRecord.toString(), args);
         } catch (Exception e) {
@@ -85,6 +91,7 @@ public class PatientDaoImpl implements PatientDao {
         Object[] args = {patient.getPatientID()};
         try {
             final Patient record = new Patient();
+            record.setPatientID(patient.getPatientID());
             jdbcTemplate.update(patientRecord, args, new RowMapper() {
                 @Override
                 public Patient mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
@@ -114,11 +121,11 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public Patient searchPatientById(int patientId) {
+    public Patient searchPatientById(int patientID) {
         Patient patient = null;
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM T_PATIENT WHERE F_PATIENT_ID=").append(
-                patientId);
+                patientID);
         try {
             List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(sb.toString(),
                     new PatientRowMapper());
@@ -155,20 +162,47 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public List<Patient> searchPatientProfilesByCreator(String createdBy) {
-        StringBuilder sb = new StringBuilder();
-        List<Patient> detailsList = null;
-        sb.append(
-                "SELECT F_PATIENT_ID," + "F_PATIENT_NAME,"
-                        + "F_CREATED_TIMESTAMP," + "F_DOWNLOAD_PATH"
-                        + " FROM T_PATIENT WHERE F_CREATED_BY='")
-                .append(createdBy).append("'");
-        try {
-            detailsList = (List<Patient>) jdbcTemplate.queryForObject(sb.toString(),
-                    new PatientProfileMapper());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (createdBy != null) {
+            StringBuilder sb = new StringBuilder();
+            List<Patient> detailsList = null;
+            sb.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
+                    .append(" address.F_CONTACT_NO, patient.F_DOWNLOAD_PATH")
+                    .append(" FROM T_PATIENT patient, T_PATIENT_ADDRESS address")
+                    .append(" WHERE patient.F_CREATED_BY=?")
+                    .append(" AND patient.F_PATIENT_ID=address.F_PATIENT_ID");
+            Object[] args = new Object[]{createdBy};
+            try {
+                detailsList = (List<Patient>) jdbcTemplate.queryForObject(sb.toString(),
+                        new PatientProfileMapper());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return detailsList;
         }
-        return detailsList;
+        return null;
+    }
+
+    @Override
+    public List<Patient> listPatientProfilesByDate(Date fromDate, Date toDate, String createdBy) {
+        if (createdBy != null) {
+            StringBuilder searchPatientProfilesByDate = new StringBuilder();
+            List<Patient> detailsList = null;
+            searchPatientProfilesByDate.append("SELECT F_PATIENT_ID,")
+                    .append("F_PATIENT_NAME,F_CREATED_TIMESTAMP")
+                    .append("F_DOWNLOAD_PATH,F_AADHAR_NO,F_CREATED_BY")
+                    .append(" FROM T_PATIENT WHERE F_CREATED_BY=?")
+                    .append(" AND F_CREATED_TIMESTAMP BETWEEN")
+                    .append(" STR_TO_DATE('?','%Y-%m-%d')")
+                    .append(" AND STR_TO_DATE('?','%Y-%m-%d')");
+            try {
+                detailsList = (List<Patient>) jdbcTemplate.queryForObject(searchPatientProfilesByDate.toString(),
+                        new PatientProfileMapper());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return detailsList;
+        }
+        return null;
     }
 
 }
