@@ -2640,7 +2640,7 @@ _:-ms-fullscreen.input-lg,:root input[type="date"].input-lg,_:-ms-fullscreen.inp
 }
 
 .form-group {
-	margin-bottom: 0px;
+	margin-bottom: 5px;
 }
 
 .radio,.checkbox {
@@ -3049,9 +3049,9 @@ textarea.input-lg,textarea.form-group-lg .form-control,select[multiple].input-lg
 
 .btn-primary:hover,.btn-primary:focus,.btn-primary.focus,.btn-primary:active,.btn-primary.active,.open>.dropdown-toggle.btn-primary
 	{
-	color: #fff;
-	background-color: #3071a9;
-	border-color: #285e8e;
+	color: #BE2323;
+	background-color: #191A1B;
+	border-color: #191A1B;
 }
 
 .btn-primary:active,.btn-primary.active,.open>.dropdown-toggle.btn-primary
