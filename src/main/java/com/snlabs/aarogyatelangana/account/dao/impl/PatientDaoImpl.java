@@ -168,12 +168,12 @@ public class PatientDaoImpl implements PatientDao {
             sb.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
                     .append(" address.F_CONTACT_NO, patient.F_DOWNLOAD_PATH")
                     .append(" FROM T_PATIENT patient, T_PATIENT_ADDRESS address")
-                    .append(" WHERE patient.F_CREATED_BY=?")
-                    .append(" AND patient.F_PATIENT_ID=address.F_PATIENT_ID");
+                    .append(" WHERE patient.F_PATIENT_ID=address.F_PATIENT_ID")
+                    .append(" AND patient.F_CREATED_BY='").append(createdBy).append("'");
             Object[] args = new Object[]{createdBy};
             try {
                 detailsList = (List<Patient>) jdbcTemplate.queryForObject(sb.toString(),
-                        new PatientProfileMapper());
+                new PatientProfileMapper());
             } catch (Exception e) {
                 e.printStackTrace();
             }

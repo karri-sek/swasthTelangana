@@ -1106,7 +1106,7 @@ body {
 	font-size: 14px;
 	line-height: 1.42857143;
 	color: #333;
-	background-color: #fff;
+    background-color: #CA1429;
 }
 
 input,button,select,textarea {
@@ -2640,7 +2640,7 @@ _:-ms-fullscreen.input-lg,:root input[type="date"].input-lg,_:-ms-fullscreen.inp
 }
 
 .form-group {
-	margin-bottom: 15px;
+	margin-bottom: 0px;
 }
 
 .radio,.checkbox {
@@ -4404,7 +4404,7 @@ textarea.input-group-sm>.form-control,textarea.input-group-sm>.input-group-addon
 
 .navbar-default .navbar-nav>li>a:hover,.navbar-default .navbar-nav>li>a:focus
 	{
-	color: #333;
+	color: #C72525;
 	background-color: transparent;
 }
 
@@ -4971,8 +4971,8 @@ a.thumbnail:hover,a.thumbnail:focus,a.thumbnail.active {
 }
 
 .alert-success {
-	color: #1ABC9C;
-	background-color: #2C3E50;
+	color: #DBCFD5;
+	background-color: #101010;
 	border-color: #d6e9c6;
 }
 
@@ -5799,7 +5799,7 @@ a.list-group-item-danger.active,a.list-group-item-danger.active:hover,a.list-gro
 }
 
 .close:hover,.close:focus {
-	color: #000;
+	color: #F01A1A;
 	text-decoration: none;
 	cursor: pointer;
 	filter: alpha(opacity = 50);

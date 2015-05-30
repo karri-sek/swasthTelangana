@@ -5,8 +5,14 @@ bin/
 # ignore all target directories
 target/
 
+#ignore META-INF folder
+META-INF/
+
 # ignore all files ending with ~
 *~
+
+# ignore project File
+*.project
 
 # ignore .idea folder
 /.idea/
@@ -34,3 +40,12 @@ Users/
 
 #Ignore war files
 *.war
+
+#Ignore iml files
+*.iml
+
+#Ignore node_modules Directory
+node_modules/
+
+account.iml
+

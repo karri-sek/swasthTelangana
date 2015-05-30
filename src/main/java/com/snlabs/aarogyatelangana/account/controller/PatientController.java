@@ -158,7 +158,7 @@ public class PatientController {
         return "fromDateReport";
     }
 
-    @RequestMapping(value = {"downLoadPatientProfile.action"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"downLoadPatientProfile.action"}, method = RequestMethod.GET)
     public void downLoadPatientProfile(HttpServletRequest request, HttpSession session,
                                        HttpServletResponse response, ModelMap map, String filePath) {
         FileInputStream inputStream = null;

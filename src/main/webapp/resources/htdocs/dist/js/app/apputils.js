@@ -132,16 +132,31 @@ $(document).ready(function(){
     });
 });
 
+/*
+ * Code for Drop Down
+ */
+$(document.body).on(
+		'click',
+		'.dropdown-menu li',
+		function(event) {
+			var $target = $(event.currentTarget);
+			$target.closest('.btn-group').find('[data-bind="label"]').text(
+					$target.text()).end().children('.dropdown-toggle')
+					.dropdown('toggle');
+
+			return false;
+
+		});
+
 function isFormValid(){
     var isValid = true;
-
     $('li',$(this).parents('form')).removeClass('error');
     $('span.error').remove();
 
     $('.required').each(function() {
         if($(this).val() == ''){
             isValid = false;
-            $(this).parent().addClass('error').append('<span class="error" style="color:red">Cannot be left blank</span>');
+            $(this).parent().addClass('error').append('<span class="error" style="color:red">Required field</span>');
         }
     });
     $('.onlyNumber').each(function() {
@@ -159,23 +174,6 @@ function isFormValid(){
     return isValid;
 }
 
-
-
-/*
- * Code for Drop Down
- */
-$(document.body).on(
-		'click',
-		'.dropdown-menu li',
-		function(event) {
-			var $target = $(event.currentTarget);
-			$target.closest('.btn-group').find('[data-bind="label"]').text(
-					$target.text()).end().children('.dropdown-toggle')
-					.dropdown('toggle');
-
-			return false;
-
-		});
 function isOfLength(str, length){
     if(str.length == length){
         return true;
@@ -190,19 +188,3 @@ function isANumber(numStr){
     }
     return false;
 }
-
-/*
-$(function() {
-    $('.date-picker').datepicker( {
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true,
-        dateFormat: 'MMyy',
-        onClose: function(dateText, inst) {
-            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
-            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-            $(this).datepicker('setDate', new Date(year, month, 1));
-        }
-    });
-});
-*/

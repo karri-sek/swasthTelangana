@@ -73,7 +73,6 @@
 </div>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/dist/js/app/jquery-2.1.3.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/dist/js/app/apputils.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/dist/js/app/app.js"></script>
 <link href="<%=request.getContextPath()%>/resources/dist/css/bootstrap.css" rel="stylesheet">
 </body>
 </html>

@@ -13,11 +13,11 @@
 
     <link rel="shortcut icon" href="img/favicon.ico">
 </head>
-<body bgcolor="#edeff1">
-<div class="container">
+<body bgcolor="#edeff1" class="gray-lightest">
+<div class="container-fluid">
     <div class="row demo-row">
         <div class="col-xs-12">
-            <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+            <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
                             data-target="#navbar-collapse-01">

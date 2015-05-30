@@ -20,7 +20,7 @@
                     <label class="control-label col-md-3 col-lg-3">Aadhar No:</label>
 
                     <div class="col-md-9 col-lg-9">
-                        <input class="form-control" type="text" name="aadharNo" id="aadharNo"
+                        <input class="form-control isANumber" type="text" name="aadharNo" id="aadharNo"
                                value="${patient.aadharNo}"/>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <label class="control-label col-md-3 col-lg-3">Age:</label>
 
                     <div class="col-md-2 col-lg-2">
-                        <select class="form-control" name="age" id="age">
+                        <select class="form-control isANumber" name="age" id="age">
                             <c:forEach var="i" begin="23" end="90">
                                 <option>
                                     <c:out value="${i}"/>
