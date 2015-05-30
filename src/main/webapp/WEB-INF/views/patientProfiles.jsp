@@ -43,8 +43,8 @@
                                     </c:url>
                                     <c:if test="${patient.formFDownloadPath != null}">
                                         <td><a class="btn btn-primary"
-                                               href="<%=request.getContextPath()%>${url}">Download</a>
-                                                <%--<a class="btn btn-primary col-md-9 col-lg-9" href="#"
+                                               href="${url}">Download</a>
+                                                <%-- <%=request.getContextPath()%><a class="btn btn-primary col-md-9 col-lg-9" href="#"
                                                    onclick="submitForm('${url}', 'patientProfiles', 'searchResultdiv')">Download</a>--%>
                                         </td>
                                     </c:if>
