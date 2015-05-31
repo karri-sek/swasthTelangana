@@ -11,6 +11,17 @@ public class PatientAddress implements Serializable{
 	private String address;
     private String currentAddress;
 
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    private String cityName;
+
+
     public String getCurrentAddress() {
         return currentAddress;
     }

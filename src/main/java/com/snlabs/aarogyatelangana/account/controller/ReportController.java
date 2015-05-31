@@ -1,6 +1,7 @@
 package com.snlabs.aarogyatelangana.account.controller;
 
 import com.snlabs.aarogyatelangana.account.beans.UserDetails;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +20,16 @@ public class ReportController {
 
     @RequestMapping(value = {"/", "home.action"}, method = RequestMethod.GET)
     public String loginpage(ModelMap model, HttpSession session) {
+        if(session.getAttribute("userDetails") != null){
+            return "workdesk";
+        }
         return "home";
     }
 
     @RequestMapping(value = {"patiantentry.action"}, method = RequestMethod.POST)
-    public String patiantentry(ModelMap model) {
-        model.put("loginID", UserDetails.getLoginId());
+    public String patiantentry(ModelMap model, HttpSession session) {
+        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
+        model.put("loginID", userDetails.getLoginId());
         return "patiententry";
     }
 

@@ -1,7 +1,9 @@
 package com.snlabs.aarogyatelangana.account.service.impl;
 
 import com.snlabs.aarogyatelangana.account.beans.Patient;
+import com.snlabs.aarogyatelangana.account.beans.PatientAddress;
 import com.snlabs.aarogyatelangana.account.beans.User;
+
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -27,6 +29,18 @@ public class PatientRowMapper implements RowMapper {
             patient.setFormFDownloadPath(rs.getString("F_DOWNLOAD_PATH"));
             patient.setAadharNo(rs.getString("F_AADHAR_NO"));
             patient.setUpdatedTimestamp(rs.getDate("F_UPDATED_TIMESTAMP"));
+
+            PatientAddress patientAddress = new PatientAddress();
+
+            patientAddress.setAddress(rs.getString("F_ADDRESS"));
+            patientAddress.setCurrentAddress(rs.getString("F_CURRENT_ADDRESS"));
+            patientAddress.setDistrict(rs.getString("F_DISTRICT"));
+            patientAddress.setState(rs.getString("F_STATE"));
+            patientAddress.setPincode(rs.getInt("F_PINCODE"));
+            patientAddress.setContactno(rs.getInt("F_CONTACT_NO"));
+
+            patient.setPatientAddress(patientAddress);
+
             detailsList.add(patient);
         } while (rs.next());
         return detailsList;

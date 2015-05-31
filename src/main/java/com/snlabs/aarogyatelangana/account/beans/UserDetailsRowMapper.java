@@ -12,10 +12,12 @@ public class UserDetailsRowMapper implements RowMapper {
 		UserDetails userDetails = null;
 		try {
 			userDetails = new UserDetails();
-			UserDetails.setLoginId(rs.getString("F_LOGIN_ID"));
+			userDetails.setLoginId(rs.getString("F_LOGIN_ID"));
 			userDetails.setMobileNumber(rs.getString("F_MOBILE_NUMBER"));
 			userDetails.setDisplayName(rs.getString("F_DISPLAY_NAME"));
 			userDetails.setUserRole(rs.getString("F_ROLE"));
+            userDetails.setDistrict(rs.getString("F_DISTRICT"));
+            userDetails.setState(rs.getString("F_STATE"));
 		} catch (Exception e) {
 			System.out.println(" Failed login:" + e.getMessage());
 		}

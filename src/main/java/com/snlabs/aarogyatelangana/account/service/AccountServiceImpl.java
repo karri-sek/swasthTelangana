@@ -14,8 +14,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean createAccount(NewUser user) {
-        return accountDao.createAccount(user);
+    public boolean createAccount(NewUser user, UserDetails userDetails) {
+        return accountDao.createAccount(user, userDetails);
     }
 
     @Override
@@ -32,5 +32,10 @@ public class AccountServiceImpl implements AccountService {
         this.accountDao = accountDao;
     }
 
+    @Override
+    public boolean updateAccount(NewUser user) {
+        // TODO Auto-generated method stub
+        return accountDao.updateAccount(user);
+    }
 
 }
