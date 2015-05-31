@@ -13,11 +13,11 @@
 
     <link rel="shortcut icon" href="img/favicon.ico">
 </head>
-<body bgcolor="#edeff1">
-<div class="container">
+<body bgcolor="#edeff1" class="gray-lightest">
+<div class="container-fluid">
     <div class="row demo-row">
         <div class="col-xs-12">
-            <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+            <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
                             data-target="#navbar-collapse-01">
@@ -30,21 +30,21 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li><a href="#"
                                onclick="submitForm('/account/newpatiententrytab.action', 'NO-DATA', 'lhndiv');">Patient
-                            Entry<span class="navbar-unread">1</span>
+                            Entry<span class="navbar-unread"></span>
                         </a></li>
                         <li><a href="#"
                                onclick="submitForm('/account/formftab.action', 'NO-DATA', 'lhndiv');">Form
-                            F<span class="navbar-unread">1</span>
+                            F<span class="navbar-unread"></span>
                         </a></li>
                         <li><a href="#"
                                onclick="submitForm('/account/userAccounttab.action', 'NO-DATA', 'lhndiv');">Account<span
-                                class="navbar-unread">1</span>
+                                class="navbar-unread"></span>
                         </a></li>
 
                         <c:if test="${userDetails.userRole == 'Administrator'}">
                             <li><a href="#"
                                    onclick="submitForm('/account/accountmanagementtab.action', 'NO-DATA', 'lhndiv');">Management<span
-                                    class="navbar-unread">1</span>
+                                    class="navbar-unread"></span>
                             </a></li>
                         </c:if>
 
@@ -79,45 +79,23 @@
             </nav>
         </div>
     </div>
-    <div class="col-xs-3, col-lg-3 col-md-3 col-sm-3">
-        <div class="sidebar-nav">
-            <div class="navbar navbar-default" role="navigation">
-                <div class="navbar-collapse collapse sidebar-navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#"
-                               onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');">New
-                            Patient entry</a>
-                        </li>
-                        <li><a href="#"
-                               onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');">Search
-                            by name</a>
-                        </li>
-                        <li><a href="#"
-                               onclick="submitForm('/account/patientIdReportDetails.action', 'NO-DATA', 'containerdiv');">Search
-                            by ID</a>
-                        </li>
-                        <li><a href="#"
-                               onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">Search
-                            with dates</a>
-                        </li>
-                        <li><a href="#"
-                               onclick="submitForm('/account/patientProfiles.action', 'NO-DATA', 'containerdiv');">Patient
-                            Profiles</a>
-                        </li>
-                    </ul>
+    <div class="row demo-samples">
+        <div class="col-xs-4" id="lhndiv">
+            <%@ include file="patiententrywelocomelhn.jsp" %>
+        </div>
+
+        <div class="col-xs-8, col-lg-8 col-md-8">
+            <div id="containerdiv">
+                <div class="login-form">
+                    &nbsp;&nbsp; Hi ${userDetails.displayName}
+                    (${userDetails.userRole}), Welcome to Swasth telangana.<br/> <br/>
+                    <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+                    <br/> <br/> <br/>
                 </div>
+                <br/>
             </div>
         </div>
     </div>
-    <div class="col-xs-9, col-lg-9 col-md-9 col-sm-9">
-        <div id="containerdiv">
-            <div class="login-form">
-                &nbsp;&nbsp; Welcome to Swasth telangana.
-            </div>
-            <br/>
-        </div>
-    </div>
-</div>
 </div>
 <script type="text/javascript"
         src="<%=request.getContextPath()%>/resources/dist/js/app/jquery-2.1.3.js"></script>

@@ -241,11 +241,12 @@ public class FormController {
     @RequestMapping(value = {"saveDeclarationDetails.action"}, method = RequestMethod.POST)
     public String saveDeclaration(@RequestBody Declaration declaration,
                                   HttpSession session, ModelMap model, HttpServletRequest request) {
+        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
         if (declaration.getPatientID() > 0) {
             if (formService.saveDeclarationDetails(declaration) != null) {
                 File patientExcelFile = downloadService.downloadForm(declaration.getPatientID(), request, session);
                 if (patientExcelFile != null) {
-                    Patient patient = patientService.searchPatientById(declaration.getPatientID());
+                    Patient patient = patientService.searchPatientById(declaration.getPatientID(), userDetails);
                     if (patient != null) {
                         patient.setFormFDownloadPath(patientExcelFile.getAbsolutePath());
                         patientService.createPatientRecord(patient);

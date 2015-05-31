@@ -1,6 +1,7 @@
 package com.snlabs.aarogyatelangana.account.service.impl;
 
 import com.snlabs.aarogyatelangana.account.beans.Patient;
+import com.snlabs.aarogyatelangana.account.beans.UserDetails;
 import com.snlabs.aarogyatelangana.account.dao.PatientDao;
 import com.snlabs.aarogyatelangana.account.service.PatientService;
 
@@ -39,13 +40,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Patient searchPatientById(int patientId) {
-        return patientDao.searchPatientById(patientId);
+    public Patient searchPatientById(int patientId, UserDetails userDetails) {
+        return patientDao.searchPatientById(patientId, userDetails);
     }
 
     @Override
-    public Patient searchPatientByName(String patientName) {
-        return patientDao.searchPatientByName(patientName);
+    public Patient searchPatientByName(String patientName, UserDetails userDetails) {
+        return patientDao.searchPatientByName(patientName, userDetails);
     }
 
     public static HashMap<String, String> getPatientSessionMap() {
@@ -58,13 +59,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public List<Patient> getPatientProfiles(String createdBy) {
-        return patientDao.searchPatientProfilesByCreator(createdBy);
+    public List<Patient> getPatientProfiles(UserDetails userDetails) {
+        return patientDao.searchPatientProfilesByCreator(userDetails);
     }
 
     @Override
-    public List<Patient> getPatientProfilesByDate(Date fromDate, Date toDate, String createdBy) {
-        return patientDao.listPatientProfilesByDate(fromDate, toDate, createdBy);
+    public List<Patient> getPatientProfilesByDate(Date fromDate, Date toDate, UserDetails userDetails) {
+        return patientDao.listPatientProfilesByDate(fromDate, toDate, userDetails);
     }
 
 }

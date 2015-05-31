@@ -3,10 +3,12 @@ package com.snlabs.aarogyatelangana.account.dao.impl;
 import com.snlabs.aarogyatelangana.account.beans.Patient;
 import com.snlabs.aarogyatelangana.account.beans.PatientAddress;
 import com.snlabs.aarogyatelangana.account.beans.User;
+import com.snlabs.aarogyatelangana.account.beans.UserDetails;
 import com.snlabs.aarogyatelangana.account.dao.PatientDao;
 import com.snlabs.aarogyatelangana.account.service.impl.PatientProfileMapper;
 import com.snlabs.aarogyatelangana.account.service.impl.PatientRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -121,47 +123,91 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public Patient searchPatientById(int patientID) {
+    public Patient searchPatientById(int patientID, UserDetails userDetails) {
         Patient patient = null;
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM T_PATIENT WHERE F_PATIENT_ID=").append(
-                patientID);
+        sb.append("SELECT * FROM T_PATIENT PAT, T_PATIENT_ADDRESS ADDR WHERE ")
+                .append("PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ")
+                .append("PAT.F_PATIENT_ID = ? ");
+
+        Object[] args = null;
+
+        if("HealthCenterUser".equals(userDetails.getUserRole())){
+            sb.append("AND PAT.F_CREATED_BY = ?");
+            args = new Object[] { patientID, userDetails.getLoginId()};
+        }else if("DistrictUser".equals(userDetails.getUserRole())){
+            sb.append("AND ADDR.F_DISTRICT = ?");
+            args = new Object[] { patientID, userDetails.getDistrict()};
+        }else if("StateUser".equals(userDetails.getUserRole())){
+            sb.append("AND ADDR.F_STATE = ?");
+            args = new Object[] { patientID, userDetails.getState()};
+        }else if("Administrator".equals(userDetails.getUserRole())){
+            args = new Object[] { patientID};
+        }
+
         try {
-            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(sb.toString(),
+            @SuppressWarnings("unchecked")
+            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(sb.toString(), args,
                     new PatientRowMapper());
             for (User user : detailsList) {
                 if (user instanceof Patient) {
                     patient = (Patient) user;
                 }
             }
-        } catch (Exception e) {
+        }catch(EmptyResultDataAccessException ee){
+            return null;
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return patient;
     }
 
     @Override
-    public Patient searchPatientByName(String patientName) {
+    public Patient searchPatientByName(String patientName, UserDetails userDetails) {
         Patient patient = null;
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM T_PATIENT WHERE F_PATIENT_NAME='")
-                .append(patientName).append("'");
+        sb.append("SELECT * FROM T_PATIENT PAT, T_PATIENT_ADDRESS ADDR WHERE ")
+                .append("PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ")
+                .append("PAT.F_PATIENT_NAME = ? ");
+
+        Object[] args = null;
+
+        if("HealthCenterUser".equals(userDetails.getUserRole())){
+            sb.append("AND PAT.F_CREATED_BY = ?");
+            args = new Object[] { patientName, userDetails.getLoginId()};
+        }else if("DistrictUser".equals(userDetails.getUserRole())){
+            sb.append("AND ADDR.F_DISTRICT = ?");
+            args = new Object[] { patientName, userDetails.getDistrict()};
+        }else if("StateUser".equals(userDetails.getUserRole())){
+            sb.append("AND ADDR.F_STATE = ?");
+            args = new Object[] { patientName, userDetails.getState()};
+        }else if("Administrator".equals(userDetails.getUserRole())){
+            args = new Object[] { patientName};
+        }
+
         try {
-            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(sb.toString(),
+            @SuppressWarnings("unchecked")
+            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(sb.toString(), args,
                     new PatientRowMapper());
             for (User user : detailsList) {
                 if (user instanceof Patient) {
                     patient = (Patient) user;
                 }
             }
-        } catch (Exception e) {
+        }catch(EmptyResultDataAccessException ee){
+            return null;
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
         return patient;
     }
 
     @Override
-    public List<Patient> searchPatientProfilesByCreator(String createdBy) {
+    public List<Patient> searchPatientProfilesByCreator(UserDetails userDetails) {
+        String createdBy = userDetails.getLoginId();
+
         if (createdBy != null) {
             StringBuilder sb = new StringBuilder();
             List<Patient> detailsList = null;
@@ -183,7 +229,8 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public List<Patient> listPatientProfilesByDate(Date fromDate, Date toDate, String createdBy) {
+    public List<Patient> listPatientProfilesByDate(Date fromDate, Date toDate, UserDetails userDetails) {
+        String createdBy = userDetails.getLoginId();
         if (createdBy != null) {
             StringBuilder searchPatientProfilesByDate = new StringBuilder();
             List<Patient> detailsList = null;
