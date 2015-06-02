@@ -6,7 +6,7 @@ public class PatientAddress implements Serializable{
 	private String district;
 	private String state;
 	private int pincode;
-	private int contactno;
+	private double contactno;
 	private int patientAddressID;
 	private String address;
     private String currentAddress;
@@ -62,11 +62,11 @@ public class PatientAddress implements Serializable{
 		this.pincode = pincode;
 	}
 
-	public int getContactno() {
+	public double getContactno() {
 		return contactno;
 	}
 
-	public void setContactno(int contactno) {
+	public void setContactno(double contactno) {
 		this.contactno = contactno;
 	}
 

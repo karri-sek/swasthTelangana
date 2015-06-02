@@ -5,6 +5,7 @@ import com.snlabs.aarogyatelangana.account.beans.LoginUser;
 import com.snlabs.aarogyatelangana.account.beans.NewUser;
 import com.snlabs.aarogyatelangana.account.beans.UserDetails;
 import com.snlabs.aarogyatelangana.account.beans.UserDetailsRowMapper;
+import com.snlabs.aarogyatelangana.account.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -57,9 +58,9 @@ public class AccountDaoImpl implements AccountDao {
         sb.append("ADDS.F_STATE, ");
         sb.append("RLS.F_ROLE ");
         sb.append("FROM ");
-        sb.append("DEMO.T_USER_DETAILS DTL, ");
-        sb.append("DEMO.T_USER_ADDRESS ADDS, ");
-        sb.append("DEMO.T_USER_ROLES RLS ");
+        sb.append(AppConstants.USER_DETAILS).append(" DTL,");
+        sb.append(AppConstants.USER_ADDRESS).append(" ADDS,");
+        sb.append(AppConstants.USER_ROLES).append(" RLS ");
         sb.append("WHERE ");
         sb.append("DTL.F_LOGIN_ID = ADDS.F_LOGIN_ID ");
         sb.append("AND DTL.F_LOGIN_ID = RLS.F_LOGIN_ID ");

@@ -4,6 +4,7 @@ import com.snlabs.aarogyatelangana.account.beans.*;
 import com.snlabs.aarogyatelangana.account.dao.FormDao;
 import com.snlabs.aarogyatelangana.account.service.impl.FormRowMapper;
 import com.snlabs.aarogyatelangana.account.service.impl.PatientIDsMapper;
+import com.snlabs.aarogyatelangana.account.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,7 +21,8 @@ public class FormDaoImpl implements FormDao {
     @Override
     public Patient getPatientDetails(int patientID) {
         StringBuilder patientDetailsQuery = new StringBuilder();
-        patientDetailsQuery.append("SELECT * FROM T_PATIENT patient, T_PATIENT_ADDRESS address")
+        patientDetailsQuery.append("SELECT * FROM T_PATIENT patient,")
+                .append(AppConstants.PATIENT_ADDRESS).append(" address")
                 .append(" WHERE patient.F_PATIENT_ID=").append(patientID).append(" AND address.F_PATIENT_ID=").append(patientID);
         final Patient patient = new Patient();
         patient.setPatientID(patientID);
@@ -56,10 +58,11 @@ public class FormDaoImpl implements FormDao {
     @Override
     public ClinicAddress saveClinicDetails(ClinicAddress clinicAddress) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO T_CLINIC_DETAILS(").append(
-                "F_PATIENT_ID," + "F_CLINIC_OWNER_NAME," + "F_TYPE,"
-                        + "F_ADDRESS," + "F_DISTRICT," + "F_STATE,"
-                        + "F_PINCODE," + "F_CONTACT_NO," + "F_CLINIC_NAME)");
+        sb.append("INSERT INTO ").append(AppConstants.CLINIC_DETAILS)
+                .append(" (F_PATIENT_ID,")
+                .append("F_CLINIC_OWNER_NAME,").append("F_TYPE,")
+                .append("F_ADDRESS,").append("F_DISTRICT,").append("F_STATE,")
+                .append("F_PINCODE,").append("F_CONTACT_NO,").append("F_CLINIC_NAME)");
         sb.append("VALUES(?,?,?,?,?,?,?,?,?)");
         Object[] args = new Object[]{clinicAddress.getPatientID(),
                 clinicAddress.getOwnerName(), clinicAddress.getType(),
@@ -101,16 +104,17 @@ public class FormDaoImpl implements FormDao {
     @Override
     public boolean updateClinicDetails(ClinicAddress clinicAddress) {
         StringBuilder updateClinicRecord = new StringBuilder();
-        updateClinicRecord.append("UPDATE T_CLINIC_DETAILS SET F_CLINIC_OWNER_NAME = ?,")
-                .append(" F_TYPE = ?,").append(" F_ADDRESS  = ?,")
-                .append(" F_DISTRICT = ?,").append(" F_STATE = ?,")
-                .append(" F_PINCODE = ?,").append(" F_CONTACT_NO = ?,")
-                .append(" F_CLINIC_NAME = ?")
-                .append(" WHERE F_PATIENT_ID = ?");
-        Object[] args = {clinicAddress.getOwnerName(), clinicAddress.getType(), clinicAddress.getAddress(),
-                clinicAddress.getDistrict(), clinicAddress.getState(), clinicAddress.getPincode(),
-                clinicAddress.getContactNum(), clinicAddress.getClinicName(), clinicAddress.getPatientID()};
         try {
+            updateClinicRecord.append("UPDATE ").append(AppConstants.CLINIC_DETAILS)
+                    .append(" SET F_CLINIC_OWNER_NAME = ?,")
+                    .append(" F_TYPE = ?,").append(" F_ADDRESS  = ?,")
+                    .append(" F_DISTRICT = ?,").append(" F_STATE = ?,")
+                    .append(" F_PINCODE = ?,").append(" F_CONTACT_NO = ?,")
+                    .append(" F_CLINIC_NAME = ?")
+                    .append(" WHERE F_PATIENT_ID = ?");
+            Object[] args = {clinicAddress.getOwnerName(), clinicAddress.getType(), clinicAddress.getAddress(),
+                    clinicAddress.getDistrict(), clinicAddress.getState(), clinicAddress.getPincode(),
+                    clinicAddress.getContactNum(), clinicAddress.getClinicName(), clinicAddress.getPatientID()};
             return jdbcTemplate.update(updateClinicRecord.toString(), args) > 0 ? true : false;
         } catch (Exception e) {
             e.printStackTrace();
@@ -361,7 +365,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public ClinicAddress getClinicDetails(int patientID) {
         StringBuilder clinicDetailsQuery = new StringBuilder();
-        clinicDetailsQuery.append("SELECT * FROM T_CLINIC_DETAILS clinic")
+        clinicDetailsQuery.append("SELECT * FROM ").append(AppConstants.CLINIC_DETAILS).append(" clinic")
                 .append(" WHERE clinic.F_PATIENT_ID=").append(patientID);
         final ClinicAddress clinicAddress = new ClinicAddress();
         try {

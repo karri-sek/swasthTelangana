@@ -35,22 +35,42 @@ public class PatientController {
 
     @RequestMapping(value = {"enterPatientDetails.action"}, method = RequestMethod.POST)
     public String enterPatientDetails(HttpSession session, ModelMap model, String patientID) {
+        model.clear();
         if (patientID != null) {
             model.put("patient", formService.getPatientDetails(Integer.parseInt(patientID)));
         }
         UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-        model.put("loginID", userDetails.getLoginId());
+        if (userDetails != null) {
+            model.put("loginID", userDetails.getLoginId());
+        } else {
+            model.put("error", "unable to get user session Details");
+        }
         return "patientForm";
     }
 
     @RequestMapping(value = {"savePatientDetails.action"}, method = RequestMethod.POST)
     public String savePatientDetails(@RequestBody Patient patient,
                                      HttpSession session, ModelMap model) {
-        String createdBy = ((UserDetails)session.getAttribute("userDetails")).getLoginId();
-        patient.setCreatedBy(createdBy);
-        model.put("patient", patientService.createPatientRecord(patient));
-        model.put("result", patient.getPatientName() + " details has been saved successfully...!");
+        Patient resultPatient;
+        try {
+            if (session.getAttribute("userDetails") == null) {
+                model.put("error", "Unable to get userDetails from session");
+            }
+            String createdBy = ((UserDetails) session.getAttribute("userDetails")).getLoginId();
+            resultPatient = patientService.createPatientRecord(patient);
+            if (resultPatient != null) {
+                patient.setCreatedBy(createdBy);
+                model.put("patient", resultPatient);
+                model.put("result", patient.getPatientName() + " details has been saved successfully...!");
+            } else {
+                model.put("error", "Unable to save Patient Details");
+
+            }
+        } catch (Exception e) {
+            System.out.print("error:" + e);
+        }
         return "patientForm";
+
     }
 
     @RequestMapping(value = {"patientProfiles.action"}, method = RequestMethod.POST)
@@ -134,7 +154,7 @@ public class PatientController {
         session.setAttribute("patientId", null);
         session.setAttribute("patientName", patient.getPatientName());
 
-        UserDetails userDetails = (UserDetails)session.getAttribute("userDetails");
+        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
 
         Patient resultForm = patientService.searchPatientByName(patient
                 .getPatientName(), userDetails);

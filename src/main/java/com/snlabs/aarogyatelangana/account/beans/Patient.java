@@ -19,6 +19,16 @@ public class Patient extends User implements Serializable {
     private String formFDownloadPath;
     private String aadharNo;
 
+    public PatientCurrentAddress getPatientCurrentAddress() {
+        return patientCurrentAddress;
+    }
+
+    public void setPatientCurrentAddress(PatientCurrentAddress patientCurrentAddress) {
+        this.patientCurrentAddress = patientCurrentAddress;
+    }
+
+    private PatientCurrentAddress patientCurrentAddress;
+
     public Date getUpdatedTimestamp() {
         return updatedTimestamp;
     }

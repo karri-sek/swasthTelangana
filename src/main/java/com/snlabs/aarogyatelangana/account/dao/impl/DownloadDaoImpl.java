@@ -7,6 +7,7 @@ import com.snlabs.aarogyatelangana.account.dao.DownloadDao;
 import com.snlabs.aarogyatelangana.account.service.impl.CompleteDetailsRowMapper;
 import com.snlabs.aarogyatelangana.account.service.impl.FormRowMapper;
 import com.snlabs.aarogyatelangana.account.service.impl.PatientRowMapper;
+import com.snlabs.aarogyatelangana.account.utils.AppConstants;
 import com.snlabs.aarogyatelangana.account.utils.CustomDate;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -193,16 +194,16 @@ public class DownloadDaoImpl implements DownloadDao {
             if (fileCreation) {
                 if (patientFile.createNewFile()) {
                     System.out.println("Created File successfully");
-                    System.out.print("  path : "+patientFile.getAbsolutePath());
-                    System.out.print("  path : "+patientFile.getCanonicalPath());
+                    System.out.print("  path : " + patientFile.getAbsolutePath());
+                    System.out.print("  path : " + patientFile.getCanonicalPath());
                     StringBuilder patientDetailsQuery = new StringBuilder();
                     patientDetailsQuery.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
                             .append(" patient.F_AGE, patient.F_GENDER, patient.F_AADHAR_NO,")
                             .append(" patient_address.F_CURRENT_ADDRESS, patient_address.F_ADDRESS,")
                             .append(" clinic.F_CLINIC_OWNER_NAME, clinic.F_TYPE, clinic.F_ADDRESS,")
                             .append(" referral.F_REFERRAL_NAME")
-                            .append(" FROM T_PATIENT patient, T_PATIENT_ADDRESS patient_address,")
-                            .append(" T_REFERRAL_ADDRESS referral,").append(" T_CLINIC_DETAILS clinic")
+                            .append(" FROM T_PATIENT patient, ").append(AppConstants.PATIENT_ADDRESS).append(" patient_address,")
+                            .append(" T_REFERRAL_ADDRESS referral, ").append(AppConstants.CLINIC_DETAILS).append(" clinic")
                             .append(" WHERE patient.F_PATIENT_ID=? AND referral.F_PATIENT_ID=?")
                             .append(" AND clinic.F_PATIENT_ID=? AND patient_address.F_PATIENT_ID=?");
                     Object[] arguments = new Object[]{patientID, patientID, patientID, patientID};

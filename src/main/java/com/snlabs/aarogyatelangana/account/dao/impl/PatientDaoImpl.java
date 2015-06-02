@@ -1,12 +1,10 @@
 package com.snlabs.aarogyatelangana.account.dao.impl;
 
-import com.snlabs.aarogyatelangana.account.beans.Patient;
-import com.snlabs.aarogyatelangana.account.beans.PatientAddress;
-import com.snlabs.aarogyatelangana.account.beans.User;
-import com.snlabs.aarogyatelangana.account.beans.UserDetails;
+import com.snlabs.aarogyatelangana.account.beans.*;
 import com.snlabs.aarogyatelangana.account.dao.PatientDao;
 import com.snlabs.aarogyatelangana.account.service.impl.PatientProfileMapper;
 import com.snlabs.aarogyatelangana.account.service.impl.PatientRowMapper;
+import com.snlabs.aarogyatelangana.account.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,41 +24,65 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public Patient save(Patient patient) {
-        String insertPatientQuery = "INSERT INTO T_PATIENT("
-                + "F_PATIENT_NAME," + "F_PATIENT_ID," + "F_AGE," + "F_GENDER,"
-                + "F_CREATED_BY," + "F_CREATED_TIMESTAMP," + "F_AADHAR_NO" + ") "
-                + "VALUES(?,?,?,?,?,SYSDATE(),?)";
+        StringBuilder insertPatientRecord = new StringBuilder();
+        insertPatientRecord = insertPatientRecord.append("INSERT INTO ")
+                .append(AppConstants.PATIENT_TABLE).append("(F_PATIENT_NAME,")
+                .append(" F_PATIENT_ID,").append("F_AGE,").append("F_GENDER,").append("F_CREATED_BY,")
+                .append("F_CREATED_TIMESTAMP,").append("F_AADHAR_NO)").append("VALUES(?,?,?,?,?,SYSDATE(),?)");
         Object[] args = {patient.getPatientName(), patient.getPatientID(),
                 patient.getAge(), patient.getGender(), patient.getCreatedBy(), patient.getAadharNo()};
         try {
-            if (jdbcTemplate.update(insertPatientQuery, args) > 0) {
+            if (jdbcTemplate.update(insertPatientRecord.toString(), args) > 0) {
                 if (patient.getPatientAddress() != null) {
-                    return savePatientAddress(patient.getPatientID(), patient.getPatientAddress()) > 0 ? patient : null;
-                } else {
-                    return null;
+                    savePatientAddress(patient.getPatientID(), patient.getPatientAddress());
+                }
+                if (patient.getPatientCurrentAddress() != null) {
+                    savePatientCurrentAddress(patient.getPatientID(), patient.getPatientCurrentAddress());
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return patient;
     }
 
     private int savePatientAddress(int patientID, PatientAddress patientAddress) {
-        String insertPatientAddress = "INSERT INTO T_PATIENT_ADDRESS("
-                + "F_PATIENT_ID," + "F_ADDRESS," + "F_CONTACT_NO,"
-                + "F_DISTRICT," + "F_STATE," + "F_PINCODE," + "F_CURRENT_ADDRESS" + ") " + "VALUES"
-                + "(?,?,?,?,?,?,?)";
+        StringBuilder insertPatientAddress = new StringBuilder();
+        int result = 0;
+        try {
+            insertPatientAddress.append("INSERT INTO ").append(AppConstants.PATIENT_ADDRESS)
+                    .append(" (F_PATIENT_ID,F_ADDRESS,F_CONTACT_NO,")
+                    .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY)")
+                    .append("VALUES(?,?,?,?,?,?,?)");
+            Object[] args = {patientID, patientAddress.getAddress().trim(),
+                    patientAddress.getContactno(), patientAddress.getDistrict(),
+                    patientAddress.getState(), patientAddress.getPincode(),
+                    patientAddress.getCityName()};
+            result = jdbcTemplate.update(insertPatientAddress.toString(), args);
+        } catch (Exception e) {
+            System.out.println("Exception " + e);
+        }
+        return result;
+    }
+
+
+    private int savePatientCurrentAddress(int patientID, PatientCurrentAddress patientAddress) {
+        StringBuilder insertPatientAddress = new StringBuilder();
+        insertPatientAddress.append("INSERT INTO ").append(AppConstants.PATIENT_CURRENT_ADDRESS)
+                .append("(F_PATIENT_ID,F_ADDRESS,F_CONTACT_NO,")
+                .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY,F_SAME_AS_PRESENT_ADDRESS)")
+                .append("VALUES(?,?,?,?,?,?,?,?)");
         Object[] args = {patientID, patientAddress.getAddress().trim(),
                 patientAddress.getContactno(), patientAddress.getDistrict(),
-                patientAddress.getState(), patientAddress.getPincode(), patientAddress.getCurrentAddress().trim()};
-        return jdbcTemplate.update(insertPatientAddress, args);
+                patientAddress.getState(), patientAddress.getPincode(),
+                patientAddress.getCityName(), patientAddress.getSameAsPresentAddress()};
+        return jdbcTemplate.update(insertPatientAddress.toString(), args);
     }
 
     @Override
     public int update(Patient patient) {
         StringBuilder updatePatientRecord = new StringBuilder();
-        updatePatientRecord.append("UPDATE T_PATIENT SET F_PATIENT_NAME = ?,")
+        updatePatientRecord.append("UPDATE ").append(AppConstants.PATIENT_TABLE).append(" SET F_PATIENT_NAME = ?,")
                 .append(" F_UPDATED_TIMESTAMP = SYSDATE(),").append(" F_AGE = ?,")
                 .append(" F_GENDER = ?,").append(" F_AADHAR_NO = ?,")
                 .append(" F_DOWNLOAD_PATH = ?")
@@ -89,12 +111,14 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public Patient findByPatientId(Patient patient) {
-        String patientRecord = "SELECT * FROM T_PATIENT WHERE F_PATIENT_ID = ?";
+        StringBuilder patientRecord = new StringBuilder();
+        patientRecord.append("SELECT * FROM ").append(AppConstants.PATIENT_TABLE)
+                .append(" WHERE F_PATIENT_ID = ?");
         Object[] args = {patient.getPatientID()};
         try {
             final Patient record = new Patient();
             record.setPatientID(patient.getPatientID());
-            jdbcTemplate.update(patientRecord, args, new RowMapper() {
+            jdbcTemplate.update(patientRecord.toString(), args, new RowMapper() {
                 @Override
                 public Patient mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
                     record.setPatientName(resultSet.getString("F_PATIENT_NAME"));
@@ -126,23 +150,22 @@ public class PatientDaoImpl implements PatientDao {
     public Patient searchPatientById(int patientID, UserDetails userDetails) {
         Patient patient = null;
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM T_PATIENT PAT, T_PATIENT_ADDRESS ADDR WHERE ")
-                .append("PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ")
+        sb.append("SELECT * FROM ").append(AppConstants.PATIENT_TABLE).append(" PAT,")
+                .append(AppConstants.PATIENT_ADDRESS).append(" ADDR ")
+                .append("WHERE PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ")
                 .append("PAT.F_PATIENT_ID = ? ");
-
         Object[] args = null;
-
-        if("HealthCenterUser".equals(userDetails.getUserRole())){
+        if ("HealthCenterUser" .equals(userDetails.getUserRole())) {
             sb.append("AND PAT.F_CREATED_BY = ?");
-            args = new Object[] { patientID, userDetails.getLoginId()};
-        }else if("DistrictUser".equals(userDetails.getUserRole())){
+            args = new Object[]{patientID, userDetails.getLoginId()};
+        } else if ("DistrictUser" .equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_DISTRICT = ?");
-            args = new Object[] { patientID, userDetails.getDistrict()};
-        }else if("StateUser".equals(userDetails.getUserRole())){
+            args = new Object[]{patientID, userDetails.getDistrict()};
+        } else if ("StateUser" .equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_STATE = ?");
-            args = new Object[] { patientID, userDetails.getState()};
-        }else if("Administrator".equals(userDetails.getUserRole())){
-            args = new Object[] { patientID};
+            args = new Object[]{patientID, userDetails.getState()};
+        } else if ("Administrator" .equals(userDetails.getUserRole())) {
+            args = new Object[]{patientID};
         }
 
         try {
@@ -154,10 +177,9 @@ public class PatientDaoImpl implements PatientDao {
                     patient = (Patient) user;
                 }
             }
-        }catch(EmptyResultDataAccessException ee){
+        } catch (EmptyResultDataAccessException ee) {
             return null;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return patient;
@@ -173,17 +195,17 @@ public class PatientDaoImpl implements PatientDao {
 
         Object[] args = null;
 
-        if("HealthCenterUser".equals(userDetails.getUserRole())){
+        if ("HealthCenterUser" .equals(userDetails.getUserRole())) {
             sb.append("AND PAT.F_CREATED_BY = ?");
-            args = new Object[] { patientName, userDetails.getLoginId()};
-        }else if("DistrictUser".equals(userDetails.getUserRole())){
+            args = new Object[]{patientName, userDetails.getLoginId()};
+        } else if ("DistrictUser" .equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_DISTRICT = ?");
-            args = new Object[] { patientName, userDetails.getDistrict()};
-        }else if("StateUser".equals(userDetails.getUserRole())){
+            args = new Object[]{patientName, userDetails.getDistrict()};
+        } else if ("StateUser" .equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_STATE = ?");
-            args = new Object[] { patientName, userDetails.getState()};
-        }else if("Administrator".equals(userDetails.getUserRole())){
-            args = new Object[] { patientName};
+            args = new Object[]{patientName, userDetails.getState()};
+        } else if ("Administrator" .equals(userDetails.getUserRole())) {
+            args = new Object[]{patientName};
         }
 
         try {
@@ -195,10 +217,9 @@ public class PatientDaoImpl implements PatientDao {
                     patient = (Patient) user;
                 }
             }
-        }catch(EmptyResultDataAccessException ee){
+        } catch (EmptyResultDataAccessException ee) {
             return null;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return patient;
@@ -237,7 +258,7 @@ public class PatientDaoImpl implements PatientDao {
             searchPatientProfilesByDate.append("SELECT F_PATIENT_ID,")
                     .append("F_PATIENT_NAME,F_CREATED_TIMESTAMP")
                     .append("F_DOWNLOAD_PATH,F_AADHAR_NO,F_CREATED_BY")
-                    .append(" FROM T_PATIENT WHERE F_CREATED_BY=?")
+                    .append(" FROM ").append(AppConstants.PATIENT_TABLE).append(" WHERE F_CREATED_BY=?")
                     .append(" AND F_CREATED_TIMESTAMP BETWEEN")
                     .append(" STR_TO_DATE('?','%Y-%m-%d')")
                     .append(" AND STR_TO_DATE('?','%Y-%m-%d')");

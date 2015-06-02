@@ -29,7 +29,6 @@ public class LoginController {
 
     @RequestMapping(value = {"loginsubmission.action"}, method = RequestMethod.POST)
     public String loginsubmission(@RequestBody LoginUser loginUser, HttpSession session, ModelMap modelMap) {
-
         LOGGER.info("loginsubmission-> ", loginUser.userName + ":" + session.getId());
         LOGGER.debug("loginsubmission-> before hash ", loginUser.userName + ":" + session.getId());
         loginUser.setPassword(accountUtils.md5(loginUser.getPassword()));
@@ -38,8 +37,10 @@ public class LoginController {
         if (userDetails != null) {
             session.setAttribute("userDetails", userDetails);
             return "workdesk";
+        } else {
+            session.setAttribute("error", "Invalid username/password");
+            return "home";
         }
-        return "home";
     }
 
     /*@RequestMapping(value = {"logout.action"} ,method = RequestMethod.POST)
