@@ -2,3 +2,11 @@
 netstat -a -o -n | grep "8080"
 /* Kill process running on this port ID*/
 kill -f 8080
+
+/* Login into MYSQL*/
+
+mysql -u root -p
+
+/* Command to build account war file*/
+mvn install
+
