@@ -5,10 +5,26 @@ import java.io.Serializable;
 public class PatientCurrentAddress implements Serializable{
     private String district;
     private String state;
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("PatientCurrentAddress{");
+        sb.append("district='").append(district).append('\'');
+        sb.append(", state='").append(state).append('\'');
+        sb.append(", pincode=").append(pincode);
+        sb.append(", sameAsPresentAddress='").append(sameAsPresentAddress).append('\'');
+        sb.append(", patientAddressID=").append(patientAddressID);
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", cityName='").append(cityName).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
     private int pincode;
-    private int contactno;
+    private String sameAsPresentAddress;
     private int patientAddressID;
     private String address;
+    private String cityName;
 
     public String getSameAsPresentAddress() {
         return sameAsPresentAddress;
@@ -18,8 +34,6 @@ public class PatientCurrentAddress implements Serializable{
         this.sameAsPresentAddress = sameAsPresentAddress;
     }
 
-    private String sameAsPresentAddress;
-
     public String getCityName() {
         return cityName;
     }
@@ -28,7 +42,7 @@ public class PatientCurrentAddress implements Serializable{
         this.cityName = cityName;
     }
 
-    private String cityName;
+
 
     public String getAddress() {
         return address;
@@ -62,14 +76,6 @@ public class PatientCurrentAddress implements Serializable{
         this.pincode = pincode;
     }
 
-    public int getContactno() {
-        return contactno;
-    }
-
-    public void setContactno(int contactno) {
-        this.contactno = contactno;
-    }
-
     public int getPatientAddressID() {
         return patientAddressID;
     }
@@ -79,18 +85,4 @@ public class PatientCurrentAddress implements Serializable{
     }
 
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("PatientCurrentAddress{");
-        sb.append("district='").append(district).append('\'');
-        sb.append(", state='").append(state).append('\'');
-        sb.append(", pincode=").append(pincode);
-        sb.append(", contactno=").append(contactno);
-        sb.append(", patientAddressID=").append(patientAddressID);
-        sb.append(", address='").append(address).append('\'');
-        sb.append(", sameAsPresentAddress='").append(sameAsPresentAddress).append('\'');
-        sb.append(", cityName='").append(cityName).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
 }

@@ -6,7 +6,7 @@ public class PatientAddress implements Serializable{
 	private String district;
 	private String state;
 	private int pincode;
-	private double contactno;
+    private String cityName;
 	private int patientAddressID;
 	private String address;
     private String currentAddress;
@@ -19,7 +19,7 @@ public class PatientAddress implements Serializable{
         this.cityName = cityName;
     }
 
-    private String cityName;
+
 
 
     public String getCurrentAddress() {
@@ -62,14 +62,6 @@ public class PatientAddress implements Serializable{
 		this.pincode = pincode;
 	}
 
-	public double getContactno() {
-		return contactno;
-	}
-
-	public void setContactno(double contactno) {
-		this.contactno = contactno;
-	}
-
 	public int getPatientAddressID() {
 		return patientAddressID;
 	}
@@ -79,11 +71,17 @@ public class PatientAddress implements Serializable{
 	}
 
 
-	@Override
+    @Override
     public String toString() {
-        return "PatientAddress [district=" + district + ", state=" + state
-                + ", pincode=" + pincode + ", contactno=" + contactno
-                + ", patientAddressID=" + patientAddressID + ", address="
-                + address + ", currentAddress=" + currentAddress + "]";
+        final StringBuilder sb = new StringBuilder("PatientAddress{");
+        sb.append("district='").append(district).append('\'');
+        sb.append(", state='").append(state).append('\'');
+        sb.append(", pincode=").append(pincode);
+        sb.append(", cityName='").append(cityName).append('\'');
+        sb.append(", patientAddressID=").append(patientAddressID);
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", currentAddress='").append(currentAddress).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

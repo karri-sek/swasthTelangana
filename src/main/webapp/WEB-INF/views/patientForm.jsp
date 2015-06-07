@@ -31,9 +31,9 @@
                     <label class="control-label col-md-3 col-lg-3">Contact No:</label>
 
                     <div class="col-md-9 col-lg-9">
-                        <input class="form-control onlyMobileNum" id="patient.patientAddress.contactno"
-                               name="patient.patientAddress.contactno"
-                               value="${patient.patientAddress.contactno}"> </input>
+                        <input class="form-control onlyMobileNum" id="patient.contactno"
+                               name="patient.contactno"
+                               value="${patient.contactno}"> </input>
                     </div>
                 </div>
                 <div class="form-group">
@@ -63,11 +63,13 @@
                 <div class="form-group">
                     <legend>Present Address</legend>
                     <label class="control-label col-md-3 col-lg-3">City/Village Name:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control required" type="text" name="patient.patientAddress.cityName"
                                id="patient.patientAddress.cityName" value="${patient.patientAddress.cityName}"/>
                     </div>
                     <label class="control-label col-md-1 col-lg-1">District:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control required" id="patient.patientAddress.district"
                                name="patient.patientAddress.district"
@@ -76,11 +78,13 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">State:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control required" id="patient.patientAddress.state"
                                name="patient.patientAddress.state" value="${patient.patientAddress.state}"> </input>
                     </div>
                     <label class="control-label col-md-1 col-lg-1">Pincode:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control" id="patient.patientAddress.pincode"
                                name="patient.patientAddress.pincode" value="${patient.patientAddress.pincode}"> </input>
@@ -88,29 +92,34 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">Address:</label>
+
                     <div class="col-md-7 col-lg-7">
                         <input class="form-control required" type="text" name="patient.patientAddress.address"
-                               id="patient.patientAddress.address" value="${patient.patientAddress.address}" checked="checked"/>
+                               id="patient.patientAddress.address" value="${patient.patientAddress.address}"
+                               checked="checked"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <legend>Current Address</legend>
-                    <label class="control-label col-md-3 col-lg-3"></label>
-                    <div class="col-md-1 col-lg-1">
-                        <input class="form-control" type="radio" name="patient.patientCurrentAddress.sameAsPresentAddress"
-                               id="patient.patientCurrentAddress.sameAsPresentAddress" value="${patient.patientCurrentAddress.sameAsPresentAddress}"/>
-                    </div>
+                    <input class="col-md-1 col-lg-1" type="checkbox"
+                           name="patient.patientCurrentAddress.sameAsPresentAddress"
+                           id="patient.patientCurrentAddress.sameAsPresentAddress"
+                           value="${patient.patientCurrentAddress.sameAsPresentAddress}"
+                            onclick="myfunction();"/>
                     <label class="control-label col-md-4 col-lg-4">Same as Present Address</label>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">City/Village Name:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control" type="text" name="patient.patientCurrentAddress.cityName"
-                               id="patient.patientCurrentAddress.cityName" value="${patient.patientCurrentAddress.cityName}"/>
+                               id="patient.patientCurrentAddress.cityName"
+                               value="${patient.patientCurrentAddress.cityName}"/>
                     </div>
                     <label class="control-label col-md-1 col-lg-1">District:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control" id="patient.patientCurrentAddress.district"
                                name="patient.patientCurrentAddress.district"
@@ -119,21 +128,27 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">State:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control" id="patient.patientCurrentAddress.state"
-                               name="patient.patientCurrentAddress.state" value="${patient.patientCurrentAddress.state}"> </input>
+                               name="patient.patientCurrentAddress.state"
+                               value="${patient.patientCurrentAddress.state}"> </input>
                     </div>
                     <label class="control-label col-md-1 col-lg-1">Pincode:</label>
+
                     <div class="col-md-3 col-lg-3">
                         <input class="form-control" id="patient.patientCurrentAddress.pincode"
-                               name="patient.patientCurrentAddress.pincode" value="${patient.patientCurrentAddress.pincode}"> </input>
+                               name="patient.patientCurrentAddress.pincode"
+                               value="${patient.patientCurrentAddress.pincode}"> </input>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">Address:</label>
+
                     <div class="col-md-7 col-lg-7">
                         <input class="form-control" type="text" name="patient.patientCurrentAddress.address"
-                               id="patient.patientCurrentAddress.address" value="${patient.patientCurrentAddress.address}"/>
+                               id="patient.patientCurrentAddress.address"
+                               value="${patient.patientCurrentAddress.address}"/>
                     </div>
                 </div>
 
@@ -142,6 +157,7 @@
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3"></label>
+
                     <div class="col-md-3 col-lg-3">
                         <a class="btn btn-primary btn-lg btn-block" href="#"
                            onclick="submitForm('/account/savePatientDetails.action', 'patientDetails', 'containerdiv');">Save</a>

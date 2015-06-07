@@ -51,11 +51,11 @@ public class PatientDaoImpl implements PatientDao {
         int result = 0;
         try {
             insertPatientAddress.append("INSERT INTO ").append(AppConstants.PATIENT_ADDRESS)
-                    .append(" (F_PATIENT_ID,F_ADDRESS,F_CONTACT_NO,")
+                    .append("(F_PATIENT_ID,F_ADDRESS,")
                     .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY)")
-                    .append("VALUES(?,?,?,?,?,?,?)");
+                    .append("VALUES(?,?,?,?,?,?)");
             Object[] args = {patientID, patientAddress.getAddress().trim(),
-                    patientAddress.getContactno(), patientAddress.getDistrict(),
+                             patientAddress.getDistrict(),
                     patientAddress.getState(), patientAddress.getPincode(),
                     patientAddress.getCityName()};
             result = jdbcTemplate.update(insertPatientAddress.toString(), args);
@@ -69,13 +69,13 @@ public class PatientDaoImpl implements PatientDao {
     private int savePatientCurrentAddress(int patientID, PatientCurrentAddress patientAddress) {
         StringBuilder insertPatientAddress = new StringBuilder();
         insertPatientAddress.append("INSERT INTO ").append(AppConstants.PATIENT_CURRENT_ADDRESS)
-                .append("(F_PATIENT_ID,F_ADDRESS,F_CONTACT_NO,")
+                .append("(F_PATIENT_ID,F_ADDRESS,")
                 .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY,F_SAME_AS_PRESENT_ADDRESS)")
                 .append("VALUES(?,?,?,?,?,?,?,?)");
         Object[] args = {patientID, patientAddress.getAddress().trim(),
-                patientAddress.getContactno(), patientAddress.getDistrict(),
-                patientAddress.getState(), patientAddress.getPincode(),
-                patientAddress.getCityName(), patientAddress.getSameAsPresentAddress()};
+                         patientAddress.getDistrict(),patientAddress.getState(),
+                         patientAddress.getPincode(),patientAddress.getCityName(),
+                         patientAddress.getSameAsPresentAddress()};
         return jdbcTemplate.update(insertPatientAddress.toString(), args);
     }
 
@@ -155,16 +155,16 @@ public class PatientDaoImpl implements PatientDao {
                 .append("WHERE PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ")
                 .append("PAT.F_PATIENT_ID = ? ");
         Object[] args = null;
-        if ("HealthCenterUser" .equals(userDetails.getUserRole())) {
+        if ("HealthCenterUser".equals(userDetails.getUserRole())) {
             sb.append("AND PAT.F_CREATED_BY = ?");
             args = new Object[]{patientID, userDetails.getLoginId()};
-        } else if ("DistrictUser" .equals(userDetails.getUserRole())) {
+        } else if ("DistrictUser".equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_DISTRICT = ?");
             args = new Object[]{patientID, userDetails.getDistrict()};
-        } else if ("StateUser" .equals(userDetails.getUserRole())) {
+        } else if ("StateUser".equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_STATE = ?");
             args = new Object[]{patientID, userDetails.getState()};
-        } else if ("Administrator" .equals(userDetails.getUserRole())) {
+        } else if ("Administrator".equals(userDetails.getUserRole())) {
             args = new Object[]{patientID};
         }
 
@@ -195,16 +195,16 @@ public class PatientDaoImpl implements PatientDao {
 
         Object[] args = null;
 
-        if ("HealthCenterUser" .equals(userDetails.getUserRole())) {
+        if ("HealthCenterUser".equals(userDetails.getUserRole())) {
             sb.append("AND PAT.F_CREATED_BY = ?");
             args = new Object[]{patientName, userDetails.getLoginId()};
-        } else if ("DistrictUser" .equals(userDetails.getUserRole())) {
+        } else if ("DistrictUser".equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_DISTRICT = ?");
             args = new Object[]{patientName, userDetails.getDistrict()};
-        } else if ("StateUser" .equals(userDetails.getUserRole())) {
+        } else if ("StateUser".equals(userDetails.getUserRole())) {
             sb.append("AND ADDR.F_STATE = ?");
             args = new Object[]{patientName, userDetails.getState()};
-        } else if ("Administrator" .equals(userDetails.getUserRole())) {
+        } else if ("Administrator".equals(userDetails.getUserRole())) {
             args = new Object[]{patientName};
         }
 
@@ -228,25 +228,26 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public List<Patient> searchPatientProfilesByCreator(UserDetails userDetails) {
         String createdBy = userDetails.getLoginId();
-
-        if (createdBy != null) {
-            StringBuilder sb = new StringBuilder();
-            List<Patient> detailsList = null;
-            sb.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
-                    .append(" address.F_CONTACT_NO, patient.F_DOWNLOAD_PATH")
-                    .append(" FROM T_PATIENT patient, T_PATIENT_ADDRESS address")
-                    .append(" WHERE patient.F_CREATED_BY=?")
-                    .append(" AND patient.F_PATIENT_ID=address.F_PATIENT_ID");
-            Object[] args = new Object[]{createdBy};
-            try {
-                detailsList = (List<Patient>) jdbcTemplate.queryForObject(sb.toString(),
+        List<Patient> detailsList = null;
+        try {
+            if (createdBy != null) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
+                        .append(" address.F_CONTACT_NO, patient.F_DOWNLOAD_PATH")
+                        .append(" FROM ").append(AppConstants.PATIENT_TABLE).append(" patient,")
+                        .append(AppConstants.PATIENT_ADDRESS).append(" address")
+                        .append(" WHERE patient.F_CREATED_BY=?")
+                        .append(" AND patient.F_PATIENT_ID=address.F_PATIENT_ID");
+                Object[] args = new Object[]{createdBy};
+                detailsList = (List<Patient>) jdbcTemplate.queryForObject(sb.toString(), args,
                         new PatientProfileMapper());
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(" Error:" + e.getMessage());
+        } finally {
             return detailsList;
         }
-        return null;
     }
 
     @Override

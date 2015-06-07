@@ -58,29 +58,28 @@
                             </c:forEach>
                         </table>
                     </div>
-                    <label class="control-label col-md-3 col-lg-3">Any other
+                    <label class="control-label col-md-2 col-lg-2 col-sm-2">Any other
                         Specify: </label>
 
-                    <div class="col-md-9 col-lg-9">
+                    <div class="col-md-9 col-lg-9 col-sm-9">
                         <input class="form-control" type="text" name="otherProcedure"
                                id="otherProcedure"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-lg-3">Declaration
-                        Date </label>
+                    <label class="control-label col-md-3 col-lg-3 col-sm-3">Declaration
+                        Date: </label>
 
-                    <div class="col-md-9 col-lg-9">
-                        <input class='form-control' name="declarationDate" type='text'/>
+                    <div class="col-md-3 col-lg-3 col-sm-3">
+                        <input class="form-control" value="2014-12-22" type="date"
+                               name="declarationDate" id="declarationDate"/>
                     </div>
-                </div>
-                <div class="form-group">
                     <label class="control-label col-md-3 col-lg-3">Procedure
                         Carried Date: </label>
 
-                    <div class="col-md-9 col-lg-9">
-                        <input class='form-control' name="procedureCarriedDate"
-                               type='text'/>
+                    <div class="col-md-3 col-lg-3 col-sm-3">
+                        <input class="form-control" value="2014-12-22" type="date"
+                               name="procedureCarriedDate" id="procedureCarriedDate"/>
                     </div>
                 </div>
 
@@ -94,23 +93,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-lg-3">convey
-                        Details: </label>
+                    <legend>Convey Details:</legend>
+                    <label class="control-label col-md-3 col-lg-3 col-sm-3">Name:</label>
 
-                    <div class="col-md-9 col-lg-9">
-                        <label class="control-label col-md-3 col-lg-3">Name:</label> <input
-                            class='form-control col-md-3 col-lg-3'
-                            name="conveyDetails.conveyedName" type='text'/> <label
-                            class="control-label col-md-3 col-lg-3">Date:</label> <input
-                            class='form-control' name="conveyDetails.conveyedDate"
-                            type='text'/>
+                    <div class="col-md-3 col-lg-3 col-sm-3">
+                        <input class='form-control' name="conveyDetails.conveyedName" type='text'/>
+                    </div>
+                    <label class="control-label col-md-3 col-lg-3 col-sm-3">Date:</label>
+
+                    <div class="col-md-3 col-lg-3 col-sm-3">
+                        <input class="form-control" value="2014-12-22" type="date"
+                               name="conveyDetails.conveyedDate" id="procedureCarriedDate"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-lg-3">MTP
-                        Indication </label>
+                    <legend>MTP Indication :</legend>
+                    <label class="control-label col-md-3 col-lg-3 col-sm-3">Mtp Indication:</label>
 
-                    <div class="col-md-9 col-lg-9">
+                    <div class="col-md-9 col-lg-9 col-sm-9">
                         <input class='form-control' name="mtpIndication" type='text'/>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                 <input type="hidden" id="patientName" name="patientName" value="${nonInvasive.patientName}">
 
                 <div class="form-actions">
-                    <label class="control-label col-md-3 col-lg-3"/>
+                    <label class="control-label col-md-3 col-lg-3 col-sm-3"/>
 
                     <div class="col-md-9 col-lg-9">
                         <div class="col-md-3 col-lg-3">

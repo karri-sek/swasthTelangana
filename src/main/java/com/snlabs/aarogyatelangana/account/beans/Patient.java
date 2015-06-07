@@ -18,6 +18,17 @@ public class Patient extends User implements Serializable {
     private String createdBy;
     private String formFDownloadPath;
     private String aadharNo;
+    private PatientCurrentAddress patientCurrentAddress;
+
+    public long getContactno() {
+        return contactno;
+    }
+
+    public void setContactno(long contactno) {
+        this.contactno = contactno;
+    }
+
+    private long contactno;
 
     public PatientCurrentAddress getPatientCurrentAddress() {
         return patientCurrentAddress;
@@ -27,7 +38,6 @@ public class Patient extends User implements Serializable {
         this.patientCurrentAddress = patientCurrentAddress;
     }
 
-    private PatientCurrentAddress patientCurrentAddress;
 
     public Date getUpdatedTimestamp() {
         return updatedTimestamp;

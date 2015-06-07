@@ -20,32 +20,66 @@ public class FormDaoImpl implements FormDao {
 
     @Override
     public Patient getPatientDetails(int patientID) {
+        if (patientID < 0) {
+            return null;
+        }
         StringBuilder patientDetailsQuery = new StringBuilder();
-        patientDetailsQuery.append("SELECT * FROM T_PATIENT patient,")
-                .append(AppConstants.PATIENT_ADDRESS).append(" address")
-                .append(" WHERE patient.F_PATIENT_ID=").append(patientID).append(" AND address.F_PATIENT_ID=").append(patientID);
+        patientDetailsQuery.append("SELECT patient.F_PATIENT_NAME,")
+                .append("patient.F_PATIENT_ID,")
+                .append("patient.F_AGE,")
+                .append("patient.F_GENDER,")
+                .append("patient.F_AADHAR_NO,")
+                .append("address.F_DISTRICT,")
+                .append("address.F_STATE,")
+                .append("address.F_PINCODE,")
+                .append("address.F_ADDRESS,")
+                .append("address.F_CITY,")
+                .append("current_address.F_DISTRICT,")
+                .append("current_address.F_STATE,")
+                .append("current_address.F_PINCODE,")
+                .append("current_address.F_ADDRESS,")
+                .append("current_address.F_CITY").append(" FROM ")
+                .append(AppConstants.PATIENT_TABLE).append(" patient,")
+                .append(AppConstants.PATIENT_ADDRESS).append(" address,")
+                .append(AppConstants.PATIENT_CURRENT_ADDRESS).append("  current_address ")
+                .append("WHERE patient.F_PATIENT_ID=?")
+                .append(" AND address.F_PATIENT_ID =?")
+                .append(" AND current_address.F_PATIENT_ID=?");
         final Patient patient = new Patient();
+        Object[] args = { patientID, patientID, patientID};
         patient.setPatientID(patientID);
         try {
-            jdbcTemplate.queryForObject(patientDetailsQuery.toString(), new RowMapper() {
+            jdbcTemplate.query(patientDetailsQuery.toString(), args, new RowMapper() {
                 @Override
                 public Patient mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
                     PatientAddress patientAddress = new PatientAddress();
+                    PatientCurrentAddress patientCurrentAddress = new PatientCurrentAddress();
                     patient.setAadharNo(resultSet.getString("F_AADHAR_NO"));
                     patient.setPatientName(resultSet.getString("F_PATIENT_NAME"));
                     patient.setGender(resultSet.getString("F_GENDER"));
                     patient.setAge(resultSet.getInt("F_AGE"));
-                    patientAddress.setContactno(resultSet.getInt("F_CONTACT_NO"));
-                    patientAddress.setAddress(resultSet.getString("F_ADDRESS"));
-                    patientAddress.setCurrentAddress(resultSet.getString("F_CURRENT_ADDRESS"));
+                    patient.setContactno(resultSet.getLong("F_CONTACT_NO"));
+
+
                     patientAddress.setDistrict(resultSet.getString("F_DISTRICT"));
                     patientAddress.setState(resultSet.getString("F_STATE"));
                     patientAddress.setPincode(resultSet.getInt("F_PINCODE"));
+                    patientAddress.setAddress(resultSet.getString("F_ADDRESS"));
+                    patientAddress.setCityName(resultSet.getString("F_CITY"));
+
                     patient.setPatientAddress(patientAddress);
+
+
+                    patientCurrentAddress.setDistrict(resultSet.getString("F_DISTRICT"));
+                    patientCurrentAddress.setState(resultSet.getString("F_STATE"));
+                    patientCurrentAddress.setPincode(resultSet.getInt("F_PINCODE"));
+                    patientCurrentAddress.setAddress(resultSet.getString("F_ADDRESS"));
+                    patientCurrentAddress.setCityName(resultSet.getString("F_CITY"));
+
+                    patient.setPatientCurrentAddress(patientCurrentAddress);
                     return patient;
                 }
             });
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -369,7 +403,7 @@ public class FormDaoImpl implements FormDao {
                 .append(" WHERE clinic.F_PATIENT_ID=").append(patientID);
         final ClinicAddress clinicAddress = new ClinicAddress();
         try {
-            jdbcTemplate.queryForObject(clinicDetailsQuery.toString(), new RowMapper() {
+            jdbcTemplate.query(clinicDetailsQuery.toString(), new RowMapper() {
                 @Override
                 public ClinicAddress mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
                     clinicAddress.setPatientID(resultSet.getInt("F_PATIENT_ID"));
@@ -379,7 +413,7 @@ public class FormDaoImpl implements FormDao {
                     clinicAddress.setDistrict(resultSet.getString("F_DISTRICT"));
                     clinicAddress.setClinicName(resultSet.getString("F_CLINIC_NAME"));
                     clinicAddress.setState(resultSet.getString("F_STATE"));
-                    clinicAddress.setContactNum(resultSet.getInt("F_CONTACT_NO"));
+                    clinicAddress.setContactNum(resultSet.getDouble("F_CONTACT_NO"));
                     return clinicAddress;
                 }
             });

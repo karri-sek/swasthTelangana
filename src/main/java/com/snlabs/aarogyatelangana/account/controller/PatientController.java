@@ -33,21 +33,6 @@ public class PatientController {
     @Autowired
     public FormService formService;
 
-    @RequestMapping(value = {"enterPatientDetails.action"}, method = RequestMethod.POST)
-    public String enterPatientDetails(HttpSession session, ModelMap model, String patientID) {
-        model.clear();
-        if (patientID != null) {
-            model.put("patient", formService.getPatientDetails(Integer.parseInt(patientID)));
-        }
-        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-        if (userDetails != null) {
-            model.put("loginID", userDetails.getLoginId());
-        } else {
-            model.put("error", "unable to get user session Details");
-        }
-        return "patientForm";
-    }
-
     @RequestMapping(value = {"savePatientDetails.action"}, method = RequestMethod.POST)
     public String savePatientDetails(@RequestBody Patient patient,
                                      HttpSession session, ModelMap model) {
@@ -64,7 +49,6 @@ public class PatientController {
                 model.put("result", patient.getPatientName() + " details has been saved successfully...!");
             } else {
                 model.put("error", "Unable to save Patient Details");
-
             }
         } catch (Exception e) {
             System.out.print("error:" + e);
@@ -73,30 +57,55 @@ public class PatientController {
 
     }
 
+    @RequestMapping(value = {"enterPatientDetails.action"}, method = RequestMethod.POST)
+    public String enterPatientDetails(HttpSession session, ModelMap model, String patientID) {
+        try {
+            UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
+            model.clear();
+            System.out.println("Patient ID" + patientID);
+            if (patientID != null) {
+                model.put("patient", formService.getPatientDetails(Integer.parseInt(patientID)));
+            }
+            if (userDetails != null) {
+                model.put("loginID", userDetails.getLoginId());
+            } else {
+                model.put("error", "unable to get user session Details");
+            }
+        } catch (Exception e) {
+            System.out.println("Exception:" + e.getMessage());
+        } finally {
+            return "patientForm";
+        }
+    }
+
     @RequestMapping(value = {"patientProfiles.action"}, method = RequestMethod.POST)
     public ModelAndView patientProfiles(HttpSession session, ModelMap model) {
-        ModelAndView modelAndView = null;
+        ModelAndView modelAndView = new ModelAndView();
+        model.clear();
         UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-        if (userDetails.getLoginId() != null) {
-            modelAndView = new ModelAndView();
-            List<Patient> patientProfiles = patientService
-                    .getPatientProfiles(userDetails);
-            try {
-                if (patientProfiles != null) {
-                    modelAndView.addObject("patientProfiles", patientProfiles);
-                    modelAndView.addObject("result", patientProfiles.size() + " No of Profiles Found. Created by " + userDetails.getLoginId());
-                } else {
-                    modelAndView.addObject("result", "No Profiles found.");
+        try {
+            if (userDetails != null && userDetails.getLoginId() != null) {
+                List<Patient> patientProfiles = patientService
+                        .getPatientProfiles(userDetails);
+                try {
+                    if (patientProfiles != null) {
+                        modelAndView.addObject("patientProfiles", patientProfiles);
+                        modelAndView.addObject("result", patientProfiles.size() + " Profiles Found. Created by " + userDetails.getLoginId());
+                    } else {
+                        model.put("error", "No Profiles found.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                model.put("error", "Unable to get the login details");
             }
-        } else {
-            modelAndView.addObject("result", "Unable to get the login details");
+            modelAndView.setViewName("patientProfiles");
+        } catch (Exception e) {
+            System.out.println("Exception:" + e.getMessage());
+        } finally {
+            return modelAndView;
         }
-        modelAndView.setViewName("patientProfiles");
-        return modelAndView;
     }
 
     @RequestMapping(value = {"savePatientDetailsAndContinue.action"}, method = RequestMethod.POST)
@@ -114,7 +123,7 @@ public class PatientController {
                 return "clinicDetails";
             } else {
                 session.setAttribute(
-                        "saveResult",
+                        "error",
                         "Oh snap! Failed Please check the whether you Entered Details Correctly or not.");
                 return "patientForm";
             }

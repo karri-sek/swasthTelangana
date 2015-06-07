@@ -37,8 +37,6 @@ public class PatientRowMapper implements RowMapper {
             patientAddress.setDistrict(rs.getString("F_DISTRICT"));
             patientAddress.setState(rs.getString("F_STATE"));
             patientAddress.setPincode(rs.getInt("F_PINCODE"));
-            patientAddress.setContactno(rs.getInt("F_CONTACT_NO"));
-
             patient.setPatientAddress(patientAddress);
 
             detailsList.add(patient);

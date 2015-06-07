@@ -61,7 +61,7 @@ box-shadow: 0 0 6px #F8B9B7!important;
  * navigation changes.
 */
 
-body { padding-top: 70px; }
+body { padding-top: 50px; }
 
 
 
@@ -75,7 +75,7 @@ body { padding-top: 70px; }
  * so that the container will not spread to the entire viewport.
 */
 
-.container-fluid { max-width: 1200px; }
+.container-fluid {width: 100%; }
 
 
 

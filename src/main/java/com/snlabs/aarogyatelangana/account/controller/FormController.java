@@ -61,6 +61,7 @@ public class FormController {
     @RequestMapping(value = {"nextClinicDetails.action"}, method = RequestMethod.POST)
     public String nextClinicDetails(@RequestBody ClinicAddress clinicAddress,
                                     HttpSession session, ModelMap model) {
+        model.clear();
         try {
             if (formService.saveClinicDetails(clinicAddress) != null) {
                 SectionA sectionA = new SectionA();
@@ -69,10 +70,11 @@ public class FormController {
                 model.put("sectionA", sectionA);
                 return "sectionA";
             } else {
+                model.put("error","Failed to Save Clinic Details");
                 return "clinicDetails";
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error:"+e.getMessage());
         }
         return null;
     }

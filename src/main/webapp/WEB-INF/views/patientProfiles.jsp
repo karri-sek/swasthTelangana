@@ -3,7 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="panel panel-default">
-    <div class="panel-heading">Patient Profiles</div>
+    <div class="panel-heading" align="center"><B>Patient Profiles</B></div>
+    <c:if test="${error != null}">
+        <div class="alert alert-danger" role="alert">${error}</div>
+    </c:if>
     <div class="panel-body">
         <fieldset>
             <form class="form-horizontal" method="POST" id="patientProfiles"
@@ -37,7 +40,7 @@
                                 <tr>
                                     <td><c:out value="${patient.patientID}"/></td>
                                     <td><c:out value="${patient.patientName}"/></td>
-                                    <td><c:out value="${patient.patientAddress.contactno}"/></td>
+                                    <td><c:out value="${patient.contactno}"/></td>
                                     <c:url value='/downLoadPatientProfile.action' var="url">
                                         <c:param name="filePath" value="${patient.formFDownloadPath}"/>
                                     </c:url>

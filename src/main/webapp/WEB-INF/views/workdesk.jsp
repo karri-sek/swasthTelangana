@@ -10,8 +10,6 @@
     <meta name="description" content="Swasth telangana work desk"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="shortcut icon" href="img/favicon.ico">
 </head>
 <body bgcolor="#edeff1" class="gray-lightest">
 <div class="container-fluid">

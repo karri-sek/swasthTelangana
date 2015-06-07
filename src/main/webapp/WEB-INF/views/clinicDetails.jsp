@@ -2,9 +2,12 @@
          pageEncoding="ISO-8859-1" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="panel panel-default">
-    <div class="panel-heading"><u>FORM F:Section A:To be filled in for
-        all Diagnostic Procedures/Tests</u>
+    <div class="panel-heading"><u><B>FORM F:Section A:To be filled in for
+        all Diagnostic Procedures/Tests</B></u>
     </div>
+    <c:if test="${error != null}">
+        <div class="alert alert-danger" role="alert">${error}</div>
+    </c:if>
     <div class="panel-body">
         <fieldset>
             <form class="form-horizontal" method="POST" name="clinicForm"
