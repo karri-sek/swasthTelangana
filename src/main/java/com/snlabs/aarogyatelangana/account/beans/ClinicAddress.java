@@ -8,7 +8,7 @@ public class ClinicAddress {
     private String district;
     private String state;
     private int pincode;
-    private Double contactNum;
+    private String contactNum;
     private String clinicName;
     private int patientID;
 
@@ -86,11 +86,11 @@ public class ClinicAddress {
         this.pincode = pincode;
     }
 
-    public Double getContactNum() {
+    public String getContactNum() {
         return contactNum;
     }
 
-    public void setContactNum(Double contactNum) {
+    public void setContactNum(String contactNum) {
         this.contactNum = contactNum;
     }
 

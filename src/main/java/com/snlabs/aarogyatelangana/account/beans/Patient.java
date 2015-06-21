@@ -20,15 +20,15 @@ public class Patient extends User implements Serializable {
     private String aadharNo;
     private PatientCurrentAddress patientCurrentAddress;
 
-    public long getContactno() {
+    public String getContactno() {
         return contactno;
     }
 
-    public void setContactno(long contactno) {
+    public void setContactno(String contactno) {
         this.contactno = contactno;
     }
 
-    private long contactno;
+    private String contactno;
 
     public PatientCurrentAddress getPatientCurrentAddress() {
         return patientCurrentAddress;

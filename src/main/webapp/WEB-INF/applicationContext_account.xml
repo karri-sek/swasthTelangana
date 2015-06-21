@@ -25,6 +25,7 @@
 
 	<bean id="accountDao" class="com.snlabs.aarogyatelangana.account.dao.AccountDaoImpl">
 		<property name="dataSource" ref="dataSource" />
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
 	<bean id="accountService"

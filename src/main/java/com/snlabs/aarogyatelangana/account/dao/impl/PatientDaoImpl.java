@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import com.snlabs.aarogyatelangana.account.beans.Form;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 public class PatientDaoImpl implements PatientDao {
 
@@ -24,13 +26,16 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public Patient save(Patient patient) {
+        System.out.println(" patient " + patient);
         StringBuilder insertPatientRecord = new StringBuilder();
         insertPatientRecord = insertPatientRecord.append("INSERT INTO ")
-                .append(AppConstants.PATIENT_TABLE).append("(F_PATIENT_NAME,")
-                .append(" F_PATIENT_ID,").append("F_AGE,").append("F_GENDER,").append("F_CREATED_BY,")
-                .append("F_CREATED_TIMESTAMP,").append("F_AADHAR_NO)").append("VALUES(?,?,?,?,?,SYSDATE(),?)");
+                .append(AppConstants.PATIENT_TABLE)
+                .append("(F_PATIENT_NAME,F_PATIENT_ID,F_AGE,F_GENDER,F_CREATED_BY,")
+                .append("F_CREATED_TIMESTAMP,F_AADHAR_NO,F_CONTACT_NO)")
+                .append("VALUES(?,?,?,?,?,SYSDATE(),?,?)");
         Object[] args = {patient.getPatientName(), patient.getPatientID(),
-                patient.getAge(), patient.getGender(), patient.getCreatedBy(), patient.getAadharNo()};
+                patient.getAge(), patient.getGender(), patient.getCreatedBy(), patient.getAadharNo(),
+                patient.getContactno()};
         try {
             if (jdbcTemplate.update(insertPatientRecord.toString(), args) > 0) {
                 if (patient.getPatientAddress() != null) {
@@ -55,7 +60,7 @@ public class PatientDaoImpl implements PatientDao {
                     .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY)")
                     .append("VALUES(?,?,?,?,?,?)");
             Object[] args = {patientID, patientAddress.getAddress().trim(),
-                             patientAddress.getDistrict(),
+                    patientAddress.getDistrict(),
                     patientAddress.getState(), patientAddress.getPincode(),
                     patientAddress.getCityName()};
             result = jdbcTemplate.update(insertPatientAddress.toString(), args);
@@ -70,12 +75,12 @@ public class PatientDaoImpl implements PatientDao {
         StringBuilder insertPatientAddress = new StringBuilder();
         insertPatientAddress.append("INSERT INTO ").append(AppConstants.PATIENT_CURRENT_ADDRESS)
                 .append("(F_PATIENT_ID,F_ADDRESS,")
-                .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY,F_SAME_AS_PRESENT_ADDRESS)")
-                .append("VALUES(?,?,?,?,?,?,?,?)");
+                .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY)")
+                .append("VALUES(?,?,?,?,?,?)");
         Object[] args = {patientID, patientAddress.getAddress().trim(),
-                         patientAddress.getDistrict(),patientAddress.getState(),
-                         patientAddress.getPincode(),patientAddress.getCityName(),
-                         patientAddress.getSameAsPresentAddress()};
+                patientAddress.getDistrict(), patientAddress.getState(),
+                patientAddress.getPincode(), patientAddress.getCityName()
+        };
         return jdbcTemplate.update(insertPatientAddress.toString(), args);
     }
 
@@ -210,8 +215,8 @@ public class PatientDaoImpl implements PatientDao {
 
         try {
             @SuppressWarnings("unchecked")
-            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(sb.toString(), args,
-                    new PatientRowMapper());
+            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(
+                    sb.toString(), args, new PatientRowMapper());
             for (User user : detailsList) {
                 if (user instanceof Patient) {
                     patient = (Patient) user;
@@ -226,6 +231,67 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
+    public List<Patient> searchPatientProfilesByCreator(
+            UserDetails userDetails, Form form) {
+        List<Patient> patientList = new ArrayList<Patient>();
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM T_PATIENT PAT, T_PATIENT_ADDRESS ADDR WHERE ")
+                .append("PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID ");
+
+        Object[] args = null;
+
+        if (form != null) {
+            if ("HealthCenterUser".equals(userDetails.getUserRole())) {
+                sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?").append(
+                        " AND PAT.F_CREATED_BY = ?");
+                args = new Object[]{form.getFromDate(), form.getToDate(),
+                        userDetails.getLoginId()};
+            } else if ("DistrictUser".equals(userDetails.getUserRole())) {
+                sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?").append(
+                        " AND ADDR.F_DISTRICT = ?");
+                args = new Object[]{form.getFromDate(), form.getToDate(),
+                        userDetails.getDistrict()};
+            } else if ("StateUser".equals(userDetails.getUserRole())) {
+                sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?").append(
+                        " AND ADDR.F_STATE = ?");
+                args = new Object[]{form.getFromDate(), form.getToDate(),
+                        userDetails.getState()};
+            } else if ("Administrator".equals(userDetails.getUserRole())) {
+                sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?");
+                args = new Object[]{form.getFromDate(), form.getToDate()};
+            }
+        } else {
+            if ("HealthCenterUser".equals(userDetails.getUserRole())) {
+                sb.append("AND PAT.F_CREATED_BY = ?");
+                args = new Object[]{userDetails.getLoginId()};
+            } else if ("DistrictUser".equals(userDetails.getUserRole())) {
+                sb.append("AND ADDR.F_DISTRICT = ?");
+                args = new Object[]{userDetails.getDistrict()};
+            } else if ("StateUser".equals(userDetails.getUserRole())) {
+                sb.append("AND ADDR.F_STATE = ?");
+                args = new Object[]{userDetails.getState()};
+            } else if ("Administrator".equals(userDetails.getUserRole())) {
+                args = new Object[]{};
+            }
+        }
+
+        try {
+            @SuppressWarnings("unchecked")
+            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(
+                    sb.toString(), args, new PatientRowMapper());
+            for (User user : detailsList) {
+                if (user instanceof Patient) {
+                    patientList.add((Patient) user);
+                }
+            }
+        } catch (EmptyResultDataAccessException ee) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return patientList;
+    }
+   /* @Override
     public List<Patient> searchPatientProfilesByCreator(UserDetails userDetails) {
         String createdBy = userDetails.getLoginId();
         List<Patient> detailsList = null;
@@ -233,7 +299,7 @@ public class PatientDaoImpl implements PatientDao {
             if (createdBy != null) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
-                        .append(" address.F_CONTACT_NO, patient.F_DOWNLOAD_PATH")
+                        .append(" patient.F_CONTACT_NO, patient.F_DOWNLOAD_PATH, patient.F_AADHAR_NO")
                         .append(" FROM ").append(AppConstants.PATIENT_TABLE).append(" patient,")
                         .append(AppConstants.PATIENT_ADDRESS).append(" address")
                         .append(" WHERE patient.F_CREATED_BY=?")
@@ -248,7 +314,7 @@ public class PatientDaoImpl implements PatientDao {
         } finally {
             return detailsList;
         }
-    }
+    }*/
 
     @Override
     public List<Patient> listPatientProfilesByDate(Date fromDate, Date toDate, UserDetails userDetails) {

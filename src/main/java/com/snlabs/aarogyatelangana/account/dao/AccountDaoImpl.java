@@ -13,41 +13,19 @@ import javax.sql.DataSource;
 
 public class AccountDaoImpl implements AccountDao {
 
+    // static Logger LOGGER = LoggerFactory.getLogger(AccountDaoImpl.class);
+
     private DataSource dataSource;
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+
+    private JdbcTemplate jdbcTemplate;
 
     public AccountDaoImpl() {
         // TODO Auto-generated constructor stub
     }
 
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    @Override
-    public boolean createAccount(NewUser user) {
-        String query = "INSERT INTO t_user_details (F_LOGIN_ID, F_PASSWORD, F_DISPLAY_NAME, F_ROLE) VALUES (?,?,?,?)";
-        Object[] args = new Object[]{user.getLoginId(), user.getPassword(),
-                user.getDisplayName(), user.getUserRole()};
-        int out = jdbcTemplate.update(query, args);
-        if (out != 0) {
-            System.out.println("Account saved with id=" + user.getLoginId());
-            return true;
-        } else {
-            System.out.println("Account save failed with id="
-                    + user.getLoginId());
-            return false;
-        }
-    }
-
     @Override
     public UserDetails getAccountDetails(LoginUser user) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        // JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT ");
@@ -58,9 +36,9 @@ public class AccountDaoImpl implements AccountDao {
         sb.append("ADDS.F_STATE, ");
         sb.append("RLS.F_ROLE ");
         sb.append("FROM ");
-        sb.append(AppConstants.USER_DETAILS).append(" DTL,");
-        sb.append(AppConstants.USER_ADDRESS).append(" ADDS,");
-        sb.append(AppConstants.USER_ROLES).append(" RLS ");
+        sb.append("DEMO.T_USER_DETAILS DTL, ");
+        sb.append("DEMO.T_USER_ADDRESS ADDS, ");
+        sb.append("DEMO.T_USER_ROLES RLS ");
         sb.append("WHERE ");
         sb.append("DTL.F_LOGIN_ID = ADDS.F_LOGIN_ID ");
         sb.append("AND DTL.F_LOGIN_ID = RLS.F_LOGIN_ID ");
@@ -100,7 +78,7 @@ public class AccountDaoImpl implements AccountDao {
         Object[] argsRole = new Object[]{user.getLoginId(),
                 user.getUserRole()};
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        // JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         try {
             int outDtl = jdbcTemplate.update(queryDtl, argsDtl);
@@ -108,16 +86,20 @@ public class AccountDaoImpl implements AccountDao {
             int outRole = jdbcTemplate.update(queryRole, argsRole);
 
             if (outDtl != 0 && outAddress != 0 && outRole != 0) {
-                //LOGGER.info("Account saved with id=" + user.getLoginId());
+                // LOGGER.info("Account saved with id=" + user.getLoginId());
                 return true;
             } else {
-                    /*LOGGER.info("Account save failed with id = "
-							+ user.getLoginId());*/
+                /*
+				 * LOGGER.info("Account save failed with id = " +
+				 * user.getLoginId());
+				 */
                 return false;
             }
         } catch (Exception e) {
-				/*LOGGER.info("Account save failed with  exception id = "
-						+ user.getLoginId());*/
+			/*
+			 * LOGGER.info("Account save failed with  exception id = " +
+			 * user.getLoginId());
+			 */
             return false;
         }
 
@@ -130,17 +112,38 @@ public class AccountDaoImpl implements AccountDao {
 
         Object[] args = new Object[]{user.getPassword(), user.getLoginId()};
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        // JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         int out = jdbcTemplate.update(query, args);
 
         if (out != 0) {
-				/*LOGGER.info("Existing account saved with id=" + user.getLoginId());*/
+			/*
+			 * LOGGER.info("Existing account saved with id=" +
+			 * user.getLoginId());
+			 */
             return true;
         } else {
-				/*LOGGER.info("Existing account save failed with id="
-						+ user.getLoginId());*/
+			/*
+			 * LOGGER.info("Existing account save failed with id=" +
+			 * user.getLoginId());
+			 */
             return false;
         }
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 }

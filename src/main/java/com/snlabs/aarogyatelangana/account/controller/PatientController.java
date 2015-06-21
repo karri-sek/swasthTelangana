@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import com.snlabs.aarogyatelangana.account.beans.Form;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -79,14 +80,13 @@ public class PatientController {
     }
 
     @RequestMapping(value = {"patientProfiles.action"}, method = RequestMethod.POST)
-    public ModelAndView patientProfiles(HttpSession session, ModelMap model) {
+    public ModelAndView patientProfiles(@RequestBody Form form, HttpSession session, ModelMap model) {
         ModelAndView modelAndView = new ModelAndView();
         model.clear();
         UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
         try {
             if (userDetails != null && userDetails.getLoginId() != null) {
-                List<Patient> patientProfiles = patientService
-                        .getPatientProfiles(userDetails);
+                List<Patient> patientProfiles = patientService.getPatientProfiles(userDetails, form);
                 try {
                     if (patientProfiles != null) {
                         modelAndView.addObject("patientProfiles", patientProfiles);
@@ -120,6 +120,8 @@ public class PatientController {
                 }
                 clinicAddress.setPatientName(patient.getPatientName());
                 model.put("clinicAddress", clinicAddress);
+                model.put("formName", "Clinic");
+                model.put("formSubName", "Address");
                 return "clinicDetails";
             } else {
                 session.setAttribute(
@@ -180,16 +182,22 @@ public class PatientController {
     }
 
     @RequestMapping(value = {"listPatientProfilesByDate.action"}, method = RequestMethod.POST)
-    public String listPatientProfilesByDate(HttpServletRequest request, HttpSession session, ModelMap model) {
+    public String listPatientProfilesByDate(@RequestBody Form form, HttpServletRequest request, HttpSession session, ModelMap model) {
         UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-        if (userDetails.getLoginId() != null) {
+        if (userDetails != null && userDetails.getLoginId() != null) {
             List<Patient> patientProfiles = patientService
-                    .getPatientProfiles(userDetails);
+                    .getPatientProfiles(userDetails, form);
             try {
                 if (patientProfiles != null) {
                     model.put("patientProfiles", patientProfiles);
+                    model.put("result",
+                            patientProfiles.size()
+                                    + " No of Profiles Found. Created by "
+                                    + userDetails.getLoginId());
+                } else {
+                    model.put("result", 0 + " No of Profiles Found. Created by " + userDetails.getLoginId());
                 }
-                model.put("result", patientProfiles.size() + " No of Profiles Found. Created by " + userDetails.getLoginId());
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -200,8 +208,7 @@ public class PatientController {
     }
 
     @RequestMapping(value = {"downLoadPatientProfile.action"}, method = RequestMethod.POST)
-    public void downLoadPatientProfile(HttpServletRequest request, HttpSession session,
-                                       HttpServletResponse response, ModelMap map, String filePath) {
+    public void downLoadPatientProfile(HttpServletRequest request, HttpSession session, HttpServletResponse response, ModelMap map, String filePath) {
         FileInputStream inputStream = null;
         ServletContext context = null;
         File file = null;

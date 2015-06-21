@@ -21,6 +21,8 @@ public class PatientProfileMapper implements RowMapper {
             patient.setPatientID(rs.getInt("F_PATIENT_ID"));
             patient.setPatientName(rs.getString("F_PATIENT_NAME"));
             patient.setFormFDownloadPath(rs.getString("F_DOWNLOAD_PATH"));
+            patient.setContactno(rs.getString("F_CONTACT_NO"));
+            patient.setAadharNo(rs.getString("F_AADHAR_NO"));
             patient.setPatientAddress(patientAddress);
             patientProfiles.add(patient);
         } while (rs.next());

@@ -1,7 +1,8 @@
-<div class="sidebar-nav">
-    <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-collapse collapse sidebar-navbar-collapse">
-            <ul class="nav navbar-nav">
+<header class="masthead">
+    <div class="masthead-inner">
+        <div class="center"><h1>Select Action</h1></div>
+        <div id="cssmenu">
+            <ul>
                 <li><a href="#"
                        onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');">New
                     Patient entry</a></li>
@@ -20,4 +21,4 @@
             </ul>
         </div>
     </div>
-</div>
+</header>

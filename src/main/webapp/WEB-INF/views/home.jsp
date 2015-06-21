@@ -9,7 +9,7 @@
     <title>Swasth Telangana</title>
     <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/img/login/icon.png">
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/dist/img/icon.png">
 </head>
 <body>
 <div class="container" style="margin-top:40px" id="canvas" name="canvas">
@@ -26,7 +26,7 @@
                             <div class="row">
                                 <div class="center-block">
                                     <img class="profile-img"
-                                         src="<%=request.getContextPath()%>/resources/img/login/icon.png"
+                                         src="<%=request.getContextPath()%>/resources/dist/img/icon.png"
                                          alt="swasthTelangana">
                                 </div>
                             </div>
@@ -71,8 +71,8 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/dist/js/app/jquery-2.1.3.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/dist/js/app/apputils.js"></script>
-<link href="<%=request.getContextPath()%>/resources/dist/css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/dist/js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/dist/js/apputils.js"></script>
+<link href="<%=request.getContextPath()%>/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 </body>
 </html>
