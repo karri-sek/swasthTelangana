@@ -1,60 +1,77 @@
-
 package com.snlabs.aarogyatelangana.account.beans;
 
 
 public class UserDetails {
 
-	private static String loginId;
-	private String displayName;
-	private String userRole;
-	private String lastlogin;
-	private String mobileNumber;
+    private static String loginId;
+    private String displayName;
+    private String userRole;
+    private String lastlogin;
+    private String mobileNumber;
+    private String district;
+    private String state;
 
-	public static String getLoginId() {
-		return loginId;
-	}
+    public String getDistrict() {
+        return district;
+    }
 
-	public static void setLoginId(String loginId) {
-		UserDetails.loginId = loginId;
-	}
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 
-	public String getDisplayName() {
-		return displayName;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	public String getUserRole() {
-		return userRole;
-	}
+    public String getLoginId() {
+        return loginId;
+    }
 
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
-	}
+    public void setLoginId(String loginId) {
+        UserDetails.loginId = loginId;
+    }
 
-	public String getLastlogin() {
-		return lastlogin;
-	}
+    public String getDisplayName() {
+        return displayName;
+    }
 
-	public void setLastlogin(String lastlogin) {
-		this.lastlogin = lastlogin;
-	}
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
+    public String getUserRole() {
+        return userRole;
+    }
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
 
-	@Override
-	public String toString() {
-		return "UserDetails [displayName=" + displayName + ", userRole="
-				+ userRole + ", lastlogin=" + lastlogin + ", mobileNumber="
-				+ mobileNumber + "]";
-	}
+    public String getLastlogin() {
+        return lastlogin;
+    }
 
+    public void setLastlogin(String lastlogin) {
+        this.lastlogin = lastlogin;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDetails [displayName=" + displayName + ", userRole="
+                + userRole + ", lastlogin=" + lastlogin + ", mobileNumber="
+                + mobileNumber + ", district=" + district + ", state=" + state
+                + "]";
+    }
 }

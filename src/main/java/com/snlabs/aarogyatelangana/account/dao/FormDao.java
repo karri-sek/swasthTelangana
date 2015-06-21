@@ -3,25 +3,33 @@ package com.snlabs.aarogyatelangana.account.dao;
 import com.snlabs.aarogyatelangana.account.beans.*;
 
 public interface FormDao {
-	public ClinicAddress saveClinicDetails(ClinicAddress clinicAddress);
+    public ClinicAddress saveClinicDetails(ClinicAddress clinicAddress);
 
-	public boolean update(Form form);
+    public boolean update(Form form);
 
-	public Form findByFormId(int formId);
+    public boolean updateClinicDetails(ClinicAddress clinicAddress);
 
-	public boolean delete(Form patient);
+    public boolean updateSectionA(SectionA sectionA);
 
-	public Form findByFromName(String formName);
+    public boolean updateNonInvasiveDetails(NonInvasive nonInvasive);
 
-	public Form searchFormByDateRange(String fromDate, String toDate);
+    public boolean updateInvasiveDetails(Invasive invasive);
 
-	public SectionA saveSectionA(SectionA sectionA);
+    public Form findByFormId(int formId);
 
-	public NonInvasive saveNonInvasive(NonInvasive nonInvasive);
+    public boolean delete(Form patient);
 
-	public Invasive saveInvasive(Invasive invasive);
-	
-	public Declaration saveDeclaration(Declaration declaration);
+    public Form findByFromName(String formName);
+
+    public Form searchFormByDateRange(String fromDate, String toDate);
+
+    public SectionA saveSectionA(SectionA sectionA);
+
+    public NonInvasive saveNonInvasive(NonInvasive nonInvasive);
+
+    public Invasive saveInvasive(Invasive invasive);
+
+    public Declaration saveDeclaration(Declaration declaration);
 
     public Patient getPatientDetails(int patientID);
 

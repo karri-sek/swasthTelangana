@@ -23,6 +23,18 @@ public class Invasive extends FormF {
 	private int patientID;
 	private String patientName;
 
+
+
+    public void setDiagnosisIndications(String diagnosisIndications) {
+        this.diagnosisIndications = diagnosisIndications;
+    }
+
+    public String getDiagnosisIndications() {
+        return diagnosisIndications;
+    }
+
+    private String diagnosisIndications;
+
 	private static Map<Integer, String> invasiveProcedures = new HashMap<Integer, String>();
 	private static Map<Integer, String> diagnosisBasis = new HashMap<Integer, String>();
 	private static Map<Integer, String> diagnosisIndication = new HashMap<Integer, String>();

@@ -6,7 +6,7 @@ public class ReferralAddress {
 	private String district;
 	private String state;
 	private int pincode;
-	private int contactNo;
+	private String contactNo;
 	private int addressID;
 
 	public String getReferralName() {
@@ -49,11 +49,11 @@ public class ReferralAddress {
 		this.pincode = pincode;
 	}
 
-	public int getContactNo() {
+	public String getContactNo() {
 		return contactNo;
 	}
 
-	public void setContactNo(int contactNo) {
+	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
 

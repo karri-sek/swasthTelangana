@@ -1,0 +1,27 @@
+/* Find the process on port ID*/
+netstat -a -o -n | grep "8080"
+/* Kill process running on this port ID*/
+kill -f 8080
+
+/* Login into MYSQL*/
+
+mysql -u root -p
+
+/* Command to build account war file*/
+mvn install
+/* location of application code in server*/
+/var/lib/easy-tomcat7/webapps/account
+
+/* Update user account user name */
+
+update T_USER_ADDRESS set F_LOGIN_ID = 'sekhar@gmail.com'
+where F_LOGIN_ID = 'sekhar';
+
+update t_user_details set F_LOGIN_ID = 'sekhar@gmail.com'
+where F_LOGIN_ID = 'sekhar';
+
+
+update T_USER_ROLES set F_LOGIN_ID = 'sekhar@gmail.com'
+where F_LOGIN_ID = 'sekhar';
+
+

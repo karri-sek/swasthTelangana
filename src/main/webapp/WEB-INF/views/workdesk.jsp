@@ -1,129 +1,767 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+         pageEncoding="ISO-8859-1" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-<meta charset="utf-8">
-<title>Swasth telangana work desk</title>
-<meta name="description" content="Swasth telangana work desk" />
-<meta name="viewport"
-	content="width=1000, initial-scale=1.0, maximum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="icon" href="../../../favicon.ico">
-    <script type="text/javascript"
-            src="<%=request.getContextPath()%>/resources/dist/js/vendor/jquery-2.1.3.js"></script>
-    <script type="text/javascript"
-            src="<%=request.getContextPath()%>/resources/dist/js/app/apputils.js"></script>
+    <meta charset="UTF-8">
+    <title>Swasth Telangana</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!-- Bootstrap 3.3.4 -->
+    <link href="<%=request.getContextPath()%>/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+          type="text/css"/>
 
-    <!-- Loading Bootstrap -->
-    <link
-            href="<%=request.getContextPath()%>/resources/dist/css/vendor/bootstrap.min.css"
-            rel="stylesheet">
-    <!-- Loading Flat UI -->
-    <link
-            href="<%=request.getContextPath()%>/resources/dist/css/flat-ui.css"
-            rel="stylesheet">
-    <link
-            href="<%=request.getContextPath()%>/resources/docs/assets/css/demo.css"
-            rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css"/>
+    <!-- Ionicons -->
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css"/>
 
-    <script type="text/javascript"
-            src="<%=request.getContextPath()%>/resources/dist/js/bootstrap/bootstrap.min.js"></script>
+    <%-- <!-- Font Awesome Icons -->
+     <link href="<%=request.getContextPath()%>/resources/dist/css/font-awesome.min.css" rel="stylesheet"
+           type="text/css"/>
+     <!-- Ionicons -->
+     <link href="<%=request.getContextPath()%>/resources/dist/css/ionicons.min.css" rel="stylesheet" type="text/css"/>--%>
+    <!-- jvectormap -->
+    <link href="<%=request.getContextPath()%>/resources/plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet"
+          type="text/css"/>
+    <!-- Theme style -->
+    <link href="<%=request.getContextPath()%>/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="<%=request.getContextPath()%>/resources/dist/css/skins/skin-blue.min.css" rel="stylesheet"
+          type="text/css"/>
 
-    <link rel="shortcut icon" href="img/favicon.ico">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-<body bgcolor="#edeff1">
-	<div class="container">
-		<br>
+<body class="skin-blue sidebar-mini">
+<div class="wrapper">
 
-		<div class="row demo-row">
-			<div class="col-xs-12">
-				<nav class="navbar navbar-inverse navbar-embossed" role="navigation">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target="#navbar-collapse-01">
-						<span class="sr-only">Toggle navigation</span>
-					</button>
-					<a class="navbar-brand" href="#"
-						onclick="submitForm('/account/backtohome.action', 'NO-DATA', 'containerdiv');">Home</a>
-				</div>
-				<div class="collapse navbar-collapse" id="navbar-collapse-01">
-					<ul class="nav navbar-nav navbar-left">
-						<li><a href="#"
-							onclick="submitForm('/account/newpatiententrytab.action', 'NO-DATA', 'lhndiv');">Patient
-								Entry<span class="navbar-unread">1</span>
-						</a></li>
-						<li><a href="#"
-							onclick="submitForm('/account/formftab.action', 'NO-DATA', 'lhndiv');">Form
-								F<span class="navbar-unread">1</span>
-						</a></li>
-						<li><a href="#"
-							onclick="submitForm('/account/userAccounttab.action', 'NO-DATA', 'lhndiv');">Account<span
-								class="navbar-unread">1</span>
-						</a></li>
+<header class="main-header">
 
-						<c:if test="${userDetails.userRole == 'Administrator'}">
-							<li><a href="#"
-								onclick="submitForm('/account/accountmanagementtab.action', 'NO-DATA', 'lhndiv');">Management<span
-									class="navbar-unread">1</span>
-							</a></li>
-						</c:if>
+<!-- Logo -->
+<a href="index2.html" class="logo">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>S</b>T</span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg"><b>Swasth</b>Telagana</span>
+</a>
 
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"
-							onclick="submitForm('/account/underconstruction.action', 'NO-DATA', 'containerdiv');">About
-								Us <b class="caret"></b>
-						</a> <span class="dropdown-arrow"></span>
-							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Link</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-							</ul></li>
-						<li>
-					</ul>
-					<form class="navbar-form navbar-right" action="#" role="search">
-						<div class="form-group">
-							<div class="input-group">
-								<span>
-									<button type="submit" class="btn"
-										onclick="submitForm('/account/home.action', 'NO-DATA', 'canvas');">
-										<span>Log out:${userDetails.displayName} </span>
-									</button>
-								</span>
-							</div>
-						</div>
-					</form>
-				</div>
-				</nav>
-			</div>
-		</div>
-		<!-- /row -->
+<!-- Header Navbar: style can be found in header.less -->
+<nav class="navbar navbar-static-top" role="navigation">
+<!-- Sidebar toggle button-->
+<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+    <span class="sr-only">Toggle navigation</span>
+</a>
+<!-- Navbar Right Menu -->
+<div class="navbar-custom-menu">
+<ul class="nav navbar-nav">
+<!-- Messages: style can be found in dropdown.less-->
+<li class="dropdown messages-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-envelope-o"></i>
+        <span class="label label-success">4</span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="header">You have 4 messages</li>
+        <li>
+            <!-- inner menu: contains the actual data -->
+            <ul class="menu">
+                <li><!-- start message -->
+                    <a href="#">
+                        <div class="pull-left">
+                            <img src="<%=request.getContextPath()%>/resources/dist/img/user2-160x160.jpg"
+                                 class="img-circle" alt="User Image"/>
+                        </div>
+                        <h4>
+                            Support Team
+                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                        </h4>
+                        <p>Why not buy a new awesome theme?</p>
+                    </a>
+                </li>
+                <!-- end message -->
+                <li>
+                    <a href="#">
+                        <div class="pull-left">
+                            <img src="<%=request.getContextPath()%>/resources/dist/img/user3-128x128.jpg"
+                                 class="img-circle" alt="user image"/>
+                        </div>
+                        <h4>
+                            AdminLTE Design Team
+                            <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                        </h4>
+                        <p>Why not buy a new awesome theme?</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="pull-left">
+                            <img src="<%=request.getContextPath()%>/resources/dist/img/user4-128x128.jpg"
+                                 class="img-circle" alt="user image"/>
+                        </div>
+                        <h4>
+                            Developers
+                            <small><i class="fa fa-clock-o"></i> Today</small>
+                        </h4>
+                        <p>Why not buy a new awesome theme?</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="pull-left">
+                            <img src="<%=request.getContextPath()%>/resources/dist/img/user3-128x128.jpg"
+                                 class="img-circle" alt="user image"/>
+                        </div>
+                        <h4>
+                            Sales Department
+                            <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                        </h4>
+                        <p>Why not buy a new awesome theme?</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="pull-left">
+                            <img src="<%=request.getContextPath()%>/resources/dist/img/user4-128x128.jpg"
+                                 class="img-circle" alt="user image"/>
+                        </div>
+                        <h4>
+                            Reviewers
+                            <small><i class="fa fa-clock-o"></i> 2 days</small>
+                        </h4>
+                        <p>Why not buy a new awesome theme?</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="footer"><a href="#">See All Messages</a></li>
+    </ul>
+</li>
+<!-- Notifications: style can be found in dropdown.less -->
+<li class="dropdown notifications-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>
+        <span class="label label-warning">10</span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="header">You have 10 notifications</li>
+        <li>
+            <!-- inner menu: contains the actual data -->
+            <ul class="menu">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                        page and may cause design problems
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-users text-red"></i> 5 new members joined
+                    </a>
+                </li>
 
-		<div class="row demo-samples">
-			<div class="col-xs-4" id="lhndiv">
-				<%@ include file="patiententrylhn.jsp"%>
-			</div>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-user text-red"></i> You changed your username
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="footer"><a href="#">View all</a></li>
+    </ul>
+</li>
+<!-- Tasks: style can be found in dropdown.less -->
+<li class="dropdown tasks-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-flag-o"></i>
+        <span class="label label-danger">9</span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="header">You have 9 tasks</li>
+        <li>
+            <!-- inner menu: contains the actual data -->
+            <ul class="menu">
+                <li><!-- Task item -->
+                    <a href="#">
+                        <h3>
+                            Design some buttons
+                            <small class="pull-right">20%</small>
+                        </h3>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
+                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                <span class="sr-only">20% Complete</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <!-- end task item -->
+                <li><!-- Task item -->
+                    <a href="#">
+                        <h3>
+                            Create a nice theme
+                            <small class="pull-right">40%</small>
+                        </h3>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
+                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                <span class="sr-only">40% Complete</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <!-- end task item -->
+                <li><!-- Task item -->
+                    <a href="#">
+                        <h3>
+                            Some task I need to do
+                            <small class="pull-right">60%</small>
+                        </h3>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
+                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                <span class="sr-only">60% Complete</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <!-- end task item -->
+                <li><!-- Task item -->
+                    <a href="#">
+                        <h3>
+                            Make beautiful transitions
+                            <small class="pull-right">80%</small>
+                        </h3>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
+                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                <span class="sr-only">80% Complete</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <!-- end task item -->
+            </ul>
+        </li>
+        <li class="footer">
+            <a href="#">View all tasks</a>
+        </li>
+    </ul>
+</li>
+<!-- User Account: style can be found in dropdown.less -->
+<li class="dropdown user user-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <img src="<%=request.getContextPath()%>/resources/dist/img/user2-160x160.jpg" class="user-image"
+             alt="User Image"/>
+        <span class="hidden-xs">Sekhar Karri</span>
+    </a>
+    <ul class="dropdown-menu">
+        <!-- User image -->
+        <li class="user-header">
+            <img src="<%=request.getContextPath()%>/resources/dist/img/user2-160x160.jpg" class="img-circle"
+                 alt="User Image"/>
 
-			<div class="col-xs-8, col-lg-8 col-md-8">
-				<div id="containerdiv">
-					<div class="login-form">
-						&nbsp;&nbsp; Hi ${userDetails.displayName}
-						(${userDetails.userRole}), Welcome to Swasth telangana.<br /> <br />
-						<br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-						<br /> <br />
-					</div>
-					<br />
-				</div>
-			</div>
-		</div>
-	</div>
+            <p>
+                Sekhar karri - Web Developer
+                <small>Member since Nov. 2015</small>
+            </p>
+        </li>
+        <!-- Menu Body -->
+        <li class="user-body">
+            <div class="col-xs-4 text-center">
+                <a href="#">Followers</a>
+            </div>
+            <div class="col-xs-4 text-center">
+                <a href="#">Sales</a>
+            </div>
+            <div class="col-xs-4 text-center">
+                <a href="#">Friends</a>
+            </div>
+        </li>
+        <!-- Menu Footer-->
+        <li class="user-footer">
+            <div class="pull-left">
+                <a href="#" class="btn btn-default btn-flat">Profile</a>
+            </div>
+            <div class="pull-right">
+                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+            </div>
+        </li>
+    </ul>
+</li>
+<!-- Control Sidebar Toggle Button -->
+<li>
+    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+</li>
+</ul>
+</div>
+
+</nav>
+</header>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="<%=request.getContextPath()%>/resources/dist/img/user2-160x160.jpg" class="img-circle"
+                     alt="User Image"/>
+            </div>
+            <div class="pull-left info">
+                <p>Sekhar Karri</p>
+
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+        </div>
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search..."/>
+              <span class="input-group-btn">
+                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <li class="header">SELECT AN ACTION</li>
+            <li class="active">
+                <a href="#" onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');">
+                    <i class="fa fa-th"></i> <span>Patient Entry</span>
+                    <small class="label pull-right bg-green">new</small>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Search</span> <i class="fa fa-search pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"
+                           onclick="submitForm('/account/patientIdReportDetails.action', 'NO-DATA', 'containerdiv');">
+                        <i class="fa fa-circle-o"></i>Search by Patient ID</a></li>
+                    <li><a href="#"
+                           onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');">
+                        <i class="fa fa-circle-o"></i>Search by Patient Name</a></li>
+                    <li><a href="#"
+                           onclick="submitForm('/account/formMobileReportDetails.action', 'NO-DATA', 'containerdiv');">
+                        <i class="fa fa-circle-o"></i>Search by Patient Mobile No</a></li>
+                    <li><a href="#"
+                           onclick="submitForm('/account/formAadharReportDetails.action', 'NO-DATA', 'containerdiv');">
+                        <i class="fa fa-circle-o"></i>Search by Patient Aadhar No</a></li>
+                    <li><a href="#"
+                           onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">
+                        <i class="fa fa-circle-o"></i>Search by Dates</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Account</span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"
+                           onclick="submitForm('/account/createaccount.action', 'NO-DATA', 'containerdiv');"><i
+                            class="fa fa-circle-o"></i> Create Account</a></li>
+                    <li><a href="#"
+                           onclick="submitForm('/account/updateaccount.action', 'NO-DATA', 'containerdiv');"><i
+                            class="fa fa-circle-o"></i> Update Account</a></li>
+                    <li><a href="#"
+                           onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');"><i
+                            class="fa fa-circle-o"></i>List Accounts</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" onclick="submitForm('/account/patientProfiles.action', 'NO-DATA', 'containerdiv');">
+                    <i class="fa fa-th"></i> <span>List Patient Profiles</span>
+                    <small class="label pull-right bg-green">new</small>
+                </a>
+            </li>
+            <%-- <li class="treeview">
+                 <a href="#">
+                     <i class="fa fa-laptop"></i>
+                     <span>UI Elements</span>
+                     <i class="fa fa-angle-left pull-right"></i>
+                 </a>
+                 <ul class="treeview-menu">
+                     <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>
+                     <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
+                     <li><a href="pages/UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
+                     <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Sliders</a></li>
+                     <li><a href="pages/UI/timeline.html"><i class="fa fa-circle-o"></i> Timeline</a></li>
+                     <li><a href="pages/UI/modals.html"><i class="fa fa-circle-o"></i> Modals</a></li>
+                 </ul>
+             </li>--%>
+            <%--  <li class="treeview">
+                  <a href="#">
+                      <i class="fa fa-edit"></i> <span>Forms</span>
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </a>
+                  <ul class="treeview-menu">
+                      <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
+                      <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
+                      <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                  </ul>
+              </li>--%>
+            <%--<li class="treeview">
+                <a href="#">
+                    <i class="fa fa-table"></i> <span>Tables</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
+                    <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+                </ul>
+            </li>--%>
+            <%-- <li>
+                 <a href="pages/calendar.html">
+                     <i class="fa fa-calendar"></i> <span>Calendar</span>
+                     <small class="label pull-right bg-red">3</small>
+                 </a>
+             </li>
+             <li>
+                 <a href="pages/mailbox/mailbox.html">
+                     <i class="fa fa-envelope"></i> <span>Mailbox</span>
+                     <small class="label pull-right bg-yellow">12</small>
+                 </a>
+             </li>--%>
+            <%-- <li class="treeview">
+                 <a href="#">
+                     <i class="fa fa-folder"></i> <span>Examples</span>
+                     <i class="fa fa-angle-left pull-right"></i>
+                 </a>
+                 <ul class="treeview-menu">
+                     <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
+                     <li><a href="pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
+                     <li><a href="pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
+                     <li><a href="pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
+                     <li><a href="pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
+                     <li><a href="pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
+                     <li><a href="pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
+                 </ul>
+             </li>--%>
+            <%-- <li class="treeview">
+                 <a href="#">
+                     <i class="fa fa-share"></i> <span>Multilevel</span>
+                     <i class="fa fa-angle-left pull-right"></i>
+                 </a>
+                 <ul class="treeview-menu">
+                     <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                     <li>
+                         <a href="#"><i class="fa fa-circle-o"></i> Level One <i class="fa fa-angle-left pull-right"></i></a>
+                         <ul class="treeview-menu">
+                             <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
+                             <li>
+                                 <a href="#"><i class="fa fa-circle-o"></i> Level Two <i
+                                         class="fa fa-angle-left pull-right"></i></a>
+                                 <ul class="treeview-menu">
+                                     <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                     <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
+                                 </ul>
+                             </li>
+                         </ul>
+                     </li>
+                     <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                 </ul>
+             </li>--%>
+            <%--<li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+            <li class="header">LABELS</li>
+            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>--%>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <c:if test="${error != null}">
+            <div class="alert alert-danger" role="alert">${error}</div>
+        </c:if>
+        <c:if test="${formName != null}">
+            <h1>
+                    ${formName}
+                <small>${formSubName}</small>
+            </h1>
+        </c:if>
+        <h1>
+            Patient
+            <small>Entry</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div id="containerdiv">
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane" id="control-sidebar-home-tab">
+            <h3 class="control-sidebar-heading">Recent Activity</h3>
+            <ul class='control-sidebar-menu'>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                            <p>Will be 23 on April 24th</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-user bg-yellow"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                            <p>New phone +1(800)555-1234</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                            <p>nora@example.com</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                            <p>Execution time 5 seconds</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+
+            <h3 class="control-sidebar-heading">Tasks Progress</h3>
+            <ul class='control-sidebar-menu'>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Custom Template Design
+                            <span class="label label-danger pull-right">70%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Update Resume
+                            <span class="label label-success pull-right">95%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Laravel Integration
+                            <span class="label label-warning pull-right">50%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript::;'>
+                        <h4 class="control-sidebar-subheading">
+                            Back End Framework
+                            <span class="label label-primary pull-right">68%</span>
+                        </h4>
+
+                        <div class="progress progress-xxs">
+                            <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.control-sidebar-menu -->
+
+        </div>
+        <!-- /.tab-pane -->
+
+        <!-- Settings tab content -->
+        <div class="tab-pane" id="control-sidebar-settings-tab">
+            <form method="post">
+                <h3 class="control-sidebar-heading">General Settings</h3>
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Report panel usage
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+
+                    <p>
+                        Some information about this general settings option
+                    </p>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Allow mail redirect
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+
+                    <p>
+                        Other sets of options are available
+                    </p>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Expose author name in posts
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+
+                    <p>
+                        Allow the user to show his name in blog posts
+                    </p>
+                </div>
+                <!-- /.form-group -->
+
+                <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Show me as online
+                        <input type="checkbox" class="pull-right" checked/>
+                    </label>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Turn off notifications
+                        <input type="checkbox" class="pull-right"/>
+                    </label>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="form-group">
+                    <label class="control-sidebar-subheading">
+                        Delete chat history
+                        <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+                    </label>
+                </div>
+                <!-- /.form-group -->
+            </form>
+        </div>
+        <!-- /.tab-pane -->
+    </div>
+</aside>
+<!-- /.control-sidebar -->
+<!-- Add the sidebar's background. This div must be placed
+     immediately after the control sidebar -->
+<div class='control-sidebar-bg'></div>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.1.4 -->
+<script src="<%=request.getContextPath()%>/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="<%=request.getContextPath()%>/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- FastClick -->
+<script src='<%=request.getContextPath()%>/resources/plugins/fastclick/fastclick.min.js'></script>
+<!-- AdminLTE App -->
+<script src="<%=request.getContextPath()%>/resources/dist/js/app.js" type="text/javascript"></script>
+<!-- Sparkline -->
+<script src="<%=request.getContextPath()%>/resources/plugins/sparkline/jquery.sparkline.min.js"
+        type="text/javascript"></script>
+<!-- jvectormap -->
+<script src="<%=request.getContextPath()%>/resources/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"
+        type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resources/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"
+        type="text/javascript"></script>
+<!-- SlimScroll 1.3.0 -->
+<script src="<%=request.getContextPath()%>/resources/plugins/slimScroll/jquery.slimscroll.min.js"
+        type="text/javascript"></script>
+<!-- ChartJS 1.0.1 -->
+<script src="<%=request.getContextPath()%>/resources/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
+<link href="<%=request.getContextPath()%>/resources/plugins/iCheck/all.css" rel="stylesheet" type="text/css"/>
+
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<%--<script src="<%=request.getContextPath()%>/resources/dist/js/pages/dashboard2.js" type="text/javascript"></script>--%>
+
+<!-- AdminLTE for demo purposes -->
+<%--<script src="<%=request.getContextPath()%>/resources/dist/js/demo.js" type="text/javascript"></script>--%>
+<%--<script type="text/javascript"
+        src="<%=request.getContextPath()%>/resources/dist/js/jquery-2.1.3.js"></script>--%>
+<script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"
+        type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"
+        type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resources/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<!-- daterange picker -->
+<link href="<%=request.getContextPath()%>/resources/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript"
+        src="<%=request.getContextPath()%>/resources/dist/js/apputils.js"></script>
+
 
 </body>
 </html>

@@ -1,63 +1,24 @@
-<script type="text/javascript">	
-$(document).ready(function() {
-	submitForm('/account/backtohome.action', 'NO-DATA', 'containerdiv');
-});
-</script>
-
-<div class="todo">
-	<div class="todo-search">
-		<span class="todo-search-field">Select your option</span>
-	</div>
-	<ul>
-		<li class="todo-done">
-			<div class="todo-icon fui-user"></div>
-			<div class="todo-content">
-				<h4 class="todo-name">
-					<a href="#"
-						onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');"><strong><br>New
-							Patient entry</strong> </a>
-				</h4>
-			</div>
-		</li>
-		<li>
-			<div class="todo-icon fui-eye"></div>
-			<div class="todo-content">
-				<h4 class="todo-name">
-					<a href="#"
-						onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');"><strong><br>Search
-							by name</strong></a>
-				</h4>
-			</div>
-		</li>
-		<li>
-			<div class="todo-icon fui-eye"></div>
-			<div class="todo-content">
-				<h4 class="todo-name">
-					<a href="#"
-						onclick="submitForm('/account/patientIdReportDetails.action', 'NO-DATA', 'containerdiv');"><strong><br>Search
-							by ID</strong></a>
-				</h4>
-			</div>
-		</li>
-		<li>
-			<div class="todo-icon fui-eye"></div>
-			<div class="todo-content">
-				<h4 class="todo-name">
-					<a href="#"
-						onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');"><strong><br>Search
-							with dates</strong></a>
-				</h4>
-			</div>
-		</li>
-		<li>
-			<div class="todo-icon fui-eye"></div>
-			<div class="todo-content">
-				<h4 class="todo-name">
-					<a href="#"
-						onclick="submitForm('/account/patientProfiles.action', 'NO-DATA', 'containerdiv');"><strong><br>Patient
-							Profiles</strong></a>
-				</h4>
-			</div>
-		</li>
-	</ul>
-</div>
+<header class="masthead">
+    <div class="masthead-inner">
+        <div class="center"><h1>Select Action</h1></div>
+        <div id="cssmenu">
+            <ul>
+                <li><a href="#"
+                       onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');">New
+                    Patient entry</a></li>
+                <li><a href="#"
+                       onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');">Search
+                    by name</a></li>
+                <li><a href="#"
+                       onclick="submitForm('/account/patientIdReportDetails.action', 'NO-DATA', 'containerdiv');">Search
+                    by ID</a></li>
+                <li><a href="#"
+                       onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">Search
+                    with dates</a></li>
+                <li><a href="#"
+                       onclick="submitForm('/account/patientProfiles.action', 'NO-DATA', 'containerdiv');">Patient
+                    Profiles</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
