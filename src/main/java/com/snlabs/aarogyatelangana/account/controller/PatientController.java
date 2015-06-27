@@ -5,19 +5,25 @@ import com.snlabs.aarogyatelangana.account.beans.Patient;
 import com.snlabs.aarogyatelangana.account.beans.UserDetails;
 import com.snlabs.aarogyatelangana.account.service.FormService;
 import com.snlabs.aarogyatelangana.account.service.PatientService;
+import com.snlabs.aarogyatelangana.account.spring.SessionParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.snlabs.aarogyatelangana.account.beans.Form;
+import com.snlabs.aarogyatelangana.account.exceptions.LoginRequiredException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
@@ -59,9 +65,8 @@ public class PatientController {
     }
 
     @RequestMapping(value = {"enterPatientDetails.action"}, method = RequestMethod.POST)
-    public String enterPatientDetails(HttpSession session, ModelMap model, String patientID) {
+    public String enterPatientDetails(@SessionParam(value = "userDetails") UserDetails userDetails, HttpSession session, ModelMap model, String patientID) {
         try {
-            UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
             model.clear();
             System.out.println("Patient ID" + patientID);
             if (patientID != null) {
@@ -243,5 +248,10 @@ public class PatientController {
                 e.printStackTrace();
             }
         }
+    }
+    
+    @ExceptionHandler(LoginRequiredException.class)
+    public String handleLoginRequiredException(LoginRequiredException ex) {
+        return "loginredirect";
     }
 }
