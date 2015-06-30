@@ -15,6 +15,8 @@
           type="text/css"/>
     <link href="<%=request.getContextPath()%>/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
     
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/dist/img/icon.png">
+    
     <link rel="stylesheet" href="http://css-spinners.com/css/spinner/spinner.css" type="text/css">
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
@@ -132,10 +134,10 @@
                            onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');">
                         <i class="fa fa-angle-double-right"></i>by Name</a></li>
                     <li><a href="#"
-                           onclick="submitForm('/account/formMobileReportDetails.action', 'NO-DATA', 'containerdiv');">
+                           onclick="submitForm('/account/patientContactReportDetails.action', 'NO-DATA', 'containerdiv');">
                         <i class="fa fa-angle-double-right"></i>by Mobile No</a></li>
                     <li><a href="#"
-                           onclick="submitForm('/account/formAadharReportDetails.action', 'NO-DATA', 'containerdiv');">
+                           onclick="submitForm('/account/patientAadharReportDetails.action', 'NO-DATA', 'containerdiv');">
                         <i class="fa fa-angle-double-right"></i>by Aadhar No</a></li>
                     <li><a href="#"
                            onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">

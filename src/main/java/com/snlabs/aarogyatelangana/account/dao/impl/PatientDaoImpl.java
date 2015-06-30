@@ -26,19 +26,20 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public Patient save(Patient patient) {
+    	//FIXME : F_CONTACT_NO should not be there in T_PATIENT table
         System.out.println(" patient " + patient);
         StringBuilder insertPatientRecord = new StringBuilder();
         insertPatientRecord = insertPatientRecord.append("INSERT INTO ")
                 .append(AppConstants.PATIENT_TABLE)
                 .append("(F_PATIENT_NAME,F_PATIENT_ID,F_AGE,F_GENDER,F_CREATED_BY,")
-                .append("F_CREATED_TIMESTAMP,F_AADHAR_NO,F_CONTACT_NO)")
-                .append("VALUES(?,?,?,?,?,SYSDATE(),?,?)");
+                .append("F_CREATED_TIMESTAMP,F_AADHAR_NO) ")
+                .append("VALUES(?,?,?,?,?,SYSDATE(),?)");
         Object[] args = {patient.getPatientName(), patient.getPatientID(),
-                patient.getAge(), patient.getGender(), patient.getCreatedBy(), patient.getAadharNo(),
-                patient.getContactno()};
+                patient.getAge(), patient.getGender(), patient.getCreatedBy(), patient.getAadharNo()};
         try {
             if (jdbcTemplate.update(insertPatientRecord.toString(), args) > 0) {
                 if (patient.getPatientAddress() != null) {
+                	patient.getPatientAddress().setContactno(patient.getContactno());
                     savePatientAddress(patient.getPatientID(), patient.getPatientAddress());
                 }
                 if (patient.getPatientCurrentAddress() != null) {
@@ -57,12 +58,12 @@ public class PatientDaoImpl implements PatientDao {
         try {
             insertPatientAddress.append("INSERT INTO ").append(AppConstants.PATIENT_ADDRESS)
                     .append("(F_PATIENT_ID,F_ADDRESS,")
-                    .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY)")
-                    .append("VALUES(?,?,?,?,?,?)");
+                    .append("F_DISTRICT,F_STATE,F_PINCODE,F_CITY, F_CONTACT_NO) ")
+                    .append("VALUES(?,?,?,?,?,?,?)");
             Object[] args = {patientID, patientAddress.getAddress().trim(),
                     patientAddress.getDistrict(),
                     patientAddress.getState(), patientAddress.getPincode(),
-                    patientAddress.getCityName()};
+                    patientAddress.getCityName(), patientAddress.getContactno()};
             result = jdbcTemplate.update(insertPatientAddress.toString(), args);
         } catch (Exception e) {
             System.out.println("Exception " + e);
@@ -291,30 +292,63 @@ public class PatientDaoImpl implements PatientDao {
         }
         return patientList;
     }
-   /* @Override
-    public List<Patient> searchPatientProfilesByCreator(UserDetails userDetails) {
-        String createdBy = userDetails.getLoginId();
-        List<Patient> detailsList = null;
+    
+    @Override
+    public Patient searchPatient(Patient pat, UserDetails userDetails, String searchType) {
+        Patient patient = null;
+        Object[] args = null;
+        
+        if("Administrator".equals(userDetails.getUserRole())){
+        	args = new Object[1];
+        }else{
+        	args = new Object[2];
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM T_PATIENT PAT, T_PATIENT_ADDRESS ADDR WHERE ")
+                .append("PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ");
+        
+        if("ID".equals(searchType)){
+        	sb.append("PAT.F_PATIENT_ID = ? ");
+        	args[0] = pat.getPatientID();
+        }else if("NAME".equals(searchType)){
+            sb.append("PAT.F_PATIENT_NAME = ? ");
+            args[0] = pat.getPatientName();
+        }else if("CONTACTNO".equals(searchType)){
+            sb.append("ADDR.F_CONTACT_NO = ? ");
+            args[0] = pat.getContactno();
+        }else if("AADHAR".equals(searchType)){
+            sb.append("PAT.F_AADHAR_NO = ? ");
+            args[0] = pat.getAadharNo();
+        }
+        
+        if ("HealthCenterUser".equals(userDetails.getUserRole())) {
+            sb.append("AND PAT.F_CREATED_BY = ?");
+            args[1] = userDetails.getLoginId();
+        } else if ("DistrictUser".equals(userDetails.getUserRole())) {
+            sb.append("AND ADDR.F_DISTRICT = ?");
+            args[1] = userDetails.getDistrict();
+        } else if ("StateUser".equals(userDetails.getUserRole())) {
+            sb.append("AND ADDR.F_STATE = ?");
+            args[1] = userDetails.getState();
+        }
+
         try {
-            if (createdBy != null) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("SELECT patient.F_PATIENT_ID, patient.F_PATIENT_NAME,")
-                        .append(" patient.F_CONTACT_NO, patient.F_DOWNLOAD_PATH, patient.F_AADHAR_NO")
-                        .append(" FROM ").append(AppConstants.PATIENT_TABLE).append(" patient,")
-                        .append(AppConstants.PATIENT_ADDRESS).append(" address")
-                        .append(" WHERE patient.F_CREATED_BY=?")
-                        .append(" AND patient.F_PATIENT_ID=address.F_PATIENT_ID");
-                Object[] args = new Object[]{createdBy};
-                detailsList = (List<Patient>) jdbcTemplate.queryForObject(sb.toString(), args,
-                        new PatientProfileMapper());
+            @SuppressWarnings("unchecked")
+            List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(
+                    sb.toString(), args, new PatientRowMapper());
+            for (User user : detailsList) {
+                if (user instanceof Patient) {
+                    patient = (Patient) user;
+                }
             }
+        } catch (EmptyResultDataAccessException ee) {
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(" Error:" + e.getMessage());
-        } finally {
-            return detailsList;
         }
-    }*/
+        return patient;
+    }
 
     @Override
     public List<Patient> listPatientProfilesByDate(Date fromDate, Date toDate, UserDetails userDetails) {

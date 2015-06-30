@@ -3,6 +3,10 @@ package com.snlabs.aarogyatelangana.account.beans;
 import java.io.Serializable;
 
 public class PatientAddress implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7855220043544010300L;
 	private String district;
 	private String state;
 	private int pincode;
@@ -10,6 +14,7 @@ public class PatientAddress implements Serializable{
 	private int patientAddressID;
 	private String address;
     private String currentAddress;
+    private String contactno;
 
     public String getCityName() {
         return cityName;
@@ -19,10 +24,15 @@ public class PatientAddress implements Serializable{
         this.cityName = cityName;
     }
 
+    public String getContactno() {
+		return contactno;
+	}
 
+	public void setContactno(String contactno) {
+		this.contactno = contactno;
+	}
 
-
-    public String getCurrentAddress() {
+	public String getCurrentAddress() {
         return currentAddress;
     }
 

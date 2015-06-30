@@ -13,9 +13,10 @@ public interface PatientService {
 
     public Patient searchPatientById(int patientId, UserDetails userDetails);
 
-    public Patient searchPatientByName(String patientName, UserDetails userDetails);
-
     public List<Patient> getPatientProfiles(UserDetails userDetails, Form form);
 
     public List<Patient> getPatientProfilesByDate(Date fromDate, Date tillDate, UserDetails userDetails);
+
+	Patient searchPatient(Patient pat, UserDetails userDetails,
+			String searchType);
 }

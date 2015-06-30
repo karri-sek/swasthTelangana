@@ -33,6 +33,7 @@ public class PatientRowMapper implements RowMapper {
             PatientAddress patientAddress = new PatientAddress();
 
             patientAddress.setAddress(rs.getString("F_ADDRESS"));
+            patientAddress.setContactno(rs.getString("F_CONTACT_NO"));
             patientAddress.setCurrentAddress(rs.getString("F_CURRENT_ADDRESS"));
             patientAddress.setDistrict(rs.getString("F_DISTRICT"));
             patientAddress.setState(rs.getString("F_STATE"));

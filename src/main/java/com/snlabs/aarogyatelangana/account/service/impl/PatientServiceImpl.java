@@ -43,13 +43,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient searchPatientById(int patientId, UserDetails userDetails) {
         return patientDao.searchPatientById(patientId, userDetails);
-    }
-
-    @Override
-    public Patient searchPatientByName(String patientName, UserDetails userDetails) {
-        return patientDao.searchPatientByName(patientName, userDetails);
-    }
-
+    }   
     public static HashMap<String, String> getPatientSessionMap() {
         return patientSessionMap;
     }
@@ -68,5 +62,11 @@ public class PatientServiceImpl implements PatientService {
     public List<Patient> getPatientProfilesByDate(Date fromDate, Date toDate, UserDetails userDetails) {
         return patientDao.listPatientProfilesByDate(fromDate, toDate, userDetails);
     }
+
+	@Override
+	public Patient searchPatient(Patient pat, UserDetails userDetails,
+			String searchType) {
+		return patientDao.searchPatient(pat, userDetails, searchType);
+	}
 
 }

@@ -20,7 +20,18 @@ public class Patient extends User implements Serializable {
     private String aadharNo;
     private PatientCurrentAddress patientCurrentAddress;
 
-    public String getContactno() {
+    //As per the design standerds this field should not be here, but to make search easy going with this option.
+    private String searchType;
+    
+    public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getContactno() {
         return contactno;
     }
 

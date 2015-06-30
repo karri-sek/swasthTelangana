@@ -11,6 +11,7 @@ public class ClinicAddress {
     private String contactNum;
     private String clinicName;
     private int patientID;
+    private String patientName;
 
     public String getPatientName() {
         return patientName;
@@ -19,8 +20,6 @@ public class ClinicAddress {
     public void setPatientName(String patientName) {
         this.patientName = patientName;
     }
-
-    private String patientName;
 
     public int getPatientID() {
         return patientID;

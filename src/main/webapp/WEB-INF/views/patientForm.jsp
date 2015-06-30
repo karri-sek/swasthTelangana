@@ -1,8 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Horizontal Form -->
-<form class="form-horizontal" method="POST" id="patientDetails">
+<form class="form-horizontal" method="POST" id="patientDetails" name="patientDetails">
     <div class="box box-info">
         <div class="box-header with-border">
             <h3 class="box-title">Patient Details</h3>
@@ -194,5 +192,6 @@
             <!-- /.box-footer -->
             <input type="hidden" id="formID" name="createdBy" value="${loginID}"/>
             <input type="hidden" id="patientID" name="patientID" value="${patient.patientID}"/>
+            <input type="hidden" name="searchType" value="NA">
     </div>
 </form>

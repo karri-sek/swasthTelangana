@@ -17,5 +17,7 @@ public interface PatientDao {
     public Patient searchPatientByName(String patientName, UserDetails userDetails);
     public List<Patient> searchPatientProfilesByCreator(UserDetails userDetails, Form form);
     public List<Patient> listPatientProfilesByDate(Date fromDate, Date toDate, UserDetails userDetails);
+	Patient searchPatient(Patient pat, UserDetails userDetails,
+			String searchType);
 
 }

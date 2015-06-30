@@ -89,6 +89,16 @@ public class ReportController {
     public String viewPatientNameReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
         return "patientNameReport";
     }
+    
+    @RequestMapping(value = {"patientContactReportDetails.action"}, method = RequestMethod.POST)
+    public String viewPatientContactReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "patientContactReport";
+    }
+    
+    @RequestMapping(value = {"patientAadharReportDetails.action"}, method = RequestMethod.POST)
+    public String viewPatientAadharReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "patientAadharReport";
+    }
 
     @RequestMapping(value = {"patientIdReportDetails.action"}, method = RequestMethod.POST)
     public String viewPatientIdReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {

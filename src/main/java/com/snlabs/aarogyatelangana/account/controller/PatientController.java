@@ -41,14 +41,14 @@ public class PatientController {
     public FormService formService;
 
     @RequestMapping(value = {"savePatientDetails.action"}, method = RequestMethod.POST)
-    public String savePatientDetails(@RequestBody Patient patient,
+    public String savePatientDetails(@SessionParam(value = "userDetails") UserDetails userDetails, @RequestBody Patient patient,
                                      HttpSession session, ModelMap model) {
         Patient resultPatient;
         try {
             if (session.getAttribute("userDetails") == null) {
                 model.put("error", "Unable to get userDetails from session");
             }
-            String createdBy = ((UserDetails) session.getAttribute("userDetails")).getLoginId();
+            String createdBy = ((UserDetails) userDetails).getLoginId();
             resultPatient = patientService.createPatientRecord(patient);
             if (resultPatient != null) {
                 patient.setCreatedBy(createdBy);
@@ -85,10 +85,9 @@ public class PatientController {
     }
 
     @RequestMapping(value = {"patientProfiles.action"}, method = RequestMethod.POST)
-    public ModelAndView patientProfiles(@RequestBody Form form, HttpSession session, ModelMap model) {
+    public ModelAndView patientProfiles(@SessionParam(value = "userDetails") UserDetails userDetails, @RequestBody Form form, HttpSession session, ModelMap model) {
         ModelAndView modelAndView = new ModelAndView();
         model.clear();
-        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
         try {
             if (userDetails != null && userDetails.getLoginId() != null) {
                 List<Patient> patientProfiles = patientService.getPatientProfiles(userDetails, form);
@@ -114,7 +113,7 @@ public class PatientController {
     }
 
     @RequestMapping(value = {"savePatientDetailsAndContinue.action"}, method = RequestMethod.POST)
-    public String savePatientDetailsAndContinue(@RequestBody Patient patient,
+    public String savePatientDetailsAndContinue(@SessionParam(value = "userDetails") UserDetails userDetails, @RequestBody Patient patient,
                                                 HttpSession session, ModelMap model) {
         try {
             if (patientService.createPatientRecord(patient) != null) {
@@ -148,47 +147,18 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @RequestMapping(value = {"searchReportByPatientId.action"}, method = RequestMethod.POST)
-    public String searchReportByPatientId(@RequestBody Patient patient,
+    
+    @RequestMapping(value = {"patientSearchReport.action"}, method = RequestMethod.POST)
+    public String patientSearchReport(@SessionParam(value = "userDetails") UserDetails userDetails, @RequestBody Patient patient,
                                           HttpSession session, ModelMap map) {
-        Integer patientId = patient.getPatientID();
-        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-        Patient resultForm = patientService.searchPatientById(patientId, userDetails);
+        Patient resultForm = patientService.searchPatient(patient, userDetails, patient.getSearchType());
         session.setAttribute("form", resultForm);
-        session.setAttribute("patientId", patient.getPatientID());
-        session.setAttribute("patientName", null);
-        if (resultForm != null) {
-            return "viewPatientResultform";
-        } else {
-            return "errorResultForm";
-        }
-    }
-
-    @RequestMapping(value = {"searchReportByPatientName.action"}, method = RequestMethod.POST)
-    public String searchReportByPatientName(@RequestBody Patient patient,
-                                            HttpSession session, ModelMap map) {
-        session.setAttribute("patientId", null);
-        session.setAttribute("patientName", patient.getPatientName());
-
-        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-
-        Patient resultForm = patientService.searchPatientByName(patient
-                .getPatientName(), userDetails);
-        session.setAttribute("form", resultForm);
-        System.out.println(resultForm);
-
-        return "viewPatientResultform";
         
-        /*if (resultForm != null) {
-            return "viewPatientResultform";
-        } else {
-            return "errorResultForm";
-        }*/
+        return "viewPatientResultform";
     }
 
     @RequestMapping(value = {"listPatientProfilesByDate.action"}, method = RequestMethod.POST)
-    public String listPatientProfilesByDate(@RequestBody Form form, HttpServletRequest request, HttpSession session, ModelMap model) {
-        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
+    public String listPatientProfilesByDate(@SessionParam(value = "userDetails") UserDetails userDetails, @RequestBody Form form, HttpServletRequest request, HttpSession session, ModelMap model) {
         if (userDetails != null && userDetails.getLoginId() != null) {
             List<Patient> patientProfiles = patientService
                     .getPatientProfiles(userDetails, form);
@@ -209,7 +179,7 @@ public class PatientController {
         } else {
             model.put("result", "Unable to get the login details");
         }
-        return "fromDateReport";
+        return "viewPatientDateRangeResult";
     }
 
     @RequestMapping(value = {"downLoadPatientProfile.action"}, method = RequestMethod.POST)

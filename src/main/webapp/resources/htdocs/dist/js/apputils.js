@@ -1,16 +1,9 @@
 function processRequest(url, data, targetId) {
-    //var promodomain ='http://swasthtelangana';
-    // var promodomain = 'http://localhost';
    var promodomain =  'http://' + window.location.host;
-
-    //var promodomain = getDomainName('promoadmin');
     jQuery.ajax({
         type: "POST",
         url: promodomain + url,
         data: data,
-        /*
-         * headers: { Accept: "application/json" },
-         */
         contentType: "application/json; charset=UTF-8",
         success: function (result) {
             if (result != null) {
@@ -41,6 +34,7 @@ function processFileRequest(url, data, targetId) {
                 } else if (result.status == "FAILURE") {
                     $('#errorMessage').text("error in emailID updating");
                 }
+                //hideLoadingSpinner(targetId);
             }
         });
     } catch (err) {
@@ -55,6 +49,8 @@ function OpenInNewTab() {
 }
 
 function submitForm(url, formId, targetId) {
+	debugger;
+	showLoadingSpinner(formId, targetId);
     if ('NO-DATA' != formId && isFormValid()) {
         formData = JSON.stringify($("#" + formId).serializeObject());
         processRequest(url, formData, targetId);
@@ -65,6 +61,15 @@ function submitForm(url, formId, targetId) {
         formData = JSON.stringify($("#" + formId).serializeObject());
         processFileRequest(url, formData, targetId);
     }
+    //hideLoadingSpinner(targetId);
+}
+
+function showLoadingSpinner(formId, targetId){
+	if('loginform' == formId){
+		$("#loginspinner").html("<div class='throbber-loader'></div>");
+	}else{
+		$("#" + targetId).append("<div class='overlay'><i class='fa fa-refresh fa-spin'></i></div>");
+	}	
 }
 
 $.fn.serializeObject = function () {
@@ -115,7 +120,6 @@ $.fn.serializeObject = function () {
 function getDomainName(requiredDomain) {
     // return 'http://swasthtelangana.com:8080';
     return 'http://localhost';
-
 }
 
 /*
