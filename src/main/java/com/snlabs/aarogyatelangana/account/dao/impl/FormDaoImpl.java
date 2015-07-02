@@ -5,11 +5,13 @@ import com.snlabs.aarogyatelangana.account.dao.FormDao;
 import com.snlabs.aarogyatelangana.account.service.impl.FormRowMapper;
 import com.snlabs.aarogyatelangana.account.service.impl.PatientIDsMapper;
 import com.snlabs.aarogyatelangana.account.utils.AppConstants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -24,8 +26,8 @@ public class FormDaoImpl implements FormDao {
         try {
             StringBuilder patientDetailsQuery = new StringBuilder();
             patientDetailsQuery.append("SELECT patient.F_PATIENT_NAME,")
-                    .append("patient.F_PATIENT_ID,patient.F_AGE,patient.F_GENDER,patient.F_AADHAR_NO,patient.F_CONTACT_NO,")
-                    .append("address.F_DISTRICT,address.F_STATE,address.F_PINCODE,address.F_ADDRESS,address.F_CITY,")
+                    .append("patient.F_PATIENT_ID, patient.F_AGE, patient.F_GENDER, patient.F_AADHAR_NO, address.F_CONTACT_NO,")
+                    .append("address.F_DISTRICT, address.F_STATE, address.F_PINCODE, address.F_ADDRESS, address.F_CITY,")
                     .append("current_address.F_DISTRICT,current_address.F_STATE,current_address.F_PINCODE,current_address.F_ADDRESS,")
                     .append("current_address.F_CITY").append(" FROM ")
                     .append(AppConstants.PATIENT_TABLE).append(" patient,")
@@ -102,7 +104,7 @@ public class FormDaoImpl implements FormDao {
 
     private int updatePatientRecord(Form form) {
         StringBuilder sb = new StringBuilder();
-        sb.append("UPDATE T_PATIENT SET ").append("F_FORM_ID = ?");
+        sb.append("UPDATE "+AppConstants.PATIENT_TABLE+" SET ").append("F_FORM_ID = ?");
         sb.append(" WHERE F_PATIENT_ID=?");
         Object[] args = new Object[]{form.getFormID(),
                 form.getPatient().getPatientID()};
@@ -148,7 +150,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public boolean updateSectionA(SectionA sectionA) {
         StringBuilder updateFormRecord = new StringBuilder();
-        updateFormRecord.append("UPDATE T_FORM SET F_NO_OF_CHILDREN = ?,")
+        updateFormRecord.append("UPDATE "+AppConstants.FORM+" SET F_NO_OF_CHILDREN = ?,")
                 .append(" F_GUARDIAN_NAME = ?,").append(" F_NO_OF_MALE_KIDS  = ?,")
                 .append(" F_NO_OF_FEMALE_KIDS = ?,").append(" F_MENSTRUAL_PERIOD = ?")
                 .append(" WHERE F_PATIENT_ID = ?");
@@ -165,7 +167,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public boolean updateNonInvasiveDetails(NonInvasive nonInvasive) {
         StringBuilder updateNonInvasiveRecord = new StringBuilder();
-        updateNonInvasiveRecord.append("UPDATE T_NON_INVASIVE_PROCEDURES SET F_DOCTOR_NAME = ?,")
+        updateNonInvasiveRecord.append("UPDATE "+AppConstants.NON_INVASIVE_PROCEDURES+" SET F_DOCTOR_NAME = ?,")
                 .append(" F_DIAGNOSIS_INDICATION = ?,").append(" F_CARRIED_NON_INVASIVE_PROCEDURE  = ?,")
                 .append(" F_DECLARATION_DATE = ?,").append(" F_PROCEDURE_CARRIED_DATE = ?,")
                 .append(" F_PROCEDURE_RESULT = ?,").append(" F_CONVEY_ID = ?,")
@@ -190,7 +192,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public boolean updateInvasiveDetails(Invasive invasive) {
         StringBuilder updateInvasiveRecord = new StringBuilder();
-        updateInvasiveRecord.append("UPDATE T_INVASIVE_PROCEDURES SET F_DOCTOR_NAME = ?,")
+        updateInvasiveRecord.append("UPDATE "+AppConstants.INVASIVE_PROCEDURES+" SET F_DOCTOR_NAME = ?,")
                 .append(" F_DIAGNOSIS_BASICS = ?,").append(" F_DIAGNOSIS_INDICATION  = ?,")
                 .append(" F_ADVANCED_MATERNAL_AGE = ?,").append(" F_GENETIC_DISEASE = ?,")
                 .append(" F_CONTEST_DATE = ?,").append(" F_CARRIED_INVASIVE_PROCEDURE = ?,")
@@ -216,7 +218,7 @@ public class FormDaoImpl implements FormDao {
     public Form findByFormId(int formId) {
         Form form = null;
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM T_FORM WHERE F_FORM_ID=").append(formId);
+        sb.append("SELECT * FROM "+AppConstants.FORM+" WHERE F_FORM_ID=").append(formId);
         try {
             /*
              * List<User> detailsList =
@@ -256,7 +258,7 @@ public class FormDaoImpl implements FormDao {
         // Date format should be YYYY-MONTH-DATE
         StringBuilder sb = new StringBuilder();
         sb.append(
-                "SELECT F_PATIENT_ID FROM T_PATIENT WHERE F_CREATED_TIMESTAMP BETWEEN ")
+                "SELECT F_PATIENT_ID FROM "+AppConstants.PATIENT_TABLE+" WHERE F_CREATED_TIMESTAMP BETWEEN ")
                 .append("STR_TO_DATE('").append(fromDate)
                 .append("','%Y-%m-%d') AND STR_TO_DATE('").append(toDate)
                 .append("','%Y-%m-%d')");
@@ -269,7 +271,7 @@ public class FormDaoImpl implements FormDao {
                         + "PATIENT.F_PATIENT_ID," + "PATIENT.F_AGE,"
                         + "patient.F_GENDER," + "FORMF.F_NO_OF_CHILDREN");
                 getResult
-                        .append(" FROM T_FORM FORMF,T_PATIENT PATIENT WHERE patient.f_patient_id = formf.f_patient_id AND "
+                        .append(" FROM "+AppConstants.FORM+" FORMF,"+AppConstants.PATIENT_TABLE+" PATIENT WHERE patient.f_patient_id = formf.f_patient_id AND "
                                 + "patient.f_patient_id>="
                                 + patientIDs.get(0)
                                 + " AND patient.f_patient_id<="
@@ -293,7 +295,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public SectionA saveSectionA(SectionA section) {
         StringBuilder sectionADetails = new StringBuilder();
-        sectionADetails.append("INSERT INTO T_FORM(").append(
+        sectionADetails.append("INSERT INTO "+AppConstants.FORM+"(").append(
                 "F_PATIENT_ID," + "F_NO_OF_CHILDREN," + "F_NO_OF_MALE_KIDS,"
                         + "F_NO_OF_FEMALE_KIDS," + "F_GUARDIAN_NAME,"
                         + "F_MENSTRUAL_PERIOD)");
@@ -308,7 +310,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public NonInvasive saveNonInvasive(NonInvasive nonInvasive) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO T_NON_INVASIVE_PROCEDURES(")
+        sb.append("INSERT INTO "+AppConstants.NON_INVASIVE_PROCEDURES+"(")
                 .append("F_PATIENT_ID, F_DOCTOR_NAME," + "F_DIAGNOSIS_INDICATION,"
                         + "F_CARRIED_NON_INVASIVE_PROCEDURE,"
                         + "F_DECLARATION_DATE," + "F_PROCEDURE_CARRIED_DATE,"
@@ -329,7 +331,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public Invasive saveInvasive(Invasive invasive) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO T_INVASIVE_PROCEDURES(")
+        sb.append("INSERT INTO "+AppConstants.INVASIVE_PROCEDURES+"(")
                 .append("F_PATIENT_ID, F_DOCTOR_NAME, F_DIAGNOSIS_BASICS,")
                 .append(" F_ADVANCED_MATERNAL_AGE, F_GENETIC_DISEASE,")
                 .append(" F_CONTEST_DATE, F_CARRIED_INVASIVE_PROCEDURE,")
@@ -350,7 +352,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public Declaration saveDeclaration(Declaration declaration) {
         StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO T_DOCTOR_DECLARATION(")
+        sb.append("INSERT INTO "+AppConstants.DOCTOR_DECLARATION+"(")
                 .append("F_PATIENT_ID," + "F_DOCTOR_NAME," + "F_PLACE,"
                         + "F_PATIENT_NAME," + "F_DATE)")
                 .append(" VALUES(?,?,?,?,SYSDATE())");
@@ -360,10 +362,11 @@ public class FormDaoImpl implements FormDao {
         return jdbcTemplate.update(sb.toString(), args) > 0 ? declaration : null;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public SectionA getSectionADetails(int patientID) {
         StringBuilder patientDetailsQuery = new StringBuilder();
-        patientDetailsQuery.append("SELECT * FROM T_FORM sectionA")
+        patientDetailsQuery.append("SELECT * FROM "+AppConstants.FORM+" sectionA")
                 .append(" WHERE sectionA.F_PATIENT_ID=").append(patientID);
         final SectionA sectionA = new SectionA();
         try {
@@ -415,7 +418,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public NonInvasive getNonInvasiveDetails(int patientID) {
         StringBuilder nonInvasiveDetailsQuery = new StringBuilder();
-        nonInvasiveDetailsQuery.append("SELECT * FROM T_NON_INVASIVE_PROCEDURES nonInvasive")
+        nonInvasiveDetailsQuery.append("SELECT * FROM "+AppConstants.NON_INVASIVE_PROCEDURES+" nonInvasive")
                 .append(" WHERE nonInvasive.F_PATIENT_ID=").append(patientID);
         final NonInvasive nonInvasive = new NonInvasive();
         try {
@@ -446,7 +449,7 @@ public class FormDaoImpl implements FormDao {
     @Override
     public Invasive getInvasiveDetails(int patientID) {
         StringBuilder invasiveDetailsQuery = new StringBuilder();
-        invasiveDetailsQuery.append("SELECT * FROM T_INVASIVE_PROCEDURES invasive")
+        invasiveDetailsQuery.append("SELECT * FROM "+AppConstants.INVASIVE_PROCEDURES+" invasive")
                 .append(" WHERE invasive.F_PATIENT_ID=").append(patientID);
         final Invasive invasive = new Invasive();
         try {

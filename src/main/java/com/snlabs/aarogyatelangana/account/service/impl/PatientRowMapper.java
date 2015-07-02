@@ -2,6 +2,7 @@ package com.snlabs.aarogyatelangana.account.service.impl;
 
 import com.snlabs.aarogyatelangana.account.beans.Patient;
 import com.snlabs.aarogyatelangana.account.beans.PatientAddress;
+import com.snlabs.aarogyatelangana.account.beans.PatientCurrentAddress;
 import com.snlabs.aarogyatelangana.account.beans.User;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -34,11 +35,18 @@ public class PatientRowMapper implements RowMapper {
 
             patientAddress.setAddress(rs.getString("F_ADDRESS"));
             patientAddress.setContactno(rs.getString("F_CONTACT_NO"));
-            patientAddress.setCurrentAddress(rs.getString("F_CURRENT_ADDRESS"));
             patientAddress.setDistrict(rs.getString("F_DISTRICT"));
             patientAddress.setState(rs.getString("F_STATE"));
             patientAddress.setPincode(rs.getInt("F_PINCODE"));
             patient.setPatientAddress(patientAddress);
+            
+            PatientCurrentAddress patientCurrentAddress = new PatientCurrentAddress();
+            patientCurrentAddress.setAddress(rs.getString("F_ADDRESS_CURRENT"));
+            patientCurrentAddress.setCityName(rs.getString("F_CITY_CURRENT"));
+            patientCurrentAddress.setDistrict(rs.getString("F_DISTRICT_CURRENT"));
+            patientCurrentAddress.setPincode(rs.getInt("F_PINCODE_CURRENT"));
+            patientCurrentAddress.setState(rs.getString("F_STATE_CURRENT"));
+            patient.setPatientCurrentAddress(patientCurrentAddress);
 
             detailsList.add(patient);
         } while (rs.next());

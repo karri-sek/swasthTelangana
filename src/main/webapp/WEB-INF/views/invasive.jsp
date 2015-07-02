@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="box box-info">
     <div class="box-header with-border"><h3 class="box-title">FORM F: SECTION C: To be filled for
@@ -13,14 +11,14 @@
 
                 <div class="col-sm-5">
                     <input class="form-control" type="text" name="doctorName"
-                           id="doctorName"/>
+                           id="doctorName" value="DR. "/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">History of medical disease in the family </label>
 
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="historyOfGeneticDisease" id="historyOfGeneticDisease"/>
+                    <input class="form-control" type="text" name="historyOfGeneticDisease" id="historyOfGeneticDisease" value="No"/>
                 </div>
             </div>
             <div class="form-group">
@@ -54,7 +52,7 @@
 
                 <div class="col-sm-5">
                     <input class="form-control" type="text" name="advancedMaternalAge"
-                           id="advancedMaternalAge"/>
+                           id="advancedMaternalAge" value="32"/>
                 </div>
             </div>
             <div class="form-group">
@@ -62,7 +60,7 @@
 
                 <div class="col-sm-5">
                     <input class="form-control" type="text" name="geneticDisease"
-                           id="geneticDisease"/>
+                           id="geneticDisease" value="No"/>
                 </div>
             </div>
             <div class="form-group">
@@ -70,7 +68,7 @@
                     Obtained Date: </label>
 
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="contestDate"
+                     <input class="form-control sysdate" value="${contestDate}" type="date" name="contestDate"
                            id="contestDate"/>
                 </div>
             </div>
@@ -92,7 +90,7 @@
 
                 <div class="col-sm-5">
                     <input class="form-control" type="text" name="compilication"
-                           id="compilication"/>
+                           id="compilication" value="No"/>
                 </div>
             </div>
             <div class="form-group">
@@ -100,33 +98,40 @@
                     Result: </label>
 
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="procedureResult" id="procedureResult"/>
+                    <input class="form-control" type="text" name="procedureResult" id="procedureResult" value="Negetive"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Procedures carried Date:</label>
 
-                <div class="col-sm-5">
-                    <input class='form-control' name="procedureCarriedDate"
-                           type='text'/>
+                <div class="col-sm-2">
+                   <input class="form-control" value="${procedureCarriedDate}" type="date" name="procedureCarriedDate"
+                           id="procedureCarriedDate"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">convey Details:</label>
+                <legend>Convey Details:</legend>
+                <label class="control-label col-sm-2">Name:</label>
+
                 <div class="col-sm-2">
-                    <input class='form-control' name="conveyDetails.conveyedName" placeholder="Enter Name ..." type='text'/>
+                    <input class='form-control' name="conveyDetails.conveyedName" type='text' value="Pre-natal diagnostic procedure"/>
                 </div>
+                <label class="control-label col-sm-2">Date:</label>
+
                 <div class="col-sm-2">
-                    <input class='form-control' name="conveyDetails.conveyedDate" type='text' placeholder="Enter date ..."/>
+                    <input class="form-control" value="${conveyDetails.conveyedDate}" type="date" name="conveyDetails.conveyedDate"
+                           id="conveyDetails.conveyedDate"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">MTP Indication: </label>
+                <legend>MTP Indication :</legend>
+                <label class="control-label col-sm-2">Mtp Indication:</label>
 
                 <div class="col-sm-5">
-                    <input class='form-control' name="mtpIndication" type='text'/>
+                    <input class='form-control' name="mtpIndication" type='text' value="Conducted"/>
                 </div>
             </div>
+            
             <input type="hidden" name="patientID" value="${invasive.patientID}"/>
             <input type="hidden" name="patientName" value="${invasive.patientName}"/>
 

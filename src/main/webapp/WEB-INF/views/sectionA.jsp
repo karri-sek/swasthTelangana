@@ -14,17 +14,17 @@
             <label class="control-label col-sm-2">No of Children</label>
 
             <div class="col-sm-2">
-                <input class="form-control" type="text" name="noOfChildren" id="noOfChildren"/>
+                <input class="form-control" type="text" name="noOfChildren" id="noOfChildren" value="0"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2">Sons</label>
             <div class="col-sm-2">
-                <input class="form-control" type="text" name="noOfMaleKids"  id="noOfMaleKids"/>
+                <input class="form-control" type="text" name="noOfMaleKids"  id="noOfMaleKids" value="0"/>
             </div>
             <label class="control-label col-sm-2">Daughters</label>
             <div class="col-sm-2">
-                <input class="form-control" name="noOfFemaleKids" type='text'/>
+                <input class="form-control" name="noOfFemaleKids" type='text' value="0"/>
             </div>
         </div>
         <div class="form-group">

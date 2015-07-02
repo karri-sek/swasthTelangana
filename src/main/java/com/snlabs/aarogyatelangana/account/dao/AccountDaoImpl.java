@@ -36,9 +36,9 @@ public class AccountDaoImpl implements AccountDao {
         sb.append("ADDS.F_STATE, ");
         sb.append("RLS.F_ROLE ");
         sb.append("FROM ");
-        sb.append("DEMO.T_USER_DETAILS DTL, ");
-        sb.append("DEMO.T_USER_ADDRESS ADDS, ");
-        sb.append("DEMO.T_USER_ROLES RLS ");
+        sb.append(AppConstants.USER_DETAILS + " DTL, ");
+        sb.append(AppConstants.USER_ADDRESS+" ADDS, ");
+        sb.append(AppConstants.USER_ROLES+" RLS ");
         sb.append("WHERE ");
         sb.append("DTL.F_LOGIN_ID = ADDS.F_LOGIN_ID ");
         sb.append("AND DTL.F_LOGIN_ID = RLS.F_LOGIN_ID ");
@@ -65,16 +65,16 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public boolean createAccount(NewUser user, UserDetails userDetails) {
 
-        String queryDtl = "INSERT INTO DEMO.T_USER_DETAILS (F_LOGIN_ID, F_PASSWORD, F_IS_ENABLED, F_DISPLAY_NAME, F_MOBILE_NUMBER, F_CREATED_BY, F_CREATION_DATE) VALUES (?, ?, ?, ?, ?, ?, SYSDATE())";
+        String queryDtl = "INSERT INTO "+AppConstants.USER_DETAILS+" (F_LOGIN_ID, F_PASSWORD, F_IS_ENABLED, F_DISPLAY_NAME, F_MOBILE_NUMBER, F_CREATED_BY, F_CREATION_DATE) VALUES (?, ?, ?, ?, ?, ?, SYSDATE())";
         Object[] argsDtl = new Object[]{user.getLoginId(),
                 user.getPassword(), new String("true"), user.getDisplayName(),
                 user.getMobileNumber(), userDetails.getLoginId()};
 
-        String queryAddress = "INSERT INTO DEMO.T_USER_ADDRESS(F_LOGIN_ID,F_DISTRICT,F_STATE)VALUES(?,?,?)";
+        String queryAddress = "INSERT INTO "+AppConstants.USER_ADDRESS+"(F_LOGIN_ID,F_DISTRICT,F_STATE)VALUES(?,?,?)";
         Object[] argsAddress = new Object[]{user.getLoginId(),
                 user.getDistrict(), user.getState()};
 
-        String queryRole = "INSERT INTO DEMO.T_USER_ROLES(F_LOGIN_ID,F_ROLE)VALUES(?,?)";
+        String queryRole = "INSERT INTO "+AppConstants.USER_ROLES+"(F_LOGIN_ID,F_ROLE)VALUES(?,?)";
         Object[] argsRole = new Object[]{user.getLoginId(),
                 user.getUserRole()};
 
@@ -108,7 +108,7 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public boolean updateAccount(NewUser user) {
         // TODO Auto-generated method stub
-        String query = "UPDATE DEMO.T_USER_DETAILS SET F_PASSWORD = ? WHERE F_LOGIN_ID = ?";
+        String query = "UPDATE "+AppConstants.USER_DETAILS+" SET F_PASSWORD = ? WHERE F_LOGIN_ID = ?";
 
         Object[] args = new Object[]{user.getPassword(), user.getLoginId()};
 

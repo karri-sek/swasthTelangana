@@ -31,7 +31,7 @@
                 <label class="control-label col-sm-2">Any other Specify</label>
 
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="otherDiagnoseDetails" id="otherDiagnoseDetails"/>
+                    <input class="form-control" type="text" name="otherDiagnoseDetails" id="otherDiagnoseDetails" value="No"/>
                 </div>
             </div>
             <div class="form-group">
@@ -51,20 +51,20 @@
                 <label class="control-label col-sm-2">Any other Specify</label>
 
                 <div class="col-sm-5">
-                    <input class="form-control" type="text" name="otherProcedure" id="otherProcedure"/>
+                    <input class="form-control" type="text" name="otherProcedure" id="otherProcedure" value="No"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Declaration Date</label>
 
                 <div class="col-sm-2">
-                    <input class="form-control" value="2014-12-22" type="date" name="declarationDate"
+                    <input class="form-control" value="${declarationDate}" type="date" name="declarationDate"
                            id="declarationDate"/>
                 </div>
                 <label class="control-label col-sm-2">Procedure Carried Date</label>
 
                 <div class="col-sm-2">
-                    <input class="form-control" value="2014-12-22" type="date" name="procedureCarriedDate"
+                    <input class="form-control" value="${procedureCarriedDate}" type="date" name="procedureCarriedDate"
                            id="procedureCarriedDate"/>
                 </div>
             </div>
@@ -82,12 +82,12 @@
                 <label class="control-label col-sm-2">Name:</label>
 
                 <div class="col-sm-2">
-                    <input class='form-control' name="conveyDetails.conveyedName" type='text'/>
+                    <input class='form-control' name="conveyDetails.conveyedName" type='text' value="Pre-natal diagnostic procedure"/>
                 </div>
                 <label class="control-label col-sm-2">Date:</label>
 
                 <div class="col-sm-2">
-                    <input class="form-control" value="2014-12-22" type="date" name="conveyDetails.conveyedDate"
+                    <input class="form-control" value="2015-12-22" type="date" name="conveyDetails.conveyedDate"
                            id="procedureCarriedDate"/>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                 <label class="control-label col-sm-2">Mtp Indication:</label>
 
                 <div class="col-sm-5">
-                    <input class='form-control' name="mtpIndication" type='text'/>
+                    <input class='form-control' name="mtpIndication" type='text' value="Conducted"/>
                 </div>
             </div>
             <input type="hidden" id="patientID" name="patientID" value="${nonInvasive.patientID}"/>

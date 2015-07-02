@@ -4,6 +4,7 @@ import com.snlabs.aarogyatelangana.account.beans.*;
 import com.snlabs.aarogyatelangana.account.service.DownloadService;
 import com.snlabs.aarogyatelangana.account.service.FormService;
 import com.snlabs.aarogyatelangana.account.service.PatientService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Controller
 public class FormController {
@@ -112,9 +116,18 @@ public class FormController {
             NonInvasive nonInvasive = new NonInvasive();
             nonInvasive.setPatientID(sectionA.getPatientID());
             nonInvasive.setPatientName(sectionA.getPatientName());
+            nonInvasive.setProcedureResult("Negetive");
             model.put("nonInvasive", nonInvasive);
             model.put("diagnoseDetails", NonInvasive.getDiagnoseDetails());
             model.put("procedures", NonInvasive.getProcedures());
+            //Default dates display
+            Date curDate = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String sysdate = format.format(curDate);
+            
+            model.put("declarationDate", sysdate);
+            model.put("procedureCarriedDate", sysdate);
+            
             return "nonInvasive";
         } else {
             return "sectionA";
@@ -154,6 +167,15 @@ public class FormController {
             model.put("invasiveProcedures",
                     Invasive.getInvasiveProcedures());
             model.put("invasive", invasive);
+            
+            //Default dates display
+            Date curDate = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String sysdate = format.format(curDate);
+            
+            model.put("contestDate", sysdate);
+            model.put("procedureCarriedDate", sysdate);
+            //model.put("conveyDetails.conveyedDate", sysdate);
             return "invasive";
         } else {
             return "nonInvasive";
@@ -243,6 +265,22 @@ public class FormController {
     @RequestMapping(value = {"saveDeclarationDetails.action"}, method = RequestMethod.POST)
     public String saveDeclaration(@RequestBody Declaration declaration,
                                   HttpSession session, ModelMap model, HttpServletRequest request) {
+        if (declaration.getPatientID() > 0) {
+            if (formService.saveDeclarationDetails(declaration) != null) {
+                model.put("result", "Patient Details saved successfully");
+            } else {
+                model.put("result", "Failed to save the Patient Details");
+            }
+        } else {
+            model.put("result", "Unable to Save the Declaration for the patient name " + declaration.getPatientName());
+        }
+        return "declaration";
+    }
+    
+    /*
+    @RequestMapping(value = {"saveDeclarationDetails.action"}, method = RequestMethod.POST)
+    public String saveDeclaration(@RequestBody Declaration declaration,
+                                  HttpSession session, ModelMap model, HttpServletRequest request) {
         UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
         if (declaration.getPatientID() > 0) {
             if (formService.saveDeclarationDetails(declaration) != null) {
@@ -266,7 +304,7 @@ public class FormController {
             model.put("result", "Unable to Save the Declaration for the patient name " + declaration.getPatientName());
         }
         return "declaration";
-    }
+    } */
 
     public FormService getFormService() {
         return formService;
