@@ -42,7 +42,7 @@ public class LoginController {
 
         if(userDetails != null){
             session.setAttribute("userDetails", userDetails);
-            return "workdesk";
+            return "workdeskfirstlogin";
         }
         return "home";
     }

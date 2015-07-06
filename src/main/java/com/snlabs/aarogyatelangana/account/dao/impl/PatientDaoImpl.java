@@ -9,12 +9,17 @@ import com.snlabs.aarogyatelangana.account.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import com.snlabs.aarogyatelangana.account.beans.Form;
 
 import javax.sql.DataSource;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -29,23 +34,45 @@ public class PatientDaoImpl implements PatientDao {
 
 	@Override
 	public Patient save(Patient patient) {
-		// FIXME : F_CONTACT_NO should not be there in T_PATIENT table
-		System.out.println(" patient " + patient);
 		StringBuilder insertPatientRecord = new StringBuilder();
 		insertPatientRecord = insertPatientRecord
 				.append("INSERT INTO ")
 				.append(AppConstants.PATIENT_TABLE)
-				.append("(F_PATIENT_NAME,F_PATIENT_ID,F_AGE,F_GENDER,F_CREATED_BY,")
+				.append("(F_PATIENT_NAME,F_AGE,F_GENDER,F_CREATED_BY,")
 				.append("F_CREATED_TIMESTAMP,F_AADHAR_NO) ")
-				.append("VALUES(?,?,?,?,?,SYSDATE(),?)");
-		Object[] args = { patient.getPatientName(), patient.getPatientID(),
+				.append("VALUES(?,?,?,?,SYSDATE(),?)");
+		Object[] args = { patient.getPatientName(),
 				patient.getAge(), patient.getGender(), patient.getCreatedBy(),
 				patient.getAadharNo() };
+		final String INSERT_SQL = insertPatientRecord.toString();
+		final String patientName = patient.getPatientName();
+		final int age = patient.getAge();
+		final String gender = patient.getGender();
+		final String createdBy = patient.getCreatedBy();
+		final String adharNo = patient.getAadharNo();
+		
 		try {
-			if (jdbcTemplate.update(insertPatientRecord.toString(), args) > 0) {
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+			 jdbcTemplate.update(
+				    new PreparedStatementCreator() {
+				    	@Override
+				        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+				            PreparedStatement ps =
+				                connection.prepareStatement(INSERT_SQL, new String[] {"F_PATIENT_ID"});
+				            ps.setString(1, patientName);
+				            ps.setInt(2, age);
+				            ps.setString(3, gender);
+				            ps.setString(4, createdBy);
+				            ps.setString(5, adharNo);
+				            return ps;
+				        }
+				    }, keyHolder);
+			long patientID = keyHolder.getKey().longValue();
+			if(patientID > 0){
+				patient.setPatientID(patientID);
 				if (patient.getPatientAddress() != null) {
-					patient.getPatientAddress().setContactno(
-							patient.getContactno());
+					//patient.getPatientAddress().setContactno(
+						//	patient.getContactno());
 					savePatientAddress(patient.getPatientID(),
 							patient.getPatientAddress());
 				}
@@ -60,7 +87,7 @@ public class PatientDaoImpl implements PatientDao {
 		return patient;
 	}
 
-	private int savePatientAddress(int patientID, PatientAddress patientAddress) {
+	private int savePatientAddress(long patientID, PatientAddress patientAddress) {
 		StringBuilder insertPatientAddress = new StringBuilder();
 		int result = 0;
 		try {
@@ -81,18 +108,19 @@ public class PatientDaoImpl implements PatientDao {
 		return result;
 	}
 
-	private int savePatientCurrentAddress(int patientID,
+	private int savePatientCurrentAddress(long patientID,
 			PatientCurrentAddress patientAddress) {
 		StringBuilder insertPatientAddress = new StringBuilder();
 		insertPatientAddress
 				.append("INSERT INTO ")
 				.append(AppConstants.PATIENT_CURRENT_ADDRESS)
 				.append("(F_PATIENT_ID,F_ADDRESS_CURRENT,")
-				.append("F_DISTRICT_CURRENT,F_STATE_CURRENT,F_PINCODE_CURRENT,F_CITY_CURRENT)")
-				.append("VALUES(?,?,?,?,?,?)");
+				.append("F_DISTRICT_CURRENT,F_STATE_CURRENT,F_PINCODE_CURRENT,F_CITY_CURRENT,F_SAME_AS_PRESENT_ADDRESS)")
+				.append("VALUES(?,?,?,?,?,?,?)");
 		Object[] args = { patientID, patientAddress.getAddress().trim(),
 				patientAddress.getDistrict(), patientAddress.getState(),
-				patientAddress.getPincode(), patientAddress.getCityName() };
+				patientAddress.getPincode(), patientAddress.getCityName(),
+				patientAddress.getSameAsPresentAddress() };
 		return jdbcTemplate.update(insertPatientAddress.toString(), args);
 	}
 
@@ -109,12 +137,73 @@ public class PatientDaoImpl implements PatientDao {
 		Object[] args = { patient.getPatientName(), patient.getAge(),
 				patient.getGender(), patient.getAadharNo(),
 				patient.getFormFDownloadPath(), patient.getPatientID() };
+		int result = 0;
 		try {
-			return jdbcTemplate.update(updatePatientRecord.toString(), args);
+			result = jdbcTemplate.update(updatePatientRecord.toString(), args);
+			if (result > 0) {
+				PatientAddress padd = patient.getPatientAddress();
+				padd.setPatientID(patient.getPatientID());
+				result = updatePatientPermanentAddress(padd);
+				if (result > 0) {
+					PatientCurrentAddress pcadd = patient.getPatientCurrentAddress();
+					pcadd.setPatientID(patient.getPatientID());
+					result = updatePatientCurrentAddress(pcadd);
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return result;
+	}
+
+	private int updatePatientCurrentAddress(
+			PatientCurrentAddress patientCurrentAddress) {
+		StringBuilder updatePatientRecord = new StringBuilder();
+		updatePatientRecord.append("UPDATE ")
+				.append(AppConstants.PATIENT_CURRENT_ADDRESS)
+				.append(" SET F_DISTRICT_CURRENT = ?,")
+				.append(" F_STATE_CURRENT = ?,")
+				.append(" F_PINCODE_CURRENT = ?,")
+				.append(" F_ADDRESS_CURRENT = ?,")
+				.append(" F_CITY_CURRENT = ?,")
+				.append(" F_SAME_AS_PRESENT_ADDRESS = ?")
+				.append(" WHERE F_PATIENT_ID = ?");
+		Object[] args = { patientCurrentAddress.getDistrict(),
+				patientCurrentAddress.getState(),
+				patientCurrentAddress.getPincode(),
+				patientCurrentAddress.getAddress(),
+				patientCurrentAddress.getCityName(),
+				patientCurrentAddress.getSameAsPresentAddress(),
+				patientCurrentAddress.getPatientID()
+				};
+		int result = 0;
+		try {
+			result = jdbcTemplate.update(updatePatientRecord.toString(), args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	private int updatePatientPermanentAddress(PatientAddress patientAddress) {
+		StringBuilder updatePatientRecord = new StringBuilder();
+		updatePatientRecord.append("UPDATE ")
+				.append(AppConstants.PATIENT_ADDRESS)
+				.append(" SET F_DISTRICT = ?,").append(" F_STATE = ?,")
+				.append(" F_PINCODE = ?,").append(" F_ADDRESS = ?,")
+				.append(" F_CITY = ? ,").append(" F_CONTACT_NO = ?")
+				.append(" WHERE F_PATIENT_ID = ?");
+		Object[] args = { patientAddress.getDistrict(),
+				patientAddress.getState(), patientAddress.getPincode(),
+				patientAddress.getAddress(), patientAddress.getCityName(),
+				patientAddress.getContactno(),patientAddress.getPatientID() };
+		int result = 0;
+		try {
+			result = jdbcTemplate.update(updatePatientRecord.toString(), args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
@@ -176,7 +265,7 @@ public class PatientDaoImpl implements PatientDao {
 	}
 
 	@Override
-	public Patient searchPatientById(int patientID, UserDetails userDetails) {
+	public Patient searchPatientById(long patientID, UserDetails userDetails) {
 		Patient patient = null;
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT * FROM ").append(AppConstants.PATIENT_TABLE)
@@ -222,7 +311,9 @@ public class PatientDaoImpl implements PatientDao {
 			UserDetails userDetails) {
 		Patient patient = null;
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT * FROM "+AppConstants.PATIENT_TABLE+" PAT, "+AppConstants.PATIENT_ADDRESS+" ADDR WHERE ")
+		sb.append(
+				"SELECT * FROM " + AppConstants.PATIENT_TABLE + " PAT, "
+						+ AppConstants.PATIENT_ADDRESS + " ADDR WHERE ")
 				.append("PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ")
 				.append("PAT.F_PATIENT_NAME = ? ");
 

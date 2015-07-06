@@ -1,14 +1,54 @@
 package com.snlabs.aarogyatelangana.account.beans;
 
+import java.sql.Date;
+
 public class SectionA {
 	private int noOfChildren;
 	private int noOfMaleKids;
 	private int noOfFemaleKids;
 	private String guardianName;
-	private int menstrualPeriod;
+	private Date lastMenstrualPeriod;
 	private int formID;
-	private int patientID;
+	private long patientID;
 	private String patientName;
+	
+	private String referredBy;
+	private String selfReferredBy;
+	private int weeksOfPragnancy;
+
+	private String operation;
+    
+    public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+	
+	public String getReferredBy() {
+		return referredBy;
+	}
+
+	public void setReferredBy(String referredBy) {
+		this.referredBy = referredBy;
+	}
+
+	public String getSelfReferredBy() {
+		return selfReferredBy;
+	}
+
+	public void setSelfReferredBy(String selfReferredBy) {
+		this.selfReferredBy = selfReferredBy;
+	}
+
+	public int getWeeksOfPragnancy() {
+		return weeksOfPragnancy;
+	}
+
+	public void setWeeksOfPragnancy(int weeksOfPragnancy) {
+		this.weeksOfPragnancy = weeksOfPragnancy;
+	}
 
 	public int getNoOfChildren() {
 		return noOfChildren;
@@ -42,12 +82,12 @@ public class SectionA {
 		this.guardianName = guardianName;
 	}
 
-	public int getMenstrualPeriod() {
-		return menstrualPeriod;
+	public Date getLastMenstrualPeriod() {
+		return lastMenstrualPeriod;
 	}
 
-	public void setMenstrualPeriod(int menstrualPeriod) {
-		this.menstrualPeriod = menstrualPeriod;
+	public void setLastMenstrualPeriod(Date lastMenstrualPeriod) {
+		this.lastMenstrualPeriod = lastMenstrualPeriod;
 	}
 
 	public int getFormID() {
@@ -58,11 +98,11 @@ public class SectionA {
 		this.formID = formID;
 	}
 
-	public int getPatientID() {
+	public long getPatientID() {
 		return patientID;
 	}
 
-	public void setPatientID(int patientID) {
+	public void setPatientID(long patientID) {
 		this.patientID = patientID;
 	}
 
@@ -78,7 +118,12 @@ public class SectionA {
 	public String toString() {
 		return "SectionA [noOfChildren=" + noOfChildren + ", noOfMaleKids="
 				+ noOfMaleKids + ", noOfFemaleKids=" + noOfFemaleKids
-				+ ", guardianName=" + guardianName + ", menstrualPeriod="
-				+ menstrualPeriod + "]";
+				+ ", guardianName=" + guardianName + ", lastMenstrualPeriod="
+				+ lastMenstrualPeriod + ", formID=" + formID + ", patientID="
+				+ patientID + ", patientName=" + patientName + ", referredBy="
+				+ referredBy + ", selfReferredBy=" + selfReferredBy
+				+ ", weeksOfPragnancy=" + weeksOfPragnancy + ", operation="
+				+ operation + "]";
 	}
+
 }

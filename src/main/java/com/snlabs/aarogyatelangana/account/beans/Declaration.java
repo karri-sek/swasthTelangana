@@ -7,7 +7,7 @@ public class Declaration {
 	private Date declarationDate;
 	private String doctorName;
 	private String patientName;
-	private int patientID;
+	private long patientID;
 	private String place;
 
 	public Date getDeclarationDate() {
@@ -34,11 +34,11 @@ public class Declaration {
 		this.patientName = patientName;
 	}
 
-	public int getPatientID() {
+	public long getPatientID() {
 		return patientID;
 	}
 
-	public void setPatientID(int patientID) {
+	public void setPatientID(long patientID) {
 		this.patientID = patientID;
 	}
 

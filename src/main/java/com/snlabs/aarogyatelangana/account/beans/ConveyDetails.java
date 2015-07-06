@@ -3,17 +3,26 @@ package com.snlabs.aarogyatelangana.account.beans;
 import java.util.Date;
 
 public class ConveyDetails {
-	private int patientID;
-	private int conveyID;
+	private long patientID;
+	private long conveyID;
 	private String conveyedName;
 	private Date conveyedDate;
 	private int formID;
+	private String type; //Invasive ot Non-invasive
 
-	public int getPatientID() {
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public long getPatientID() {
 		return patientID;
 	}
 
-	public void setPatientID(int patientID) {
+	public void setPatientID(long patientID) {
 		this.patientID = patientID;
 	}
 
@@ -33,11 +42,11 @@ public class ConveyDetails {
 		this.conveyedDate = conveyedDate;
 	}
 
-	public int getConveyID() {
+	public long getConveyID() {
 		return conveyID;
 	}
 
-	public void setConveyID(int conveyID) {
+	public void setConveyID(long conveyID) {
 		this.conveyID = conveyID;
 	}
 
@@ -48,4 +57,13 @@ public class ConveyDetails {
 	public void setFormID(int formID) {
 		this.formID = formID;
 	}
+
+	@Override
+	public String toString() {
+		return "ConveyDetails [patientID=" + patientID + ", conveyID="
+				+ conveyID + ", conveyedName=" + conveyedName
+				+ ", conveyedDate=" + conveyedDate + ", formID=" + formID
+				+ ", type=" + type + "]";
+	}
+
 }

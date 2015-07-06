@@ -8,7 +8,7 @@ public class Patient extends User implements Serializable {
     private static final long serialVersionUID = 1L;
     private String patientName;
     private int formId;
-    private int patientID;
+    private long patientID;
     private Date createdTimestamp;
     private int age = 12;
     private int txnID;
@@ -19,11 +19,20 @@ public class Patient extends User implements Serializable {
     private String formFDownloadPath;
     private String aadharNo;
     private PatientCurrentAddress patientCurrentAddress;
-
+   
     //As per the design standerds this field should not be here, but to make search easy going with this option.
     private String searchType;
+    private String operation;
     
-    public String getSearchType() {
+    public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public String getSearchType() {
 		return searchType;
 	}
 
@@ -88,15 +97,15 @@ public class Patient extends User implements Serializable {
         this.aadharNo = aadharNo;
     }
 
-    public int getPatientID() {
-        return patientID;
-    }
+    public long getPatientID() {
+		return patientID;
+	}
 
-    public void setPatientID(int patientID) {
-        this.patientID = patientID;
-    }
+	public void setPatientID(long patientID) {
+		this.patientID = patientID;
+	}
 
-    public String getPatientName() {
+	public String getPatientName() {
         return patientName;
     }
 
@@ -176,22 +185,20 @@ public class Patient extends User implements Serializable {
         this.formFDownloadPath = formFDownloadPath;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Patient{");
-        sb.append("patientName='").append(patientName).append('\'');
-        sb.append(", formId=").append(formId);
-        sb.append(", patientId=").append(patientID);
-        sb.append(", createdTimestamp=").append(createdTimestamp);
-        sb.append(", age=").append(age);
-        sb.append(", txnID=").append(txnID);
-        sb.append(", gender='").append(gender).append('\'');
-        sb.append(", patientAddressID=").append(patientAddressID);
-        sb.append(", patientAddress=").append(patientAddress);
-        sb.append(", createdBy='").append(createdBy).append('\'');
-        sb.append(", formFDownloadPath='").append(formFDownloadPath).append('\'');
-        sb.append(", aadharNo='").append(aadharNo).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+	@Override
+	public String toString() {
+		return "Patient [patientName=" + patientName + ", formId=" + formId
+				+ ", patientID=" + patientID + ", createdTimestamp="
+				+ createdTimestamp + ", age=" + age + ", txnID=" + txnID
+				+ ", gender=" + gender + ", patientAddressID="
+				+ patientAddressID + ", patientAddress=" + patientAddress
+				+ ", createdBy=" + createdBy + ", formFDownloadPath="
+				+ formFDownloadPath + ", aadharNo=" + aadharNo
+				+ ", patientCurrentAddress=" + patientCurrentAddress
+				+ ", searchType=" + searchType + ", operation=" + operation
+				+ ", contactno=" + contactno + ", updatedTimestamp="
+				+ updatedTimestamp + ", fatherName=" + fatherName + ", numner="
+				+ numner + "]";
+	}
+
 }

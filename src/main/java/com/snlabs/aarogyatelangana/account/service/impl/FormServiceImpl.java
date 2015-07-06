@@ -12,7 +12,7 @@ public class FormServiceImpl implements FormService {
     PatientService patientService;
 
     @Override
-    public Patient getPatientDetails(int patientID) {
+    public Patient getPatientDetails(long patientID) {
         try {
             return formDao.getPatientDetails(patientID);
         } catch (Exception e) {
@@ -24,7 +24,8 @@ public class FormServiceImpl implements FormService {
     @Override
     public ClinicAddress saveClinicDetails(ClinicAddress clinicAddress) {
         try {
-            if (clinicAddress.getPatientID() > 0 && formDao.updateClinicDetails(clinicAddress)) {
+            if (clinicAddress.getPatientID() > 0 && "UPDATE".equals(clinicAddress.getOperation())) {
+            	formDao.updateClinicDetails(clinicAddress);
                 return clinicAddress;
             } else {
                 return formDao.saveClinicDetails(clinicAddress);
@@ -36,7 +37,7 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public ClinicAddress getClinicDetails(int patientID) {
+    public ClinicAddress getClinicDetails(long patientID) {
         return formDao.getClinicDetails(patientID);
     }
 
@@ -68,7 +69,8 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public SectionA saveSectionA(SectionA section) {
-        if (section.getPatientID() > 0 && formDao.updateSectionA(section)) {
+        if (section.getPatientID() > 0 && "UPDATE".equals(section.getOperation())) {
+        	formDao.updateSectionA(section);
             return section;
         } else {
             return formDao.saveSectionA(section);
@@ -77,7 +79,8 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public NonInvasive saveNonInvasiveDetails(NonInvasive nonInvasive) {
-        if (nonInvasive.getPatientID() > 0 && formDao.updateNonInvasiveDetails(nonInvasive)) {
+        if (nonInvasive.getPatientID() > 0 && "UPDATE".equals(nonInvasive.getOperation())) {
+        	formDao.updateNonInvasiveDetails(nonInvasive);
             return nonInvasive;
         } else {
             return formDao.saveNonInvasive(nonInvasive);
@@ -86,7 +89,8 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public Invasive saveInvasiveDetails(Invasive invasive) {
-        if (invasive.getPatientID() > 0 && formDao.updateInvasiveDetails(invasive)) {
+        if (invasive.getPatientID() > 0 && "UPDATE".equals(invasive.getOperation())) {
+        	formDao.updateInvasiveDetails(invasive);
             return invasive;
         } else {
             return formDao.saveInvasive(invasive);
@@ -99,17 +103,17 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public SectionA getSectionADetails(int patientID) {
+    public SectionA getSectionADetails(long patientID) {
         return formDao.getSectionADetails(patientID);
     }
 
     @Override
-    public NonInvasive getNonInvasiveDetails(int patientID) {
+    public NonInvasive getNonInvasiveDetails(long patientID) {
         return formDao.getNonInvasiveDetails(patientID);
     }
 
     @Override
-    public Invasive getInvasiveDetails(int patientID) {
+    public Invasive getInvasiveDetails(long patientID) {
         return formDao.getInvasiveDetails(patientID);
     }
 

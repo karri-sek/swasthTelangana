@@ -17,14 +17,14 @@ public interface FormService {
 
     public Declaration saveDeclarationDetails(Declaration declaration);
 
-    public Patient getPatientDetails(int patientID);
+    public Patient getPatientDetails(long patientID);
 
-    public SectionA getSectionADetails(int patientID);
+    public SectionA getSectionADetails(long patientID);
 
-    public ClinicAddress getClinicDetails(int patientID);
+    public NonInvasive getNonInvasiveDetails(long patientID);
 
-    public NonInvasive getNonInvasiveDetails(int patientID);
+    public Invasive getInvasiveDetails(long patientID);
 
-    public Invasive getInvasiveDetails(int patientID);
+	ClinicAddress getClinicDetails(long patientID);
 
 }

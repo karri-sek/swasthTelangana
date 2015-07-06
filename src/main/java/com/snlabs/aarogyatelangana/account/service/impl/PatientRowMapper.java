@@ -38,6 +38,8 @@ public class PatientRowMapper implements RowMapper {
             patientAddress.setDistrict(rs.getString("F_DISTRICT"));
             patientAddress.setState(rs.getString("F_STATE"));
             patientAddress.setPincode(rs.getInt("F_PINCODE"));
+            patientAddress.setCityName(rs.getString("F_CITY"));
+            patientAddress.setPatientID(patient.getPatientID());
             patient.setPatientAddress(patientAddress);
             
             PatientCurrentAddress patientCurrentAddress = new PatientCurrentAddress();
@@ -46,6 +48,8 @@ public class PatientRowMapper implements RowMapper {
             patientCurrentAddress.setDistrict(rs.getString("F_DISTRICT_CURRENT"));
             patientCurrentAddress.setPincode(rs.getInt("F_PINCODE_CURRENT"));
             patientCurrentAddress.setState(rs.getString("F_STATE_CURRENT"));
+            patientCurrentAddress.setSameAsPresentAddress(rs.getString("F_SAME_AS_PRESENT_ADDRESS"));
+            patientCurrentAddress.setPatientID(patient.getPatientID());
             patient.setPatientCurrentAddress(patientCurrentAddress);
 
             detailsList.add(patient);

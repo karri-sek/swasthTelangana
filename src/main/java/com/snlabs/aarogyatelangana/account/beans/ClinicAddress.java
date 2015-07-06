@@ -10,10 +10,29 @@ public class ClinicAddress {
     private int pincode;
     private String contactNum;
     private String clinicName;
-    private int patientID;
+    private String registrationNo;
+    private long patientID;
     private String patientName;
+    
+    private String operation;
+    
+    public String getOperation() {
+		return operation;
+	}
 
-    public String getPatientName() {
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+    
+    public String getRegistrationNo() {
+		return registrationNo;
+	}
+
+	public void setRegistrationNo(String registrationNo) {
+		this.registrationNo = registrationNo;
+	}
+
+	public String getPatientName() {
         return patientName;
     }
 
@@ -21,15 +40,15 @@ public class ClinicAddress {
         this.patientName = patientName;
     }
 
-    public int getPatientID() {
-        return patientID;
-    }
+    public long getPatientID() {
+		return patientID;
+	}
 
-    public void setPatientID(int patientID) {
-        this.patientID = patientID;
-    }
+	public void setPatientID(long patientID) {
+		this.patientID = patientID;
+	}
 
-    public int getClinicID() {
+	public int getClinicID() {
         return clinicID;
     }
 

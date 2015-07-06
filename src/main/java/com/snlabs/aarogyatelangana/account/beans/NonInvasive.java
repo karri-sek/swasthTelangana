@@ -5,71 +5,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NonInvasive extends FormF {
-	private int nonInvasiveID;
-	private int patientID;
-	private String doctorName;
+	private long nonInvasiveID;
+	private long patientID;
+	private String doctorName = "DR. ";
 	private String diagnosisIndication;
 	private String carriedNonInvasiveProcedure;
 	private Date declarationDate;
 	private Date procedureCarriedDate;
 	private String procedureResult;
-	private int conveyID;
+	private long conveyID;
 	private String mtpIndication;
 	private Date date;
 	private String place;
-	private String otherDiagnoseDetails;
-	private String otherProcedure;
-	private static Map<Integer, String> procedures = new HashMap<Integer, String>();
-	private static Map<Integer, String> diagnoseDetails = new HashMap<Integer, String>();
+	private String otherDiagnoseDetails = "No";
+	private String otherProcedure = "No";
 	private ConveyDetails conveyDetails;
-	private String selectedDiagnoseDetails;
-	private String selectedProcedures;
 	private String patientName;
-
-	static {
-		diagnoseDetails
-				.put(1,
-						"To diagnose intra-uterine and/or ectopic pregnancy and confirm viability");
-		diagnoseDetails.put(2, "Estimation of gestational age (dating)");
-		diagnoseDetails.put(3,
-				"Detection of number of fetuses and their chorionicity");
-		/*
-		 * diagnoseDetails .put(4,
-		 * "Suspected pregnancy with IUCD in-situ or suspected pregnancy following contraceptive failure/MTP failure"
-		 * );
-		 */
-		diagnoseDetails.put(4, "Vaginal bleeding/leaking.");
-		diagnoseDetails.put(5, "Follow-up of cases of abortion");
-		/*
-		 * * diagnoseDetails.put(6,
-		 * "Assessment of cervical canal and diameter of internal os");
-		 * diagnoseDetails.put(7,
-		 * "Discrepancy between uterine size and period of amenorrhea");
-		 * diagnoseDetails.put(8,
-		 * "Any suspected adenexal or uterine pathology/abnormality");
-		 * diagnoseDetails .put(9,
-		 * "Detection of chromosomal abnormalities, fetal structural defects and other abnormalities and their follow-up"
-		 * ); diagnoseDetails.put(10,
-		 * "To evaluate fetal presentation and position");
-		 */
-
-		procedures.put(1, "Ultrasound");
-
+	
+	private String operation;
+    
+	private DiagnoseDetails diagnoseDetails;
+	private Procedures procedures; 
+	
+	public String getOperation() {
+		return operation;
 	}
 
-	public int getNonInvasiveID() {
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+	
+	public long getNonInvasiveID() {
 		return nonInvasiveID;
 	}
 
-	public void setNonInvasiveID(int nonInvasiveID) {
+	public void setNonInvasiveID(long nonInvasiveID) {
 		this.nonInvasiveID = nonInvasiveID;
 	}
 
-	public int getPatientID() {
+	public long getPatientID() {
 		return patientID;
 	}
 
-	public void setPatientID(int patientID) {
+	public void setPatientID(long patientID) {
 		this.patientID = patientID;
 	}
 
@@ -122,11 +100,11 @@ public class NonInvasive extends FormF {
 		this.procedureResult = procedureResult;
 	}
 
-	public int getConveyID() {
+	public long getConveyID() {
 		return conveyID;
 	}
 
-	public void setConveyID(int conveyID) {
+	public void setConveyID(long conveyID) {
 		this.conveyID = conveyID;
 	}
 
@@ -170,20 +148,20 @@ public class NonInvasive extends FormF {
 		this.otherProcedure = otherProcedure;
 	}
 
-	public static Map<Integer, String> getProcedures() {
+	public Procedures getProcedures() {
 		return procedures;
 	}
 
-	public static void setProcedures(Map<Integer, String> procedures) {
-		NonInvasive.procedures = procedures;
+	public void setProcedures(Procedures procedures) {
+		this.procedures = procedures;
 	}
 
-	public static Map<Integer, String> getDiagnoseDetails() {
+	public DiagnoseDetails getDiagnoseDetails() {
 		return diagnoseDetails;
 	}
 
-	public static void setDiagnoseDetails(Map<Integer, String> diagnoseDetails) {
-		NonInvasive.diagnoseDetails = diagnoseDetails;
+	public void setDiagnoseDetails(DiagnoseDetails diagnoseDetails) {
+		this.diagnoseDetails = diagnoseDetails;
 	}
 
 	public ConveyDetails getConveyDetails() {
@@ -192,22 +170,6 @@ public class NonInvasive extends FormF {
 
 	public void setConveyDetails(ConveyDetails conveyDetails) {
 		this.conveyDetails = conveyDetails;
-	}
-
-	public String getSelectedDiagnoseDetails() {
-		return selectedDiagnoseDetails;
-	}
-
-	public void setSelectedDiagnoseDetails(String selectedDiagnoseDetails) {
-		this.selectedDiagnoseDetails = selectedDiagnoseDetails;
-	}
-
-	public String getSelectedProcedures() {
-		return selectedProcedures;
-	}
-
-	public void setSelectedProcedures(String selectedProcedures) {
-		this.selectedProcedures = selectedProcedures;
 	}
 
 	public String getPatientName() {
@@ -231,8 +193,9 @@ public class NonInvasive extends FormF {
 				+ ", date=" + date + ", place=" + place
 				+ ", otherDiagnoseDetails=" + otherDiagnoseDetails
 				+ ", otherProcedure=" + otherProcedure + ", conveyDetails="
-				+ conveyDetails + ", selectedDiagnoseDetails="
-				+ selectedDiagnoseDetails + ", selectedProcedures="
-				+ selectedProcedures + ", patientName=" + patientName + "]";
+				+ conveyDetails + ", patientName=" + patientName
+				+ ", operation=" + operation + ", diagnoseDetails="
+				+ diagnoseDetails + ", procedures=" + procedures + "]";
 	}
+
 }

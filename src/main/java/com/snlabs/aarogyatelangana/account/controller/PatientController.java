@@ -47,13 +47,10 @@ public class PatientController {
 			@RequestBody Patient patient, HttpSession session, ModelMap model) {
 		Patient resultPatient;
 		try {
-			if (session.getAttribute("userDetails") == null) {
-				model.put("error", "Unable to get userDetails from session");
-			}
-			String createdBy = ((UserDetails) userDetails).getLoginId();
+			patient.setCreatedBy(userDetails.getLoginId());
 			resultPatient = patientService.createPatientRecord(patient);
 			if (resultPatient != null) {
-				patient.setCreatedBy(createdBy);
+				patient.setCreatedBy(userDetails.getLoginId());
 				model.put("patient", resultPatient);
 				model.put("result", patient.getPatientName()
 						+ " details has been saved successfully...!");
@@ -74,32 +71,34 @@ public class PatientController {
 		try {
 			model.clear();
 			if (patientID != null) {
-				model.put("patient", formService.getPatientDetails(Integer
-						.parseInt(patientID)));
-			}
-			// TESTING-DATA - Comment-out once testing is done.
-			/*if(patientID == null){
 				Patient pat = new Patient();
+				pat.setPatientID(Long.parseLong(patientID));
+
+				Patient patient = patientService.searchPatient(pat,
+						userDetails, "ID");
+				pat.setOperation("UPDATE");
+				model.put("patient", patient);
+			} else {
+				// TESTING-DATA - Comment-out once testing is done.
+				/*Patient pat = new Patient();
 				pat.setPatientName("Priyanka G");
 				pat.setAadharNo("499118665246");
 				pat.setContactno("9999999999");
+				pat.setAge(28);
 				PatientAddress patientAddress = new PatientAddress();
-				patientAddress.setCityName("Hyderabad");
-				patientAddress.setAddress("Ameerpet");;
-				pat.setPatientAddress(patientAddress);
+				patientAddress.setCityName("Mancherial");
+				patientAddress.setDistrict("Adilabad");
+				patientAddress.setState("Tamilnadu");
+				patientAddress.setAddress("Ameerpet");
+				patientAddress.setContactno("9999999999");
+				pat.setPatientAddress(patientAddress); 
 
-				model.put("patient", pat);
-			}*/
-			
-			if (userDetails != null) {
-				model.put("loginID", userDetails.getLoginId());
-			} else {
-				model.put("error", "unable to get user session Details");
+				model.put("patient", pat);*/
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e.getMessage());
 		}
-		
+
 		return "patientForm";
 	}
 
@@ -143,10 +142,13 @@ public class PatientController {
 			@SessionParam(value = "userDetails") UserDetails userDetails,
 			@RequestBody Patient patient, HttpSession session, ModelMap model) {
 		try {
+			patient.setCreatedBy(userDetails.getLoginId());
 			if (patientService.createPatientRecord(patient) != null) {
 				ClinicAddress clinicAddress = formService
 						.getClinicDetails(patient.getPatientID());
-				if (clinicAddress == null) {
+				if (clinicAddress != null) {
+					clinicAddress.setOperation("UPDATE");
+				} else {
 					clinicAddress = new ClinicAddress();
 					clinicAddress.setPatientID(patient.getPatientID());
 					// TESTING-DATA - Comment-out once testing is done.
@@ -158,8 +160,6 @@ public class PatientController {
 				}
 				clinicAddress.setPatientName(patient.getPatientName());
 				model.put("clinicAddress", clinicAddress);
-				// model.put("formName", "Clinic");
-				// model.put("formSubName", "Address");
 				return "clinicDetails";
 			} else {
 				session.setAttribute(

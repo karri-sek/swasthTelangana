@@ -15,7 +15,7 @@ public interface FormDao {
 
     public boolean updateInvasiveDetails(Invasive invasive);
 
-    public Form findByFormId(int formId);
+    public Form findByFormId(long formId);
 
     public boolean delete(Form patient);
 
@@ -31,13 +31,13 @@ public interface FormDao {
 
     public Declaration saveDeclaration(Declaration declaration);
 
-    public Patient getPatientDetails(int patientID);
+    public Patient getPatientDetails(long patientID);
 
-    public SectionA getSectionADetails(int patientID);
+    public SectionA getSectionADetails(long patientID);
 
-    public ClinicAddress getClinicDetails(int patientID);
+    public ClinicAddress getClinicDetails(long patientID);
 
-    public NonInvasive getNonInvasiveDetails(int patientID);
+    public NonInvasive getNonInvasiveDetails(long patientID);
 
-    public Invasive getInvasiveDetails(int patientID);
+    public Invasive getInvasiveDetails(long patientID);
 }

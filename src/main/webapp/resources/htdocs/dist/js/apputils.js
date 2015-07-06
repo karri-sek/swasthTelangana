@@ -49,9 +49,9 @@ function OpenInNewTab() {
 }
 
 function submitForm(url, formId, targetId) {
-	debugger;
+	//debugger;
 	showLoadingSpinner(formId, targetId);
-    if ('NO-DATA' != formId && isFormValid()) {
+    if ('NO-DATA' != formId && isFormValid(formId)) {
         formData = JSON.stringify($("#" + formId).serializeObject());
         processRequest(url, formData, targetId);
     } else if ('NO-DATA' == formId) {
@@ -104,10 +104,20 @@ $.fn.serializeObject = function () {
         $.each(uniqueElements, function (index, value) {
             var childNodes = {};
             $.each($("[name^='" + value + "']"), function (k, v) {
-                var nodeName = v.name;
-                var node = nodeName.substring(nodeName.lastIndexOf(".") + 1,
-                    nodeName.length);
-                childNodes[node] = v.value;
+                //debugger;
+                if(v.type == "checkbox"){
+                	if(v.checked){
+		            	var nodeName = v.name;
+		                var node = nodeName.substring(nodeName.lastIndexOf(".") + 1,
+		                    nodeName.length);
+		                childNodes[node] = v.value;
+                	}
+                }else{
+                	var nodeName = v.name;
+	                var node = nodeName.substring(nodeName.lastIndexOf(".") + 1,
+	                    nodeName.length);
+	                childNodes[node] = v.value;
+                }
             });
             var beanNode = value
                 .substring(value.indexOf(".") + 1, value.length);
@@ -152,24 +162,24 @@ $(document.body).on(
 
     });
 
-function isFormValid() {
+function isFormValid(formId) {
     var isValid = true;
     $('li', $(this).parents('form')).removeClass('has-error');
     $('label.has-error').remove();
 
-    $('.required').each(function () {
+    $('#'+formId+' .required').each(function () {
         if ($(this).val() == '') {
             isValid = false;
             $(this).parent().addClass('has-error').append('<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> Input with error</label>');
         }
     });
-    $('.onlyNumber').each(function () {
+    $('#'+formId+' .onlyNumber').each(function () {
         if (!isANumber($(this).val())) {
             isValid = false;
             $(this).parent().addClass('has-error').append('<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>Required only Number</label>');
         }
     });
-    $('.onlyMobileNum').each(function () {
+    $('#'+formId+' .onlyMobileNum').each(function () {
         if (!isOfLength($(this).val(), 10) || !isANumber($(this).val())) {
             isValid = false;
             $(this).parent().addClass('has-error').append('<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>Mobile number must be a number with size 10.</label>');
@@ -193,18 +203,28 @@ function isANumber(numStr) {
     return false;
 }
 function myfunction() {
+	if($("#sameAsPresentAddress").is(':checked')){
+		var cityName = document.getElementById("patient.patientAddress.cityName").value;
+	    document.getElementById("patient.patientCurrentAddress.cityName").value = cityName;
 
-    var cityName = document.getElementById("patient.patientAddress.cityName").value;
-    document.getElementById("patient.patientCurrentAddress.cityName").value = cityName;
+	    var district = document.getElementById("patient.patientAddress.district").value;
+	    document.getElementById("patient.patientCurrentAddress.district").value = district;
 
-    var district = document.getElementById("patient.patientAddress.district").value;
-    document.getElementById("patient.patientCurrentAddress.district").value = district;
+	    var state = document.getElementById("patient.patientAddress.state").value;
+	    document.getElementById("patient.patientCurrentAddress.state").value = state;
 
-    var state = document.getElementById("patient.patientAddress.state").value;
-    document.getElementById("patient.patientCurrentAddress.state").value = state;
+	    var address = document.getElementById("patient.patientAddress.address").value;
+	    document.getElementById("patient.patientCurrentAddress.address").value = address;
+	}    
+	else{
+	    document.getElementById("patient.patientCurrentAddress.cityName").value = '';
 
-    var state = document.getElementById("patient.patientAddress.address").value;
-    document.getElementById("patient.patientCurrentAddress.address").value = state;
+	    document.getElementById("patient.patientCurrentAddress.district").value = '';
+
+	    document.getElementById("patient.patientCurrentAddress.state").value = '';
+
+	    document.getElementById("patient.patientCurrentAddress.address").value = '';
+	}
 }
 
 $(function () {

@@ -44,10 +44,17 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2">Clinic Mobile</label>
+            <label class="control-label col-sm-2" title="Under PC& PNDT Act, 1994"> Registration No.</label>
 
             <div class="col-sm-5">
-                <input class='form-control onlyMobileNum' placeholder="Enter Clinic contact No" name="contactNum"
+                <input class='form-control required' placeholder="Under PC& PNDT Act, 1994" name="registrationNo" type='text' value="${clinicAddress.registrationNo}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Clinic contact no.</label>
+
+            <div class="col-sm-5">
+                <input class='form-control' placeholder="Enter Clinic contact No" name="contactNum"
                        type='text' value="${clinicAddress.contactNum}"/>
             </div>
         </div>
@@ -55,8 +62,7 @@
             <label class="control-label col-sm-2">Clinic Address</label>
 
             <div class="col-sm-5">
-                <textarea class='form-control' rows='3' name="address"
-                          value="${clinicAddress.address}">${clinicAddress.address}</textarea>
+                <textarea class='form-control' rows='3' name="address">${clinicAddress.address}</textarea>
             </div>
         </div>
         <div class="form-group">
@@ -64,31 +70,23 @@
 
             <div class="col-sm-2">
                 <select class="form-control" id="district" name="district" value="${clinicAddress.district}">
-                    <option>Hyderabad</option>
-                    <option>Rangareddy</option>
-                    <option>Karimnagar</option>
-                    <option>Warangal</option>
-                    <option>Adilabad</option>
+                    <option value="Hyderabad" ${clinicAddress.district == 'Hyderabad' ? 'selected' : ''}>Hyderabad</option>
+                    <option value="Rangareddy" ${clinicAddress.district == 'Rangareddy' ? 'selected' : ''}>Rangareddy</option>
+                    <option value="Karimnagar" ${clinicAddress.district == 'Karimnagar' ? 'selected' : ''}>Karimnagar</option>
+                    <option value="Warangal" ${clinicAddress.district == 'Warangal' ? 'selected' : ''}>Warangal</option>
+                    <option value="Adilabad" ${clinicAddress.district == 'Adilabad' ? 'selected' : ''}>Adilabad</option>
                 </select>
             </div>
-            <%--<div class="col-sm-3">
-                <input class='form-control' name="district" type='text' value='${clinicAddress.district}'/>
-            </div>--%>
             <label class="control-label col-sm-2"> State: </label>
 
             <div class="col-sm-2">
                 <select class="form-control" id="state" name="state" value="${clinicAddress.state}">
-                    <option>Telangana</option>
-                    <option>Karnakata</option>
-                    <option>Tamilnadu</option>
-                    <option>Orissa</option>
-                    <option>Maharastra</option>
+                    <option value="Telangana" ${clinicAddress.state == 'Telangana' ? 'selected' : ''}>Telangana</option>
+                    <option value="Andhra Pradesh" ${clinicAddress.state == 'Andhra Pradesh' ? 'selected' : ''}>Andhra Pradesh</option>
+                    <option value="Tamilnadu" ${clinicAddress.state == 'Tamilnadu' ? 'selected' : ''}>Tamilnadu</option>
                 </select>
             </div>
-
-          <%--  <div class="col-sm-3">
-                <input class='form-control' name="state" type='text' value="${clinicAddress.state}"/>
-            </div>--%>
+          
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2"> Pincode</label>
@@ -97,14 +95,22 @@
                 <input class='form-control' name="pincode" type='text' value="${clinicAddress.pincode}"/>
             </div>
         </div>
+        
+        <input type="hidden" id="operation" name="operation" value="${clinicAddress.operation}"/>
+        
         <div class="box-footer">
             <a class="btn btn-default pull-left" href="#"
-               onclick="submitForm('/account/previousClinicDetails.action', 'clinicForm', 'containerdiv');">Previous</a>
+               onclick="submitForm('/account/previousClinicDetails.action', 'clinicFormPrevious', 'containerdiv');">Previous</a>
             <label class="control-label col-sm-3"></label>
             <a class="btn bg-primary btn-flat margin" href="#"
                onclick="submitForm('/account/saveClinicDetails.action', 'clinicForm', 'containerdiv');">Save</a>
             <a class="btn btn-primary pull-right" href="#"
                onclick="submitForm('/account/nextClinicDetails.action', 'clinicForm', 'containerdiv');">Next</a>
         </div>
+    </form>
+    
+    <form name="clinicFormPrevious" id="clinicFormPrevious">
+    	<input name="patientID" type="hidden" value="${clinicAddress.patientID}"/>
+    	<input name="patientName" type='hidden' value="${clinicAddress.patientName}"/>
     </form>
 </div>

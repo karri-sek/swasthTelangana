@@ -11,7 +11,7 @@ public interface PatientService {
     //Insert patient details into the DB and returns the patient ID
     public Patient createPatientRecord(Patient patient);
 
-    public Patient searchPatientById(int patientId, UserDetails userDetails);
+    public Patient searchPatientById(long patientId, UserDetails userDetails);
 
     public List<Patient> getPatientProfiles(UserDetails userDetails, Form form);
 

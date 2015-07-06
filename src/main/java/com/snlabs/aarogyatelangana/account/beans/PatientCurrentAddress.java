@@ -3,46 +3,40 @@ package com.snlabs.aarogyatelangana.account.beans;
 import java.io.Serializable;
 
 public class PatientCurrentAddress implements Serializable{
-    private String district;
+
+	private static final long serialVersionUID = -607167655225085090L;
+	private String district;
     private String state;
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("PatientCurrentAddress{");
-        sb.append("district='").append(district).append('\'');
-        sb.append(", state='").append(state).append('\'');
-        sb.append(", pincode=").append(pincode);
-        sb.append(", sameAsPresentAddress='").append(sameAsPresentAddress).append('\'');
-        sb.append(", patientAddressID=").append(patientAddressID);
-        sb.append(", address='").append(address).append('\'');
-        sb.append(", cityName='").append(cityName).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
-
     private int pincode;
     private String sameAsPresentAddress;
     private int patientAddressID;
     private String address;
     private String cityName;
+    private long patientID;
+    
+    public long getPatientID() {
+		return patientID;
+	}
 
-    public String getSameAsPresentAddress() {
-        return sameAsPresentAddress;
-    }
+	public void setPatientID(long patientID) {
+		this.patientID = patientID;
+	}
 
-    public void setSameAsPresentAddress(String sameAsPresentAddress) {
-        this.sameAsPresentAddress = sameAsPresentAddress;
-    }
+	public String getSameAsPresentAddress() {
+		return sameAsPresentAddress;
+	}
 
-    public String getCityName() {
+	public void setSameAsPresentAddress(String sameAsPresentAddress) {
+		this.sameAsPresentAddress = sameAsPresentAddress;
+	}
+
+	public String getCityName() {
         return cityName;
     }
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
-
-
 
     public String getAddress() {
         return address;
@@ -84,5 +78,12 @@ public class PatientCurrentAddress implements Serializable{
         this.patientAddressID = patientAddressID;
     }
 
-
+	@Override
+	public String toString() {
+		return "PatientCurrentAddress [district=" + district + ", state="
+				+ state + ", pincode=" + pincode + ", sameAsPresentAddress="
+				+ sameAsPresentAddress + ", patientAddressID="
+				+ patientAddressID + ", address=" + address + ", cityName="
+				+ cityName + ", patientID=" + patientID + "]";
+	}
 }

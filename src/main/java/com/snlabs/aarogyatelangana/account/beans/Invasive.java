@@ -4,61 +4,89 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author nbattula
+ *
+ */
 public class Invasive extends FormF {
 
 	private int invasiveID;
-	private String doctorName;
-	private String dignosisBasics;
-	private String advancedMaternalAge;
-	private String geneticDisease;
-	private Date contestDate;
-	private String carriedInvasiveProcedure;
-	private String compilication;
-	private String additionalTest;
-	private String procedureResult;
+	private String doctorName = "DR. ";
+	private String historyOfGeneticDisease = "No";
+	private String advancedMaternalAge = "No";
+	private String geneticDisease = "No";
+	private String previousComplication = "No";
+	private Date formGDate;
+	private String complication = "No";
+	private String procedureResult = "Negetive";
 	private Date procedureCarriedDate;
-	private String mtpIndication;
-	private String historyOfGeneticDisease;
-	private ConveyDetails conveyDetails;
-	private int patientID;
+	private String mtpIndication = "No";
+	
+	private long patientID;
 	private String patientName;
+	
+	private ConveyDetails conveyDetails;
+	private DiagnosisBasis diagnosisBasis;
+	private DiagnosisIndication diagnosisIndication;
+	private InvasiveProcedures invasiveProcedures;
+    private AdditionalTests additionalTests;
+    
+    private String operation;
+    
+    public String getOperation() {
+		return operation;
+	}
 
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
 
+	public String getComplication() {
+		return complication;
+	}
 
-    public void setDiagnosisIndications(String diagnosisIndications) {
-        this.diagnosisIndications = diagnosisIndications;
-    }
+	public void setComplication(String complication) {
+		this.complication = complication;
+	}
 
-    public String getDiagnosisIndications() {
-        return diagnosisIndications;
-    }
+	public AdditionalTests getAdditionalTests() {
+		return additionalTests;
+	}
 
-    private String diagnosisIndications;
+	public void setAdditionalTests(AdditionalTests additionalTests) {
+		this.additionalTests = additionalTests;
+	}
 
-	private static Map<Integer, String> invasiveProcedures = new HashMap<Integer, String>();
-	private static Map<Integer, String> diagnosisBasis = new HashMap<Integer, String>();
-	private static Map<Integer, String> diagnosisIndication = new HashMap<Integer, String>();
+	public Date getFormGDate() {
+		return formGDate;
+	}
 
-	static {
-		diagnosisBasis.put(1, "Clinical");
-		diagnosisBasis.put(2, "Bio-chemical");
-		diagnosisBasis.put(3, "Cytogenetic");
-		diagnosisBasis.put(4, "Other(e.g.radiological,ultrasonography)");
+	public void setFormGDate(Date formGDate) {
+		this.formGDate = formGDate;
+	}
 
-		diagnosisIndication.put(1, "Chromosomal disorders");
-		diagnosisIndication.put(2, "Metabolic disorders");
-		diagnosisIndication.put(3, "Congenital anomaly");
-		diagnosisIndication.put(4, "Mental Disability");
-		diagnosisIndication.put(5, "Haemoglobinopathy");
-		diagnosisIndication.put(6, "Sex linked disorders");
-		diagnosisIndication.put(7, "Single gene disorder");
-		diagnosisIndication.put(8, "Single gene disorder");
+	public DiagnosisBasis getDiagnosisBasis() {
+		return diagnosisBasis;
+	}
 
-		invasiveProcedures.put(1, "Amniocentesis");
-		invasiveProcedures.put(2, "Chorionic Villi aspiration");
-		invasiveProcedures.put(3, "Fetal biopsy");
-		invasiveProcedures.put(4, "Cordocentesis");
+	public void setDiagnosisBasis(DiagnosisBasis diagnosisBasis) {
+		this.diagnosisBasis = diagnosisBasis;
+	}
 
+	public DiagnosisIndication getDiagnosisIndication() {
+		return diagnosisIndication;
+	}
+
+	public void setDiagnosisIndication(DiagnosisIndication diagnosisIndication) {
+		this.diagnosisIndication = diagnosisIndication;
+	}
+
+	public InvasiveProcedures getInvasiveProcedures() {
+		return invasiveProcedures;
+	}
+
+	public void setInvasiveProcedures(InvasiveProcedures invasiveProcedures) {
+		this.invasiveProcedures = invasiveProcedures;
 	}
 
 	public int getInvasiveID() {
@@ -77,12 +105,12 @@ public class Invasive extends FormF {
 		this.doctorName = doctorName;
 	}
 
-	public String getDignosisBasics() {
-		return dignosisBasics;
+	public String getHistoryOfGeneticDisease() {
+		return historyOfGeneticDisease;
 	}
 
-	public void setDignosisBasics(String dignosisBasics) {
-		this.dignosisBasics = dignosisBasics;
+	public void setHistoryOfGeneticDisease(String historyOfGeneticDisease) {
+		this.historyOfGeneticDisease = historyOfGeneticDisease;
 	}
 
 	public String getAdvancedMaternalAge() {
@@ -101,36 +129,12 @@ public class Invasive extends FormF {
 		this.geneticDisease = geneticDisease;
 	}
 
-	public Date getContestDate() {
-		return contestDate;
+	public String getPreviousComplication() {
+		return previousComplication;
 	}
 
-	public void setContestDate(Date contestDate) {
-		this.contestDate = contestDate;
-	}
-
-	public String getCarriedInvasiveProcedure() {
-		return carriedInvasiveProcedure;
-	}
-
-	public void setCarriedInvasiveProcedure(String carriedInvasiveProcedure) {
-		this.carriedInvasiveProcedure = carriedInvasiveProcedure;
-	}
-
-	public String getCompilication() {
-		return compilication;
-	}
-
-	public void setCompilication(String compilication) {
-		this.compilication = compilication;
-	}
-
-	public String getAdditionalTest() {
-		return additionalTest;
-	}
-
-	public void setAdditionalTest(String additionalTest) {
-		this.additionalTest = additionalTest;
+	public void setPreviousComplication(String previousComplication) {
+		this.previousComplication = previousComplication;
 	}
 
 	public String getProcedureResult() {
@@ -157,31 +161,6 @@ public class Invasive extends FormF {
 		this.mtpIndication = mtpIndication;
 	}
 
-	public String getHistoryOfGeneticDisease() {
-		return historyOfGeneticDisease;
-	}
-
-	public void setHistoryOfGeneticDisease(String historyOfGeneticDisease) {
-		this.historyOfGeneticDisease = historyOfGeneticDisease;
-	}
-
-	public static Map<Integer, String> getDiagnosisBasis() {
-		return diagnosisBasis;
-	}
-
-	public static void setDiagnosisBasis(Map<Integer, String> diagnosisBasis) {
-		Invasive.diagnosisBasis = diagnosisBasis;
-	}
-
-	public static Map<Integer, String> getDiagnosisIndication() {
-		return diagnosisIndication;
-	}
-
-	public static void setDiagnosisIndication(
-			Map<Integer, String> diagnosisIndication) {
-		Invasive.diagnosisIndication = diagnosisIndication;
-	}
-
 	public ConveyDetails getConveyDetails() {
 		return conveyDetails;
 	}
@@ -190,20 +169,11 @@ public class Invasive extends FormF {
 		this.conveyDetails = conveyDetails;
 	}
 
-	public static Map<Integer, String> getInvasiveProcedures() {
-		return invasiveProcedures;
-	}
-
-	public static void setInvasiveProcedures(
-			Map<Integer, String> invasiveProcedures) {
-		Invasive.invasiveProcedures = invasiveProcedures;
-	}
-
-	public int getPatientID() {
+	public long getPatientID() {
 		return patientID;
 	}
 
-	public void setPatientID(int patientID) {
+	public void setPatientID(long patientID) {
 		this.patientID = patientID;
 	}
 
@@ -215,17 +185,4 @@ public class Invasive extends FormF {
 		this.patientName = patientName;
 	}
 
-	@Override
-	public String toString() {
-		return "Invasive [invasiveID=" + invasiveID + ", doctorName="
-				+ doctorName + ", dignosisBasics=" + dignosisBasics
-				+ ", advancedMaternalAge=" + advancedMaternalAge
-				+ ", geneticDisease=" + geneticDisease + ", contestDate="
-				+ contestDate + ", carriedInvasiveProcedure="
-				+ carriedInvasiveProcedure + ", compilication=" + compilication
-				+ ", additionalTest=" + additionalTest + ", procedureResult="
-				+ procedureResult + ", procedureCarriedDate="
-				+ procedureCarriedDate + ", mtpIndication=" + mtpIndication
-				+ "]";
-	}
 }

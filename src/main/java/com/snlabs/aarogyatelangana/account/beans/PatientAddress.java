@@ -13,10 +13,18 @@ public class PatientAddress implements Serializable{
     private String cityName;
 	private int patientAddressID;
 	private String address;
-    private String currentAddress;
     private String contactno;
+    private long patientID;
+    
+    public long getPatientID() {
+		return patientID;
+	}
 
-    public String getCityName() {
+	public void setPatientID(long patientID) {
+		this.patientID = patientID;
+	}
+
+	public String getCityName() {
         return cityName;
     }
 
@@ -31,14 +39,6 @@ public class PatientAddress implements Serializable{
 	public void setContactno(String contactno) {
 		this.contactno = contactno;
 	}
-
-	public String getCurrentAddress() {
-        return currentAddress;
-    }
-
-    public void setCurrentAddress(String currentAddress) {
-        this.currentAddress = currentAddress;
-    }
 
     public String getAddress() {
 		return address;
@@ -80,18 +80,13 @@ public class PatientAddress implements Serializable{
 		this.patientAddressID = patientAddressID;
 	}
 
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("PatientAddress{");
-        sb.append("district='").append(district).append('\'');
-        sb.append(", state='").append(state).append('\'');
-        sb.append(", pincode=").append(pincode);
-        sb.append(", cityName='").append(cityName).append('\'');
-        sb.append(", patientAddressID=").append(patientAddressID);
-        sb.append(", address='").append(address).append('\'');
-        sb.append(", currentAddress='").append(currentAddress).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+	@Override
+	public String toString() {
+		return "PatientAddress [district=" + district + ", state=" + state
+				+ ", pincode=" + pincode + ", cityName=" + cityName
+				+ ", patientAddressID=" + patientAddressID + ", address="
+				+ address + ", contactno=" + contactno + ", patientID="
+				+ patientID + "]";
+	}
+	
 }

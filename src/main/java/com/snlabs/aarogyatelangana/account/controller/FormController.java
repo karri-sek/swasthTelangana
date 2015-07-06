@@ -1,24 +1,34 @@
 package com.snlabs.aarogyatelangana.account.controller;
 
-import com.snlabs.aarogyatelangana.account.beans.*;
-import com.snlabs.aarogyatelangana.account.service.DownloadService;
-import com.snlabs.aarogyatelangana.account.service.FormService;
-import com.snlabs.aarogyatelangana.account.service.PatientService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.snlabs.aarogyatelangana.account.beans.ClinicAddress;
+import com.snlabs.aarogyatelangana.account.beans.ConveyDetails;
+import com.snlabs.aarogyatelangana.account.beans.Declaration;
+import com.snlabs.aarogyatelangana.account.beans.Form;
+import com.snlabs.aarogyatelangana.account.beans.Invasive;
+import com.snlabs.aarogyatelangana.account.beans.NonInvasive;
+import com.snlabs.aarogyatelangana.account.beans.Patient;
+import com.snlabs.aarogyatelangana.account.beans.SectionA;
+import com.snlabs.aarogyatelangana.account.beans.UserDetails;
+import com.snlabs.aarogyatelangana.account.exceptions.LoginRequiredException;
+import com.snlabs.aarogyatelangana.account.service.DownloadService;
+import com.snlabs.aarogyatelangana.account.service.FormService;
+import com.snlabs.aarogyatelangana.account.service.PatientService;
+import com.snlabs.aarogyatelangana.account.spring.SessionParam;
 
 @Controller
 public class FormController {
@@ -41,15 +51,15 @@ public class FormController {
     }
 
     @RequestMapping(value = {"previousClinicDetails.action"}, method = RequestMethod.POST)
-    public String previousClinicDetails(@RequestBody ClinicAddress clinicAddress,
+    public String previousClinicDetails(@SessionParam(value = "userDetails") UserDetails userDetails, @RequestBody Patient patient,
                                         HttpSession session, ModelMap model) {
-        if (clinicAddress != null && clinicAddress.getPatientID() > 0) {
-            if (formService.saveClinicDetails(clinicAddress) != null) {
-                model.put("patient", formService.getPatientDetails(clinicAddress.getPatientID()));
-                return "patientForm";
-            }
+        if (patient != null && patient.getPatientID() > 0) {
+        	Patient pat = patientService.searchPatient(patient, userDetails, "ID");
+        	pat.setOperation("UPDATE");
+            model.put("patient", pat);
+            return "patientForm";
         } else {
-            System.out.println("Unable to get the Details patientID:" + clinicAddress.getPatientID());
+            System.out.println("Unable to get the Details patientID:" + patient.getPatientID());
             model.put("errorMessage", "Failed to get the Details");
         }
         return "clinicDetails";
@@ -68,8 +78,16 @@ public class FormController {
         model.clear();
         try {
             if (formService.saveClinicDetails(clinicAddress) != null) {
-                SectionA sectionA = new SectionA();
-                sectionA.setPatientID(clinicAddress.getPatientID());
+                
+            	SectionA sectionA = formService.getSectionADetails(clinicAddress.getPatientID());
+            	
+            	if(sectionA != null){
+            		sectionA.setOperation("UPDATE");
+            	}else{
+            		sectionA = new SectionA();
+            		sectionA.setPatientID(clinicAddress.getPatientID());
+            	}
+            	
                 sectionA.setPatientName(clinicAddress.getPatientName());
                 model.put("sectionA", sectionA);
                 return "sectionA";
@@ -85,12 +103,13 @@ public class FormController {
 
 
     @RequestMapping(value = {"previousSectionA.action"}, method = RequestMethod.POST)
-    public String previousSectionA(@RequestBody SectionA sectionA,
+    public String previousSectionA(@RequestBody Patient patient,
                                    HttpSession session, ModelMap model) {
-        if (formService.saveSectionA(sectionA) != null) {
-            ClinicAddress clinicAddress = formService.getClinicDetails(sectionA.getPatientID());
+    	if (patient != null && patient.getPatientID() > 0) {
+            ClinicAddress clinicAddress = formService.getClinicDetails(patient.getPatientID());
             if (clinicAddress != null) {
-                clinicAddress.setPatientName(sectionA.getPatientName());
+            	clinicAddress.setPatientName(patient.getPatientName());
+            	clinicAddress.setOperation("UPDATE");
                 model.put("clinicAddress", clinicAddress);
                 return "clinicDetails";
             } else {
@@ -113,20 +132,28 @@ public class FormController {
     public String nextSectionADetails(@RequestBody SectionA sectionA,
                                       HttpSession session, ModelMap model) {
         if (formService.saveSectionA(sectionA) != null) {
-            NonInvasive nonInvasive = new NonInvasive();
-            nonInvasive.setPatientID(sectionA.getPatientID());
-            nonInvasive.setPatientName(sectionA.getPatientName());
-            nonInvasive.setProcedureResult("Negetive");
+        	
+        	NonInvasive nonInvasive = formService.getNonInvasiveDetails(sectionA.getPatientID());
+        	if(nonInvasive != null){
+        		nonInvasive.setOperation("UPDATE");
+        	}else {
+        		 nonInvasive = new NonInvasive();
+                 nonInvasive.setPatientID(sectionA.getPatientID());
+                 nonInvasive.setPatientName(sectionA.getPatientName());
+                 nonInvasive.setProcedureResult("Negetive");
+                 
+                 java.util.Date utilDate = new java.util.Date();
+                 java.sql.Date curDate = new java.sql.Date(utilDate.getTime());
+                 
+                 nonInvasive.setDeclarationDate(curDate);
+                 nonInvasive.setProcedureCarriedDate(curDate);
+                 
+                 ConveyDetails conveyDetails = new ConveyDetails();
+                 conveyDetails.setConveyedDate(curDate);
+                 
+                 nonInvasive.setConveyDetails(conveyDetails);
+        	}
             model.put("nonInvasive", nonInvasive);
-            model.put("diagnoseDetails", NonInvasive.getDiagnoseDetails());
-            model.put("procedures", NonInvasive.getProcedures());
-            //Default dates display
-            Date curDate = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String sysdate = format.format(curDate);
-            
-            model.put("declarationDate", sysdate);
-            model.put("procedureCarriedDate", sysdate);
             
             return "nonInvasive";
         } else {
@@ -137,15 +164,16 @@ public class FormController {
     @RequestMapping(value = {"previousNonInvasiveDetails.action"}, method = RequestMethod.POST)
     public String previousNonInvasiveDetails(@RequestBody NonInvasive nonInvasive,
                                              HttpSession session, ModelMap model) {
-        if (formService.saveNonInvasiveDetails(nonInvasive) != null) {
-            model.put("sectionA", formService.getSectionADetails(nonInvasive.getPatientID()));
+    	SectionA sectionA = formService.getSectionADetails(nonInvasive.getPatientID());
+    	if (sectionA != null) {
+    		sectionA.setOperation("UPDATE");
+            model.put("sectionA", sectionA);
             return "sectionA";
         } else {
             return "nonInvasive";
         }
     }
-
-
+ 
     @RequestMapping(value = {"saveNonInvasiveDetails.action"}, method = RequestMethod.POST)
     public String saveNonInvasiveDetails(@RequestBody NonInvasive nonInvasive,
                                          HttpSession session, ModelMap model) {
@@ -158,24 +186,25 @@ public class FormController {
                                          HttpSession session, ModelMap model) {
 
         if (formService.saveNonInvasiveDetails(nonInvasive) != null) {
-            Invasive invasive = new Invasive();
-            invasive.setPatientName(nonInvasive.getPatientName());
-            invasive.setPatientID(nonInvasive.getPatientID());
-            model.put("diagnosisBasis", Invasive.getDiagnosisBasis());
-            model.put("diagnosisIndication",
-                    Invasive.getDiagnosisIndication());
-            model.put("invasiveProcedures",
-                    Invasive.getInvasiveProcedures());
-            model.put("invasive", invasive);
-            
-            //Default dates display
-            Date curDate = new Date();
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String sysdate = format.format(curDate);
-            
-            model.put("contestDate", sysdate);
-            model.put("procedureCarriedDate", sysdate);
-            //model.put("conveyDetails.conveyedDate", sysdate);
+        	Invasive invasive = null;
+        	//Get invasive details from DB to populate if present already.
+        	
+        	if(invasive == null){
+        		invasive = new Invasive();
+                invasive.setPatientName(nonInvasive.getPatientName());
+                invasive.setPatientID(nonInvasive.getPatientID());
+                model.put("invasive", invasive);
+                
+                java.util.Date utilDate = new java.util.Date();
+                java.sql.Date curDate = new java.sql.Date(utilDate.getTime());
+                
+                //Default values
+                invasive.setFormGDate(curDate);
+                invasive.setProcedureCarriedDate(curDate);
+                ConveyDetails conveyDetails = new ConveyDetails();
+                conveyDetails.setConveyedDate(curDate);
+                invasive.setConveyDetails(conveyDetails);
+        	}
             return "invasive";
         } else {
             return "nonInvasive";
@@ -183,10 +212,12 @@ public class FormController {
     }
 
     @RequestMapping(value = {"previousInvasiveDetails.action"}, method = RequestMethod.POST)
-    public String previousInvasiveDetails(@RequestBody Invasive invasive,
+    public String previousInvasiveDetails(@RequestBody Patient patient,
                                           HttpSession session, ModelMap model) {
-        if (formService.saveInvasiveDetails(invasive) != null) {
-            model.put("nonInvasive", formService.getNonInvasiveDetails(invasive.getPatientID()));
+    	NonInvasive nonInvasive = formService.getNonInvasiveDetails(patient.getPatientID());
+        if (nonInvasive != null) {
+        	nonInvasive.setOperation("UPDATE");
+            model.put("nonInvasive", nonInvasive);
             return "nonInvasive";
         } else {
             return "invasive";
@@ -277,35 +308,6 @@ public class FormController {
         return "declaration";
     }
     
-    /*
-    @RequestMapping(value = {"saveDeclarationDetails.action"}, method = RequestMethod.POST)
-    public String saveDeclaration(@RequestBody Declaration declaration,
-                                  HttpSession session, ModelMap model, HttpServletRequest request) {
-        UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-        if (declaration.getPatientID() > 0) {
-            if (formService.saveDeclarationDetails(declaration) != null) {
-                File patientExcelFile = downloadService.downloadForm(declaration.getPatientID(), request, session);
-                if (patientExcelFile != null) {
-                    Patient patient = patientService.searchPatientById(declaration.getPatientID(), userDetails);
-                    if (patient != null) {
-                        patient.setFormFDownloadPath(patientExcelFile.getAbsolutePath());
-                        patientService.createPatientRecord(patient);
-                    } else {
-                        model.put("result", "Failed to get the Patient Details...");
-                    }
-                    model.put("result", "Saved Patient Details in the Excel File Successfully");
-                } else {
-                    model.put("result", "Failed to Save Patient Details in the Excel File...");
-                }
-            } else {
-                model.put("result", "Failed in saving the Patient Details ");
-            }
-        } else {
-            model.put("result", "Unable to Save the Declaration for the patient name " + declaration.getPatientName());
-        }
-        return "declaration";
-    } */
-
     public FormService getFormService() {
         return formService;
     }
@@ -321,4 +323,9 @@ public class FormController {
     public void setDownloadService(DownloadService downloadService) {
         this.downloadService = downloadService;
     }
+    
+    @ExceptionHandler(LoginRequiredException.class)
+	public String handleLoginRequiredException(LoginRequiredException ex) {
+		return "loginredirect";
+	}
 }
