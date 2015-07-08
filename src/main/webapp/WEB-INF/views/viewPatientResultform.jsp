@@ -1,4 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"
+        type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"
+        type="text/javascript"></script>
 <div class="panel panel-default">
 	<div class="panel-heading">Patient Details</div>
 	<div class="panel-body">

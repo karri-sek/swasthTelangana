@@ -99,14 +99,21 @@
         <input type="hidden" id="operation" name="operation" value="${clinicAddress.operation}"/>
         
         <div class="box-footer">
-            <a class="btn btn-default pull-left" href="#"
-               onclick="submitForm('/account/previousClinicDetails.action', 'clinicFormPrevious', 'containerdiv');">Previous</a>
-            <label class="control-label col-sm-3"></label>
-            <a class="btn bg-primary btn-flat margin" href="#"
-               onclick="submitForm('/account/saveClinicDetails.action', 'clinicForm', 'containerdiv');">Save</a>
-            <a class="btn btn-primary pull-right" href="#"
-               onclick="submitForm('/account/nextClinicDetails.action', 'clinicForm', 'containerdiv');">Next</a>
-        </div>
+				<label class="control-label col-sm-2"></label>
+				<div class="col-sm-3">
+					<a class="btn btn-default col-sm-5" href="#"
+						onclick="submitForm('/account/previousClinicDetails.action', 'clinicFormPrevious', 'containerdiv');">Previous</a>
+				</div>
+				<div class="col-sm-3">
+					<a class="btn btn-primary" href="#"
+						onclick="submitForm('/account/saveClinicDetails.action', 'clinicForm', 'containerdiv');">Save</a>
+				</div>
+				<div class="col-sm-3">
+					<a class="btn btn-primary" href="#"
+						onclick="submitForm('/account/nextClinicDetails.action', 'clinicForm', 'containerdiv');">Next</a>
+				</div>
+			</div>
+        
     </form>
     
     <form name="clinicFormPrevious" id="clinicFormPrevious">

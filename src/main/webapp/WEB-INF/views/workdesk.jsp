@@ -16,9 +16,7 @@
     <link href="<%=request.getContextPath()%>/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
     
     <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/dist/img/icon.png">
-    
-    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/spinner.css" type="text/css">
-
+   
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
           type="text/css"/>
     <!-- Ionicons -->
@@ -237,14 +235,7 @@
 <script src='<%=request.getContextPath()%>/resources/plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
 <script src="<%=request.getContextPath()%>/resources/dist/js/app.js" type="text/javascript"></script>
-<!-- Sparkline -->
-<script src="<%=request.getContextPath()%>/resources/plugins/sparkline/jquery.sparkline.min.js"
-        type="text/javascript"></script>
-<!-- jvectormap -->
-<script src="<%=request.getContextPath()%>/resources/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"
-        type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resources/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"
-        type="text/javascript"></script>
+
 <!-- SlimScroll 1.3.0 -->
 <script src="<%=request.getContextPath()%>/resources/plugins/slimScroll/jquery.slimscroll.min.js"
         type="text/javascript"></script>
@@ -259,19 +250,19 @@
 <%--<script src="<%=request.getContextPath()%>/resources/dist/js/demo.js" type="text/javascript"></script>--%>
 <%--<script type="text/javascript"
         src="<%=request.getContextPath()%>/resources/dist/js/jquery-2.1.3.js"></script>--%>
-<script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"
-        type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"
-        type="text/javascript"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resources/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
 <!-- daterange picker -->
 <link href="<%=request.getContextPath()%>/resources/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
 
+<script src="<%=request.getContextPath()%>/resources/plugins/datatables/jquery.dataTables.min.js"
+        type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resources/plugins/datatables/dataTables.bootstrap.min.js"
+        type="text/javascript"></script>
+
 <script type="text/javascript"
         src="<%=request.getContextPath()%>/resources/dist/js/apputils.js"></script>
-
 
 </body>
 </html>

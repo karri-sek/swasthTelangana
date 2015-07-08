@@ -71,23 +71,24 @@
 			id="patientName" name="patientName" value="${sectionA.patientName}" />
 			
 		<input type="hidden" id="operation" name="operation" value="${sectionA.operation}"/>	
-
+		
 		<div class="box-footer">
-			<label class="control-label col-sm-2" />
-
-			<div class="col-sm-3">
-				<a class="btn btn-primary" href="#"
-					onclick="submitForm('/account/previousSectionA.action', 'sectionAFormPrevious', 'containerdiv');">Previous</a>
+				<label class="control-label col-sm-2"></label>
+				<div class="col-sm-3">
+					<a class="btn btn-default col-sm-5" href="#"
+						onclick="submitForm('/account/previousSectionA.action', 'sectionAFormPrevious', 'containerdiv');">Previous</a>
+				</div>
+				<div class="col-sm-3">
+					<a class="btn btn-primary" href="#"
+						onclick="submitForm('/account/saveSectionA.action', 'sectionA', 'containerdiv');">Save</a>
+				</div>
+				<div class="col-sm-3">
+					<a class="btn btn-primary" href="#"
+						onclick="submitForm('/account/nextSectionA.action', 'sectionA', 'containerdiv');">Next</a>
+				</div>
 			</div>
-			<div class="col-sm-3">
-				<a class="btn btn-primary" href="#"
-					onclick="submitForm('/account/saveSectionA.action', 'sectionA', 'containerdiv');">Save</a>
-			</div>
-			<div class="col-sm-3">
-				<a class="btn btn-primary" href="#"
-					onclick="submitForm('/account/nextSectionA.action', 'sectionA', 'containerdiv');">Next</a>
-			</div>
-		</div>
+		
+		
 	</form>
 	<form name="sectionAFormPrevious" id="sectionAFormPrevious">
 		<input name="patientID" type="hidden" value="${sectionA.patientID}" />

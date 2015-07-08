@@ -1,5 +1,7 @@
 package com.snlabs.aarogyatelangana.account.controller;
 
+import java.util.Calendar;
+
 import com.snlabs.aarogyatelangana.account.beans.UserDetails;
 import com.snlabs.aarogyatelangana.account.exceptions.LoginRequiredException;
 import com.snlabs.aarogyatelangana.account.spring.SessionParam;
@@ -23,6 +25,7 @@ public class ReportController {
 
     @RequestMapping(value = {"/", "home.action"}, method = RequestMethod.GET)
     public String loginpage(ModelMap model, HttpSession session) {
+    	session.removeAttribute("loginError");
         if (session.getAttribute("userDetails") != null) {
             return "workdesk";
         }
@@ -111,8 +114,17 @@ public class ReportController {
     }
 
     @RequestMapping(value = {"formDateReportDetails.action"}, method = RequestMethod.POST)
-    public String viewDateRangeReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
-        return "formDateReport";
+    public String viewDateRangeReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map, HttpSession session) {
+    	java.util.Date utilDate = new java.util.Date();
+        java.sql.Date toDate = new java.sql.Date(utilDate.getTime());
+        
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -30);
+        java.sql.Date fromDate = new java.sql.Date(cal.getTimeInMillis());
+        
+        session.setAttribute("fromDate", fromDate);
+        session.setAttribute("toDate", toDate);
+    	return "formDateReport";
     }
 
     @ExceptionHandler(LoginRequiredException.class)

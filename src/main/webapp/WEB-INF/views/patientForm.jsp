@@ -220,15 +220,16 @@
 			id="operation" name="operation" value="${patient.operation}" />
 
 		<div class="box-footer">
-			<label class="control-label col-sm-2"></label>
-			<div class="col-sm-3">
-				<a type="submit" href='#' class="btn btn-default"
-					onclick="submitForm('/account/savePatientDetails.action', 'patientDetails', 'containerdiv');">Save</a>
+				<label class="control-label col-sm-2"></label>
+				<div class="col-sm-3">
+					<a class="btn btn-primary" href="#"
+						onclick="submitForm('/account/savePatien	Details.action', 'patientDetails', 'containerdiv');">Save</a>
+				</div>
+				<div class="col-sm-3">
+					<a class="btn btn-primary" href="#"
+						onclick="submitForm('/account/savePatientDetailsAndContinue.action', 'patientDetails', 'containerdiv');">Next</a>
+				</div>
 			</div>
-			<div class="col-sm-3">
-				<a type="submit" class="btn btn-info pull-right" href="#"
-					onclick="submitForm('/account/savePatientDetailsAndContinue.action', 'patientDetails', 'containerdiv');">Continue</a>
-			</div>
-		</div>
+		
 	</div>
 </form>

@@ -9,13 +9,13 @@
                 <div class="form-group">
 				<label class="control-label col-sm-2">From Date:</label>
 				<div class="col-sm-2">
-					<input class="form-control" value="2015-01-20" type="date"
+					<input class="form-control" value="${fromDate}" type="date"
 						name="fromDate" id="fromDate" />
 				</div>
 				<label class="control-label col-sm-2">Till Date:</label>
 
 				<div class="col-sm-2">
-					<input class="form-control" value="2015-06-30" type="date"
+					<input class="form-control" value="${toDate}" type="date"
 						name="toDate" id="toDate" />
 				</div>
 			</div>

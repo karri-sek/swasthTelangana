@@ -66,7 +66,7 @@ function submitForm(url, formId, targetId) {
 
 function showLoadingSpinner(formId, targetId){
 	if('loginform' == formId){
-		$("#loginspinner").html("<div class='throbber-loader'></div>");
+		//$("#loginspinner").html("<div class='throbber-loader'></div>");
 	}else{
 		$("#" + targetId).append("<div class='overlay'><i class='fa fa-refresh fa-spin'></i></div>");
 	}	
@@ -179,6 +179,14 @@ function isFormValid(formId) {
             $(this).parent().addClass('has-error').append('<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>Required only Number</label>');
         }
     });
+    
+    $('#'+formId+' .onlyName').each(function () {
+        if (!isANumber($(this).val())) {
+            isValid = false;
+            $(this).parent().addClass('has-error').append('<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>Required only Number</label>');
+        }
+    });
+    
     $('#'+formId+' .onlyMobileNum').each(function () {
         if (!isOfLength($(this).val(), 10) || !isANumber($(this).val())) {
             isValid = false;
@@ -226,7 +234,7 @@ function myfunction() {
 	    document.getElementById("patient.patientCurrentAddress.address").value = '';
 	}
 }
-
+/*
 $(function () {
     $('#patientProfiles').DataTable({
         "paging": true,
@@ -235,8 +243,8 @@ $(function () {
         "ordering": true,
         "info": true,
         "autoWidth": false
-    });
+    }); 
 });
-
+*/
 
 

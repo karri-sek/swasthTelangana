@@ -5,7 +5,6 @@
 
 <html lang="en">
 <link href="<%=request.getContextPath()%>/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="http://css-spinners.com/css/spinner/throbber.css" type="text/css">
 <head>
     <meta charset="utf-8">
     <title>Swasth Telangana</title>
@@ -61,10 +60,10 @@
                                            onclick="submitForm('/account/loginsubmission.action', 'loginform', 'canvas');"
                                            value="Sign in"> Sign in</a>
                                     </div>
-                                    <div id='loginspinner'></div>
+                                    
                                     <div class="panel-footer">
-                                        <c:if test="${error != null}">
-                                            <div class="alert alert-danger" role="alert">${error}</div>
+                                        <c:if test="${loginError != null}">
+                                            <div class="alert alert-danger" role="alert">${loginError}</div>
                                         </c:if>
                                     </div>
                                 </div>

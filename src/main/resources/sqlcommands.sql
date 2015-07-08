@@ -268,7 +268,7 @@ DROP TABLE T_USER_ADDRESS;
 CREATE
   TABLE T_USER_ADDRESS
   (
-    F_LOGIN_ID VARCHAR(20),
+    F_LOGIN_ID VARCHAR(20) NOT NULL PRIMARY KEY,
     F_DISTRICT VARCHAR(50),
     F_STATE    VARCHAR(30)
   );
@@ -277,7 +277,7 @@ DROP TABLE T_USER_ROLES;
 
 CREATE TABLE T_USER_ROLES
   (
-    F_LOGIN_ID VARCHAR(20),
+    F_LOGIN_ID VARCHAR(20) NOT NULL PRIMARY KEY,
     F_ROLE     VARCHAR(30)
   );
 
@@ -315,8 +315,8 @@ INTO
   VALUES
   (
     'Administrator',
-    'WARANGAL',
-    'TELANGANA'
+    'Hyderabad',
+    'Telangana'
   );
 
 INSERT
@@ -366,8 +366,8 @@ INTO
   VALUES
   (
     'sekhar',
-    'WARANGAL',
-    'TELANGANA'
+    'Hyderabad',
+    'Telangana'
   );
 
 INSERT

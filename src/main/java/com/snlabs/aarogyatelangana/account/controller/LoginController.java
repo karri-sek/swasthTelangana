@@ -44,6 +44,7 @@ public class LoginController {
             session.setAttribute("userDetails", userDetails);
             return "workdeskfirstlogin";
         }
+        session.setAttribute("loginError", "Invalid ID or password, please try again.");
         return "home";
     }
 

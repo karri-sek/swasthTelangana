@@ -215,7 +215,8 @@ placental hemorrhage, abnormal adherence etc"><input
 						<tr>
 							<td
 								title="Important Note: Ultrasound is not indicated/advised/performed to determine the sex of fetusexcept for diagnosis of sex-linked diseases such as Duchene Muscular Dystrophy, Hemophilia A & B etc."><input
-								type="checkbox" value="YES" name="procedures.ultrasound" ${nonInvasive.procedures.ultrasound == 'YES' ? 'checked' : ''}>Ultrasound</td>
+								type="checkbox" value="YES" name="procedures.ultrasound"
+								${nonInvasive.procedures.ultrasound == 'YES' ? 'checked' : ''}>Ultrasound</td>
 						</tr>
 					</table>
 				</div>
@@ -224,7 +225,8 @@ placental hemorrhage, abnormal adherence etc"><input
 				<label class="control-label col-sm-2">Any other Specify</label>
 				<div class="col-sm-5">
 					<input class="form-control" type="text" name="otherDiagnoseDetails"
-						id="otherDiagnoseDetails" value="${nonInvasive.otherDiagnoseDetails}" />
+						id="otherDiagnoseDetails"
+						value="${nonInvasive.otherDiagnoseDetails}" />
 				</div>
 			</div>
 			<legend></legend>
@@ -234,15 +236,16 @@ placental hemorrhage, abnormal adherence etc"><input
 					obtained date</label>
 
 				<div class="col-sm-2">
-					<input class="form-control" value="${nonInvasive.declarationDate}" type="date"
-						name="declarationDate" id="declarationDate" />
+					<input class="form-control" value="${nonInvasive.declarationDate}"
+						type="date" name="declarationDate" id="declarationDate" />
 				</div>
 				<label class="control-label col-sm-2"
 					title="Date on which procedures carried out">Procedure
 					carried date</label>
 				<div class="col-sm-2">
-					<input class="form-control" value="${nonInvasive.procedureCarriedDate}"
-						type="date" name="procedureCarriedDate" id="procedureCarriedDate" />
+					<input class="form-control"
+						value="${nonInvasive.procedureCarriedDate}" type="date"
+						name="procedureCarriedDate" id="procedureCarriedDate" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -268,8 +271,9 @@ placental hemorrhage, abnormal adherence etc"><input
 					title="The result of pre-natal diagnostic procedures was conveyed to - Date">conveyed
 					on (Date):</label>
 				<div class="col-sm-2">
-					<input class="form-control" value="${nonInvasive.conveyDetails.conveyedDate}" type="date"
-						name="conveyDetails.conveyedDate" id="conveyDetails.conveyedDate"/>
+					<input class="form-control"
+						value="${nonInvasive.conveyDetails.conveyedDate}" type="date"
+						name="conveyDetails.conveyedDate" id="conveyDetails.conveyedDate" />
 				</div>
 			</div>
 			<input type="hidden" id="conveyDetails.type"
@@ -289,23 +293,22 @@ placental hemorrhage, abnormal adherence etc"><input
 				value="${nonInvasive.patientName}"> <input type="hidden"
 				id="operation" name="operation" value="${nonInvasive.operation}" />
 
-			<div class="form-actions">
-				<label class="control-label col-sm-2" />
+			<div class="box-footer">
+				<label class="control-label col-sm-2"></label>
 				<div class="col-sm-3">
-					<a class="btn btn-primary" href="#"
+					<a class="btn btn-default col-sm-5" href="#"
 						onclick="submitForm('/account/previousNonInvasiveDetails.action', 'noninvasiveFormPrevious', 'containerdiv');">Previous</a>
 				</div>
-				<label class="control-label col-sm-1" />
 				<div class="col-sm-3">
 					<a class="btn btn-primary" href="#"
 						onclick="submitForm('/account/saveNonInvasiveDetails.action', 'nonInvasive', 'containerdiv');">Save</a>
 				</div>
-				<label class="control-label col-sm-1" />
 				<div class="col-sm-3">
 					<a class="btn btn-primary" href="#"
 						onclick="submitForm('/account/nextNonInvasiveDetails.action', 'nonInvasive', 'containerdiv');">Next</a>
 				</div>
 			</div>
+			
 	</form>
 	<form name="noninvasiveFormPrevious" id="noninvasiveFormPrevious">
 		<input name="patientID" type="hidden" value="${nonInvasive.patientID}" />

@@ -292,7 +292,7 @@
 			<div class="box-footer">
 				<label class="control-label col-sm-2"></label>
 				<div class="col-sm-3">
-					<a class="btn btn-primary col-sm-5" href="#"
+					<a class="btn btn-default col-sm-5" href="#"
 						onclick="submitForm('/account/previousInvasiveDetails.action', 'invasiveFormPrevious', 'containerdiv');">Previous</a>
 				</div>
 				<div class="col-sm-3">
