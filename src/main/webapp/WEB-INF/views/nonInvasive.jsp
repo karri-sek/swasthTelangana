@@ -12,7 +12,9 @@
 		<h3 class="box-title">FORM F > Section B: To be filled in for
 			performing non-invasive diagnostic Procedures/Tests only</h3>
 	</div>
-
+	<c:if test="${error != null}">
+        <div class="alert alert-danger" role="alert">${error}</div>
+    </c:if>
 	<form class="form-horizontal" method="POST" name="nonInvasive"
 		id="nonInvasive" modelAttribute="nonInvasive">
 		<div class="box-body">

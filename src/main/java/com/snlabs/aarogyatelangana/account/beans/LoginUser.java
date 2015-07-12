@@ -6,11 +6,11 @@ public class LoginUser implements Serializable{
 
     private static final long serialVersionUID = 3637043732438320538L;
 
-	public String userName;
+	private String userName;
 	
-	public String password;
+	private String password;
 	
-	public String value_no;
+	private String value_no;
 
 	public String getValue_no() {
 		return value_no;

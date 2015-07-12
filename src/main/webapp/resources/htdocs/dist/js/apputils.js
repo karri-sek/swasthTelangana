@@ -49,19 +49,30 @@ function OpenInNewTab() {
 }
 
 function submitForm(url, formId, targetId) {
-	//debugger;
 	showLoadingSpinner(formId, targetId);
     if ('NO-DATA' != formId && isFormValid(formId)) {
         formData = JSON.stringify($("#" + formId).serializeObject());
         processRequest(url, formData, targetId);
     } else if ('NO-DATA' == formId) {
         var formData = {};
+        if(url == '/account/enterPatientDetails.action'){
+        	formData = '{"patientID":"0"}';
+        }
         processRequest(url, formData, targetId);
     } else if ('searchFormByDate' == formId) {
         formData = JSON.stringify($("#" + formId).serializeObject());
         processFileRequest(url, formData, targetId);
     }
     //hideLoadingSpinner(targetId);
+}
+
+function submitGetAsPost(url, patientId, targetId) {
+    
+	var formData = '{"patientID":"'+patientId+'"}';
+    
+    //{"patientID":"20","searchType":"ID"}
+    
+    processRequest(url, formData, targetId);
 }
 
 function showLoadingSpinner(formId, targetId){
@@ -104,7 +115,6 @@ $.fn.serializeObject = function () {
         $.each(uniqueElements, function (index, value) {
             var childNodes = {};
             $.each($("[name^='" + value + "']"), function (k, v) {
-                //debugger;
                 if(v.type == "checkbox"){
                 	if(v.checked){
 		            	var nodeName = v.name;
@@ -138,12 +148,6 @@ function getDomainName(requiredDomain) {
  */
 $(document).ready(function () {
     $("#resultDev").hide();
-});
-
-$(document).ready(function () {
-    $("p").click(function () {
-        alert("The paragraph was clicked.");
-    });
 });
 
 /*

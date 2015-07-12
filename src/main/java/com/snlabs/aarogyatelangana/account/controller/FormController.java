@@ -68,7 +68,17 @@ public class FormController {
     @RequestMapping(value = {"saveClinicDetails.action"}, method = RequestMethod.POST)
     public String saveClinicDetails(@RequestBody ClinicAddress clinicAddress,
                                     HttpSession session, ModelMap model) {
-        model.put("clinicAddress", formService.saveClinicDetails(clinicAddress));
+    	ClinicAddress cadd = formService.saveClinicDetails(clinicAddress);
+    	
+    	if(cadd != null){
+    		cadd.setOperation("UPDATE");
+    		model.put("clinicAddress", cadd);
+    	}else{
+    		model.put("clinicAddress", clinicAddress);
+    		session.setAttribute(
+    				"error",
+    				"Oh snap! Failed Please check the whether you Entered Details Correctly or not.");
+    	}
         return "clinicDetails";
     }
 
@@ -124,7 +134,18 @@ public class FormController {
     @RequestMapping(value = {"saveSectionA.action"}, method = RequestMethod.POST)
     public String saveSectionADetails(@RequestBody SectionA sectionA,
                                       HttpSession session, ModelMap model) {
-        model.put("sectionA", formService.saveSectionA(sectionA));
+    	
+    	SectionA secA = formService.saveSectionA(sectionA);
+        if(secA != null){
+        	secA.setOperation("UPDATE");
+        	model.put("sectionA", secA);
+        }else {
+        	model.put("sectionA", sectionA);
+        	session.setAttribute(
+					"error",
+					"Oh snap! Failed Please check the whether you Entered Details Correctly or not.");
+        }
+        
         return "sectionA";
     }
 
@@ -177,7 +198,20 @@ public class FormController {
     @RequestMapping(value = {"saveNonInvasiveDetails.action"}, method = RequestMethod.POST)
     public String saveNonInvasiveDetails(@RequestBody NonInvasive nonInvasive,
                                          HttpSession session, ModelMap model) {
-        model.put("nonInvasive", formService.saveNonInvasiveDetails(nonInvasive));
+    	NonInvasive nonInv = formService.saveNonInvasiveDetails(nonInvasive);
+        
+        if(nonInv != null){
+        	nonInv.setDeclarationDate(new java.sql.Date(nonInv.getDeclarationDate().getTime()));
+        	nonInv.setProcedureCarriedDate(new java.sql.Date(nonInv.getProcedureCarriedDate().getTime()));
+        	nonInv.getConveyDetails().setConveyedDate(new java.sql.Date(nonInv.getConveyDetails().getConveyedDate().getTime()));
+        	nonInv.setOperation("UPDATE");
+        	model.put("nonInvasive", nonInv);
+        }else{
+        	model.put("nonInvasive", nonInvasive);
+        	session.setAttribute(
+    				"error",
+    				"Oh snap! Failed Please check the whether you Entered Details Correctly or not.");
+        }
         return "nonInvasive";
     }
 
@@ -186,25 +220,27 @@ public class FormController {
                                          HttpSession session, ModelMap model) {
 
         if (formService.saveNonInvasiveDetails(nonInvasive) != null) {
-        	Invasive invasive = null;
-        	//Get invasive details from DB to populate if present already.
+        	Invasive invasive = formService.getInvasiveDetails(nonInvasive.getPatientID());
         	
-        	if(invasive == null){
+        	if(invasive != null){
+        		invasive.setOperation("UPDATE");
+        	}else {
         		invasive = new Invasive();
                 invasive.setPatientName(nonInvasive.getPatientName());
                 invasive.setPatientID(nonInvasive.getPatientID());
-                model.put("invasive", invasive);
                 
                 java.util.Date utilDate = new java.util.Date();
                 java.sql.Date curDate = new java.sql.Date(utilDate.getTime());
                 
-                //Default values
                 invasive.setFormGDate(curDate);
                 invasive.setProcedureCarriedDate(curDate);
                 ConveyDetails conveyDetails = new ConveyDetails();
                 conveyDetails.setConveyedDate(curDate);
                 invasive.setConveyDetails(conveyDetails);
         	}
+        	
+        	model.put("invasive", invasive);
+        	
             return "invasive";
         } else {
             return "nonInvasive";
@@ -227,7 +263,20 @@ public class FormController {
     @RequestMapping(value = {"saveInvasiveDetails.action"}, method = RequestMethod.POST)
     public String saveInvasiveDetails(@RequestBody Invasive invasive,
                                       HttpSession session, ModelMap model) {
-        model.put("invasive", formService.saveInvasiveDetails(invasive));
+    	Invasive inv = formService.saveInvasiveDetails(invasive);
+        
+        if(inv != null){
+        	inv.setFormGDate(new java.sql.Date(inv.getFormGDate().getTime()));
+        	inv.setProcedureCarriedDate(new java.sql.Date(inv.getProcedureCarriedDate().getTime()));
+        	inv.getConveyDetails().setConveyedDate(new java.sql.Date(inv.getConveyDetails().getConveyedDate().getTime()));
+        	inv.setOperation("UPDATE");
+        	model.put("invasive", inv);
+        }else {
+        	model.put("invasive", invasive);
+        	session.setAttribute(
+    				"error",
+    				"Oh snap! Failed Please check the whether you Entered Details Correctly or not.");
+        }
         return "invasive";
     }
 
@@ -294,10 +343,11 @@ public class FormController {
     }
 
     @RequestMapping(value = {"saveDeclarationDetails.action"}, method = RequestMethod.POST)
-    public String saveDeclaration(@RequestBody Declaration declaration,
+    public String saveDeclaration(@SessionParam(value = "userDetails") UserDetails userDetails, @RequestBody Declaration declaration,
                                   HttpSession session, ModelMap model, HttpServletRequest request) {
         if (declaration.getPatientID() > 0) {
             if (formService.saveDeclarationDetails(declaration) != null) {
+            	model.put("downloadUrl", "/account/downLoadForm.action?patientID=" + declaration.getPatientID());
                 model.put("result", "Patient Details saved successfully");
             } else {
                 model.put("result", "Failed to save the Patient Details");

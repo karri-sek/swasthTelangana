@@ -20,7 +20,7 @@ public class DownloadController {
 
 
 
-	@RequestMapping(value = { "downLoadForm.action" })
+	@RequestMapping(value = { "downLoadFormDEPRICATED.action" })
 	public void downLoadReport(HttpServletRequest request, HttpSession session,
 			HttpServletResponse response, ModelMap map) {
 		//File downloadFile = downloadService.downloadForm(request, session);

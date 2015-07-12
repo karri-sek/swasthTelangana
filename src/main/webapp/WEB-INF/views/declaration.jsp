@@ -14,7 +14,7 @@
 		<c:choose>
 			<c:when test="${result != null}">
 				<div class="alert alert-success">
-					<a href="#" class="close" data-dismiss="alert">&times;</a> <strong>${result}!</strong>
+					<strong>${result}!</strong> &nbsp; <a href="${downloadUrl}"> <b>Download Form F</b> </a>
 				</div>
 			</c:when>
 			<c:otherwise>

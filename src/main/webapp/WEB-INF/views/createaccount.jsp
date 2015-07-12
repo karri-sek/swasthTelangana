@@ -50,13 +50,13 @@
 
                 <div class="col-sm-5">
                     <select class="form-control" id="district"
-                            name="district"
-                            value="${district}">
-                        <option>Hyderabad</option>
-                        <option>RangaReddy</option>
-                        <option>Karimnagar</option>
-                        <option>Kamamam</option>
-                        <option>Warangal</option>
+                            name="district">
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Rangareddy">RangaReddy</option>
+                        <option value="Karimnagar">Karimnagar</option>
+                        <option value="Warangal">Warangal</option>
+                        <option value="Adilabad">Adilabad</option>
+                        <option value="Khammam">Khammam</option>
                     </select>
                 </div>
             </div>
@@ -64,13 +64,10 @@
                 <label class="control-label col-sm-2">State</label>
 
                 <div class="col-sm-5">
-                    <select class="form-control" id="state" name="state"
-                            value="${state}">
-                        <option>Telangana</option>
-                        <option>Karnataka</option>
-                        <option>Madhya Pradesh</option>
-                        <option>Maharastra</option>
-                        <option>Orissa</option>
+                    <select class="form-control" id="state" name="state">
+                        <option value="Telangana">Telangana</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Tamilnadu">Tamilnadu</option>
                     </select>
                 </div>
             </div>

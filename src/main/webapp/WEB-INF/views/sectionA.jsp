@@ -4,6 +4,9 @@
 		<h3 class="box-title">FORM F > Section A:To be filled in for all
 			Diagnostic Procedures/Tests</h3>
 	</div>
+	<c:if test="${error != null}">
+        <div class="alert alert-danger" role="alert">${error}</div>
+    </c:if>
 	<form class="form-horizontal" method="POST" name="sectionA"
 		id="sectionA" modelAttribute="sectionA">
 		<input type="hidden" id="lastMenstrualPeriod" name="lastMenstrualPeriod"
@@ -11,13 +14,13 @@
 		<div class="form-group">
 			<label class="control-label col-sm-2"> Weeks of pregnancy</label>
 			<div class="col-sm-2">
-				<input class='form-control' name="weeksOfPragnancy" type='text'
+				<input class='form-control required onlyNumber' name="weeksOfPragnancy" type='text'
 					value="${sectionA.weeksOfPragnancy}" />
 			</div>
 			<label class="control-label col-sm-2">Number of children</label>
 
 			<div class="col-sm-2">
-				<input class="form-control" type="text" name="noOfChildren"
+				<input class="form-control required onlyNumber" type="text" name="noOfChildren"
 					id="noOfChildren"
 					placeholder="Total Number of living children"
 					value="${sectionA.noOfChildren}" />
@@ -26,12 +29,12 @@
 		<div class="form-group">
 			<label class="control-label col-sm-2">Sons</label>
 			<div class="col-sm-2">
-				<input class="form-control" type="text" name="noOfMaleKids"
+				<input class="form-control required onlyNumber" type="text" name="noOfMaleKids"
 					id="noOfMaleKids" value="${sectionA.noOfMaleKids}" />
 			</div>
 			<label class="control-label col-sm-2">Daughters</label>
 			<div class="col-sm-2">
-				<input class="form-control" name="noOfFemaleKids" type='text'
+				<input class="form-control required onlyNumber" name="noOfFemaleKids" type='text'
 					value="${sectionA.noOfFemaleKids}" />
 			</div>
 		</div>
@@ -39,7 +42,7 @@
 			<label class="control-label col-sm-2">Guardian Name</label>
 
 			<div class="col-sm-5">
-				<input class="form-control" name="guardianName" type="text"
+				<input class="form-control required" name="guardianName" type="text"
 					placeholder="Husband's /Wife's/Father's / Mother's"
 					value="${sectionA.guardianName}" />
 			</div>

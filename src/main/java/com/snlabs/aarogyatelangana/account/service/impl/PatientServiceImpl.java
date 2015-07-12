@@ -1,29 +1,38 @@
 package com.snlabs.aarogyatelangana.account.service.impl;
 
-import com.snlabs.aarogyatelangana.account.beans.Patient;
-import com.snlabs.aarogyatelangana.account.beans.UserDetails;
-import com.snlabs.aarogyatelangana.account.dao.PatientDao;
-import com.snlabs.aarogyatelangana.account.service.PatientService;
-import com.snlabs.aarogyatelangana.account.beans.Form;
-
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.snlabs.aarogyatelangana.account.beans.Form;
+import com.snlabs.aarogyatelangana.account.beans.Patient;
+import com.snlabs.aarogyatelangana.account.beans.UserDetails;
+import com.snlabs.aarogyatelangana.account.dao.DownloadDao;
+import com.snlabs.aarogyatelangana.account.dao.PatientDao;
+import com.snlabs.aarogyatelangana.account.service.PatientService;
 
 public class PatientServiceImpl implements PatientService {
 
     PatientDao patientDao;
+    
+    @Autowired
+    DownloadDao downloadDao;
 
     public static HashMap<String, String> patientSessionMap = new HashMap<String, String>();
 
     @Override
     public Patient createPatientRecord(Patient patient) {
         try {
-            if (patient.getPatientID() > 0 && patientDao.update(patient) > 0) {
+            if (patient.getPatientID() > 0 && "UPDATE".equals(patient.getOperation())) {
+            	patientDao.update(patient);
                 return patient;
             } else {
-                //patient.setPatientID(new Random().nextInt(9999 - 1000) + 1000);
                 return patientDao.save(patient);
             }
         } catch (Exception e) {
@@ -67,6 +76,20 @@ public class PatientServiceImpl implements PatientService {
 	public Patient searchPatient(Patient pat, UserDetails userDetails,
 			String searchType) {
 		return patientDao.searchPatient(pat, userDetails, searchType);
+	}
+
+	@Override
+	public File prepareExcelreport(HttpServletRequest request,
+			HttpSession session, UserDetails userDetails, Patient patient) {
+		return downloadDao.downloadExcelFile(request,session, userDetails, patient);
+	}
+
+	public DownloadDao getDownloadDao() {
+		return downloadDao;
+	}
+
+	public void setDownloadDao(DownloadDao downloadDao) {
+		this.downloadDao = downloadDao;
 	}
 
 }

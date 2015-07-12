@@ -16,7 +16,7 @@
 							<div class="col-md-3 col-lg-3">
 								<div class="form-group">
 									<a class="btn btn-primary"
-										href="<%=request.getContextPath()%>/downLoadForm.action">Download
+										href="/account/downLoadForm.action?patientID=${form.patientID}">Download
 										Details as Excel</a>
 								</div>
 							</div>

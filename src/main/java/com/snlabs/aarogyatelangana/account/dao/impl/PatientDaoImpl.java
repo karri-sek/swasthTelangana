@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -364,41 +365,49 @@ public class PatientDaoImpl implements PatientDao {
 
 		Object[] args = null;
 
+		final long MILLIS_IN_A_DAY = 1000*60*60*24;
+		
 		if (form != null) {
+			
+			java.sql.Date fDate = new java.sql.Date(form.getFromDate().getTime());
+	        java.sql.Date tDate = new java.sql.Date(form.getToDate().getTime() + MILLIS_IN_A_DAY);
+	        
 			if ("HealthCenterUser".equals(userDetails.getUserRole())) {
-				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?")
+				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ? ")
 						.append(" AND PAT.F_CREATED_BY = ?");
-				args = new Object[] { form.getFromDate(), form.getToDate(),
+				args = new Object[] { fDate, tDate,
 						userDetails.getLoginId() };
 			} else if ("DistrictUser".equals(userDetails.getUserRole())) {
-				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?")
-						.append(" AND ADDR.F_DISTRICT = ?");
-				args = new Object[] { form.getFromDate(), form.getToDate(),
+				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ? ")
+						.append(" AND ADDR.F_DISTRICT = ? ");
+				args = new Object[] { fDate, tDate,
 						userDetails.getDistrict() };
 			} else if ("StateUser".equals(userDetails.getUserRole())) {
-				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?")
-						.append(" AND ADDR.F_STATE = ?");
-				args = new Object[] { form.getFromDate(), form.getToDate(),
+				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ? ")
+						.append(" AND ADDR.F_STATE = ? ");
+				args = new Object[] { fDate, tDate,
 						userDetails.getState() };
 			} else if ("Administrator".equals(userDetails.getUserRole())) {
-				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ?");
-				args = new Object[] { form.getFromDate(), form.getToDate() };
+				sb.append("AND PAT.F_CREATED_TIMESTAMP BETWEEN ? AND ? ");
+				args = new Object[] { fDate, tDate };
 			}
 		} else {
 			if ("HealthCenterUser".equals(userDetails.getUserRole())) {
-				sb.append("AND PAT.F_CREATED_BY = ?");
+				sb.append("AND PAT.F_CREATED_BY = ? ");
 				args = new Object[] { userDetails.getLoginId() };
 			} else if ("DistrictUser".equals(userDetails.getUserRole())) {
-				sb.append("AND ADDR.F_DISTRICT = ?");
+				sb.append("AND ADDR.F_DISTRICT = ? ");
 				args = new Object[] { userDetails.getDistrict() };
 			} else if ("StateUser".equals(userDetails.getUserRole())) {
-				sb.append("AND ADDR.F_STATE = ?");
+				sb.append("AND ADDR.F_STATE = ? ");
 				args = new Object[] { userDetails.getState() };
 			} else if ("Administrator".equals(userDetails.getUserRole())) {
 				args = new Object[] {};
 			}
 		}
-
+		
+		sb.append("ORDER BY PAT.F_PATIENT_ID DESC ");
+		
 		try {
 			@SuppressWarnings("unchecked")
 			List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(
@@ -451,16 +460,16 @@ public class PatientDaoImpl implements PatientDao {
 		}
 
 		if ("HealthCenterUser".equals(userDetails.getUserRole())) {
-			sb.append("AND PAT.F_CREATED_BY = ?");
+			sb.append("AND PAT.F_CREATED_BY = ? ");
 			args[1] = userDetails.getLoginId();
 		} else if ("DistrictUser".equals(userDetails.getUserRole())) {
-			sb.append("AND ADDR.F_DISTRICT = ?");
+			sb.append("AND ADDR.F_DISTRICT = ? ");
 			args[1] = userDetails.getDistrict();
 		} else if ("StateUser".equals(userDetails.getUserRole())) {
-			sb.append("AND ADDR.F_STATE = ?");
+			sb.append("AND ADDR.F_STATE = ? ");
 			args[1] = userDetails.getState();
 		}
-
+		
 		try {
 			@SuppressWarnings("unchecked")
 			List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(
@@ -493,7 +502,8 @@ public class PatientDaoImpl implements PatientDao {
 					.append(" WHERE F_CREATED_BY=?")
 					.append(" AND F_CREATED_TIMESTAMP BETWEEN")
 					.append(" STR_TO_DATE('?','%Y-%m-%d')")
-					.append(" AND STR_TO_DATE('?','%Y-%m-%d')");
+					.append(" AND STR_TO_DATE('?','%Y-%m-%d') ")
+					.append("ORDER BY PAT.F_PATIENT_ID DESC");
 			try {
 				detailsList = (List<Patient>) jdbcTemplate.queryForObject(
 						searchPatientProfilesByDate.toString(),

@@ -47,14 +47,14 @@
             <label class="control-label col-sm-2" title="Under PC& PNDT Act, 1994"> Registration No.</label>
 
             <div class="col-sm-5">
-                <input class='form-control required' placeholder="Under PC& PNDT Act, 1994" name="registrationNo" type='text' value="${clinicAddress.registrationNo}"/>
+                <input class='form-control required onlyNumber' placeholder="Under PC& PNDT Act, 1994" name="registrationNo" type='text' value="${clinicAddress.registrationNo}"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2">Clinic contact no.</label>
 
             <div class="col-sm-5">
-                <input class='form-control' placeholder="Enter Clinic contact No" name="contactNum"
+                <input class='form-control onlyNumber' placeholder="Enter Clinic contact No" name="contactNum"
                        type='text' value="${clinicAddress.contactNum}"/>
             </div>
         </div>
@@ -92,7 +92,7 @@
             <label class="control-label col-sm-2"> Pincode</label>
 
             <div class="col-sm-5">
-                <input class='form-control' name="pincode" type='text' value="${clinicAddress.pincode}"/>
+                <input class='form-control onlyNumber' name="pincode" type='text' value="${clinicAddress.pincode}"/>
             </div>
         </div>
         

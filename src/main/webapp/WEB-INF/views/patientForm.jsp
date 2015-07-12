@@ -6,9 +6,9 @@
 		<div class="box-header with-border">
 			<h3 class="box-title">Patient Details</h3>
 		</div>
-		<!-- /.box-header -->
-		<!-- form start -->
-
+		<c:if test="${error != null}">
+			<div class="alert alert-danger" role="alert">${error}</div>
+		</c:if>
 		<div class="box-body">
 			<div class="form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">Patient
@@ -36,7 +36,9 @@
 
 				<div class="col-sm-5">
 					<input type="text" class="form-control onlyMobileNum"
-						placeholder="Enter contact No" id="patient.patientAddress.contactno" name="patient.patientAddress.contactno"
+						placeholder="Enter contact No"
+						id="patient.patientAddress.contactno"
+						name="patient.patientAddress.contactno"
 						value="${patient.patientAddress.contactno}" />
 				</div>
 			</div>
@@ -114,6 +116,7 @@
 							${patient.patientAddress.district == 'Warangal' ? 'selected' : ''}>Warangal</option>
 						<option value="Adilabad"
 							${patient.patientAddress.district == 'Adilabad' ? 'selected' : ''}>Adilabad</option>
+						<option value="Khammam" ${patient.patientAddress.district == 'Khammam' ? 'selected' : ''}>Khammam</option>	
 					</select>
 				</div>
 				<label for="inputPassword3" class="col-sm-1 control-label">State</label>
@@ -147,8 +150,7 @@
 				<div class="col-sm-5">
 					<input type="checkbox"
 						name="patient.patientCurrentAddress.sameAsPresentAddress"
-						id="sameAsPresentAddress"
-						value="YES" onclick="myfunction();"
+						id="sameAsPresentAddress" value="YES" onclick="myfunction();"
 						${patient.patientCurrentAddress.sameAsPresentAddress == 'YES' ? 'checked' : ''} />
 				</div>
 			</div>
@@ -220,16 +222,16 @@
 			id="operation" name="operation" value="${patient.operation}" />
 
 		<div class="box-footer">
-				<label class="control-label col-sm-2"></label>
-				<div class="col-sm-3">
-					<a class="btn btn-primary" href="#"
-						onclick="submitForm('/account/savePatien	Details.action', 'patientDetails', 'containerdiv');">Save</a>
-				</div>
-				<div class="col-sm-3">
-					<a class="btn btn-primary" href="#"
-						onclick="submitForm('/account/savePatientDetailsAndContinue.action', 'patientDetails', 'containerdiv');">Next</a>
-				</div>
+			<label class="control-label col-sm-2"></label>
+			<div class="col-sm-3">
+				<a class="btn btn-primary" href="#"
+					onclick="submitForm('/account/savePatientDetails.action', 'patientDetails', 'containerdiv');">Save</a>
 			</div>
-		
+			<div class="col-sm-3">
+				<a class="btn btn-primary" href="#"
+					onclick="submitForm('/account/savePatientDetailsAndContinue.action', 'patientDetails', 'containerdiv');">Next</a>
+			</div>
+		</div>
+
 	</div>
 </form>

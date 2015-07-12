@@ -9,7 +9,7 @@ package com.snlabs.aarogyatelangana.account.beans;
  */
 public class DiagnosisBasis {
 
-	private String clinical = "YES";
+	private String clinical;
 	private String biochemical;
 	private String cytogenetic;
 	private String other = "NA";

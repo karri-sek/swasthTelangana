@@ -29,6 +29,7 @@ public class PatientRowMapper implements RowMapper {
             patient.setCreatedBy(rs.getString("F_CREATED_BY"));
             patient.setFormFDownloadPath(rs.getString("F_DOWNLOAD_PATH"));
             patient.setAadharNo(rs.getString("F_AADHAR_NO"));
+            patient.setPatientStatus(rs.getString("F_STATUS"));
             patient.setUpdatedTimestamp(rs.getDate("F_UPDATED_TIMESTAMP"));
 
             PatientAddress patientAddress = new PatientAddress();

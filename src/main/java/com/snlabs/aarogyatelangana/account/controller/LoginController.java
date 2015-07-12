@@ -32,7 +32,7 @@ public class LoginController {
     @RequestMapping(value = {"loginsubmission.action"} ,method = RequestMethod.POST)
     public String loginsubmission(@RequestBody LoginUser loginUser, HttpSession session, ModelMap modelMap) {
 
-        LOGGER.info("loginsubmission-> ", loginUser.userName +":"+session.getId());
+        LOGGER.info("loginsubmission-> ", loginUser.getUserName() +":"+session.getId());
 
         loginUser.setPassword(accountUtils.md5(loginUser.getPassword()));
 
@@ -44,8 +44,9 @@ public class LoginController {
             session.setAttribute("userDetails", userDetails);
             return "workdeskfirstlogin";
         }
-        session.setAttribute("loginError", "Invalid ID or password, please try again.");
-        return "home";
+        session.setAttribute("userName", loginUser.getUserName());
+        //session.setAttribute("loginError", " Invalid ID or password, please try again.");
+        return "homeerror";
     }
 
     @RequestMapping(value = {"createaccountsubmission.action"} ,method = RequestMethod.POST)

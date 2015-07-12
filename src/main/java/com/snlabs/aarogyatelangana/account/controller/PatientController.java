@@ -28,6 +28,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -41,43 +42,17 @@ public class PatientController {
 	@Autowired
 	public FormService formService;
 
-	@RequestMapping(value = { "savePatientDetails.action" }, method = RequestMethod.POST)
-	public String savePatientDetails(
-			@SessionParam(value = "userDetails") UserDetails userDetails,
-			@RequestBody Patient patient, HttpSession session, ModelMap model) {
-		Patient resultPatient;
-		try {
-			patient.setCreatedBy(userDetails.getLoginId());
-			resultPatient = patientService.createPatientRecord(patient);
-			if (resultPatient != null) {
-				patient.setCreatedBy(userDetails.getLoginId());
-				model.put("patient", resultPatient);
-				model.put("result", patient.getPatientName()
-						+ " details has been saved successfully...!");
-			} else {
-				model.put("error", "Unable to save Patient Details");
-			}
-		} catch (Exception e) {
-			System.out.print("error:" + e);
-		}
-		return "patientForm";
-
-	}
-
 	@RequestMapping(value = { "enterPatientDetails.action" }, method = RequestMethod.POST)
 	public String enterPatientDetails(
 			@SessionParam(value = "userDetails") UserDetails userDetails,
-			HttpSession session, ModelMap model, String patientID) {
+			HttpSession session, ModelMap model, @RequestBody Patient patient) {
 		try {
-			model.clear();
-			if (patientID != null) {
-				Patient pat = new Patient();
-				pat.setPatientID(Long.parseLong(patientID));
-
-				Patient patient = patientService.searchPatient(pat,
+			//model.clear();
+			if (patient.getPatientID() > 0) {
+				Patient pat = patientService.searchPatient(patient,
 						userDetails, "ID");
 				pat.setOperation("UPDATE");
-				model.put("patient", patient);
+				model.put("patient", pat);
 			} else {
 				// TESTING-DATA - Comment-out once testing is done.
 				/*Patient pat = new Patient();
@@ -137,6 +112,30 @@ public class PatientController {
 		}
 	}
 
+	@RequestMapping(value = { "savePatientDetails.action" }, method = RequestMethod.POST)
+	public String savePatientDetails(
+			@SessionParam(value = "userDetails") UserDetails userDetails,
+			@RequestBody Patient patient, HttpSession session, ModelMap model) {
+		try {
+			patient.setCreatedBy(userDetails.getLoginId());
+			Patient pat = patientService.createPatientRecord(patient);
+			
+			if(pat != null){
+				pat.setOperation("UPDATE");
+				model.put("patient", pat);
+			}else{
+				model.put("patient", patient);
+				session.setAttribute(
+						"error",
+						"Oh snap! Failed Please check the whether you Entered Details Correctly or not.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "patientForm";
+	}
+
+	
 	@RequestMapping(value = { "savePatientDetailsAndContinue.action" }, method = RequestMethod.POST)
 	public String savePatientDetailsAndContinue(
 			@SessionParam(value = "userDetails") UserDetails userDetails,
@@ -153,10 +152,10 @@ public class PatientController {
 					clinicAddress.setPatientID(patient.getPatientID());
 					// TESTING-DATA - Comment-out once testing is done.
 					/*clinicAddress.setClinicName("Rainbow");
-					clinicAddress.setClinicName("Rainbow");
+					clinicAddress.setRegistrationNo("456");
 					clinicAddress.setContactNum("9898989898");
 					clinicAddress.setAddress("Hyderabad");
-					clinicAddress.setPincode(500076); */
+					clinicAddress.setPincode(500076);*/
 				}
 				clinicAddress.setPatientName(patient.getPatientName());
 				model.put("clinicAddress", clinicAddress);
@@ -218,6 +217,11 @@ public class PatientController {
 		} else {
 			model.put("result", "Unable to get the login details");
 		}
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		
+		model.put("fromDate", format.format(form.getFromDate()));
+		model.put("toDate", format.format(form.getToDate()));		
 		return "viewPatientDateRangeResult";
 	}
 
@@ -263,6 +267,53 @@ public class PatientController {
 		}
 	}
 
+	@RequestMapping(value = { "downLoadForm.action" }, method = RequestMethod.GET)
+	public void downLoadForm(
+			@SessionParam(value = "userDetails") UserDetails userDetails,
+			HttpServletRequest request, HttpSession session,
+			HttpServletResponse response, ModelMap map, Long patientID, String fromDate, String toDate, String searchType) {
+		FileInputStream inputStream = null;
+		ServletContext context = null;
+		OutputStream outputStream = null;
+		Patient patient = new Patient();
+		if(patientID != null){
+			patient.setPatientID(patientID);
+		}
+		patient.setSearchType(searchType);
+		patient.setFromDate(fromDate);
+		patient.setToDate(toDate);
+		try {
+			File downloadExcelFile = patientService.prepareExcelreport(request,
+					session, userDetails, patient);
+			inputStream = new FileInputStream(downloadExcelFile);
+			context = request.getServletContext();
+			String type = context.getMimeType(downloadExcelFile
+					.getAbsolutePath());
+			response.setContentType(type != null ? type
+					: "application/octet-stream");
+			response.setContentLength((int) downloadExcelFile.length());
+			String headerValue = String.format("attachment; filename=\"%s\"",
+					downloadExcelFile.getName());
+			response.setHeader("Content-Disposition", headerValue);
+			outputStream = response.getOutputStream();
+			byte[] buffer = new byte[BUFFER_SIZE];
+			int bytesRead = -1;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				outputStream.flush();
+				outputStream.close();
+				inputStream.close();
+			} catch (Exception e) {
+				System.out.println("ERROR:" + e.getMessage());
+			}
+		}
+	}
+	
 	@ExceptionHandler(LoginRequiredException.class)
 	public String handleLoginRequiredException(LoginRequiredException ex) {
 		return "loginredirect";

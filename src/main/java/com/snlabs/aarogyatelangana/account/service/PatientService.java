@@ -4,8 +4,12 @@ import com.snlabs.aarogyatelangana.account.beans.Patient;
 import com.snlabs.aarogyatelangana.account.beans.UserDetails;
 import com.snlabs.aarogyatelangana.account.beans.Form;
 
+import java.io.File;
 import java.util.List;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public interface PatientService {
     //Insert patient details into the DB and returns the patient ID
@@ -19,4 +23,7 @@ public interface PatientService {
 
 	Patient searchPatient(Patient pat, UserDetails userDetails,
 			String searchType);
+
+	public File prepareExcelreport(HttpServletRequest request,
+			HttpSession session, UserDetails userDetails, Patient patient);
 }

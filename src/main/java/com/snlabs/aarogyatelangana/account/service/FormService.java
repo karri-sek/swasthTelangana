@@ -1,5 +1,7 @@
 package com.snlabs.aarogyatelangana.account.service;
 
+import java.util.Date;
+
 import com.snlabs.aarogyatelangana.account.beans.*;
 
 public interface FormService {
@@ -7,7 +9,7 @@ public interface FormService {
 
     public Form searchForm(int formId);
 
-    public Form searchFormByDateRange(String fromDate, String toDate);
+    public Form searchFormByDateRange(Date fromDate, Date toDate);
 
     public SectionA saveSectionA(SectionA section);
 

@@ -1,6 +1,7 @@
 package com.snlabs.aarogyatelangana.account.beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -20,8 +21,8 @@ public class Form extends User {
 	public String medicalDisease;
 	public String parentalDiagnosis;
 	public String gynecologistDetails;
-	public String toDate;
-	public String fromDate;
+	public Date toDate;
+	public Date fromDate;
 	public List<User> formbeans = new ArrayList<User>();
 	private ReferralAddress referralAddress;
 	private ClinicAddress clinicAddress;
@@ -108,19 +109,20 @@ public class Form extends User {
 		this.gender = gender;
 	}
 
-	public String getToDate() {
+
+	public Date getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(String toDate) {
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
 
-	public String getFromDate() {
+	public Date getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(String fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
 

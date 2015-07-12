@@ -1,5 +1,7 @@
 package com.snlabs.aarogyatelangana.account.dao;
 
+import java.util.Date;
+
 import com.snlabs.aarogyatelangana.account.beans.*;
 
 public interface FormDao {
@@ -21,7 +23,7 @@ public interface FormDao {
 
     public Form findByFromName(String formName);
 
-    public Form searchFormByDateRange(String fromDate, String toDate);
+    public Form searchFormByDateRange(Date fromDate, Date toDate);
 
     public SectionA saveSectionA(SectionA sectionA);
 

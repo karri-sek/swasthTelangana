@@ -15,7 +15,7 @@
           type="text/css"/>
     <link href="<%=request.getContextPath()%>/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
     
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/dist/img/icon.png">
+   	<link rel="shortcut icon" href="<%=request.getContextPath()%>/resources/dist/img/icon.png">
    
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
           type="text/css"/>
@@ -141,28 +141,6 @@
                            onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">
                         <i class="fa fa-angle-double-right"></i>by Dates</a></li>
                     
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-female"></i> <span>Form F Search</span> <i class="fa fa-search pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#"
-                           onclick="submitForm('/account/patientIdReportDetails.action', 'NO-DATA', 'containerdiv');">
-                        <i class="fa fa-angle-double-right"></i>by ID</a></li>
-                    <li><a href="#"
-                           onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');">
-                        <i class="fa fa-angle-double-right"></i>by Name</a></li>
-                    <li><a href="#"
-                           onclick="submitForm('/account/formMobileReportDetails.action', 'NO-DATA', 'containerdiv');">
-                        <i class="fa fa-angle-double-right"></i>by Mobile No</a></li>
-                    <li><a href="#"
-                           onclick="submitForm('/account/formAadharReportDetails.action', 'NO-DATA', 'containerdiv');">
-                        <i class="fa fa-angle-double-right"></i>by Aadhar No</a></li>
-                    <li><a href="#"
-                           onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">
-                        <i class="fa fa-angle-double-right"></i>by Dates</a></li>
                 </ul>
             </li>
             <c:if test="${userDetails.userRole == 'Administrator'}">

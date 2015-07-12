@@ -12,6 +12,9 @@
 		<h3 class="box-title">FORM F > SECTION C: To be filled for
 			performing invasive Procedures/ Tests only</h3>
 	</div>
+	<c:if test="${error != null}">
+        <div class="alert alert-danger" role="alert">${error}</div>
+    </c:if>
 	<form class="form-horizontal" method="POST" name="invasive"
 		id="invasive" modelAttribute="invasive">
 		<div class="box-body">
@@ -35,6 +38,10 @@
 						value="${invasive.historyOfGeneticDisease}" />
 				</div>
 			</div>
+			
+			<input type="hidden"
+				id="operation" name="operation" value="${invasive.operation}" />
+			
 			<legend></legend>
 			<div class="form-group">
 				<label class="control-label col-sm-2"

@@ -1,5 +1,7 @@
 package com.snlabs.aarogyatelangana.account.service.impl;
 
+import java.util.Date;
+
 import com.snlabs.aarogyatelangana.account.beans.*;
 import com.snlabs.aarogyatelangana.account.dao.FormDao;
 import com.snlabs.aarogyatelangana.account.service.FormService;
@@ -63,7 +65,7 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public Form searchFormByDateRange(String fromDate, String toDate) {
+    public Form searchFormByDateRange(Date fromDate, Date toDate) {
         return formDao.searchFormByDateRange(fromDate, toDate);
     }
 

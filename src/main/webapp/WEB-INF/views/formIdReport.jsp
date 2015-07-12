@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="panel panel-default">
 	<div class="panel-heading">Search</div>
 	<div class="panel-body">
@@ -8,12 +9,12 @@
 					<label class="control-label col-md-5 col-lg-5">Enter Form
 						Id</label>
 					<div class="col-md-4 col-lg-4">
-						<input class="form-control " type="text" name="searchFormId"
-							id="searchFormId" />
+						<input class="form-control " type="text" name="patientID"
+							id="patientID" />
 					</div>
 					<div class="col-md-3 col-lg-3">
 						<a class="btn btn-primary form-control" href="#"
-							onclick="submitForm('/account/searchReportByFormId.action', 'searchFormById', 'searchResultdiv');">
+							onclick="submitForm('/account/downLoadForm.action', 'searchFormById', 'searchResultdiv');">
 							Search </a>
 					</div>
 				</div>
