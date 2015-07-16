@@ -37,14 +37,10 @@
 
                 <div class=" col-sm-3">
                     <a class="btn btn-primary" href="#"
-                       onclick="submitForm('/account/updateaccountsubmission.action', 'createaccount', 'containerdiv');">Update
+                       onclick="submitForm('/account/updateaccountsubmission.action', 'updateaccount', 'containerdiv');">Update
                         existing account</a>
                 </div>
             </div>
-           <%-- <a class="btn btn-primary btn-lg btn-block" href="#"
-               onclick="submitForm('/account/updateaccountsubmission.action', 'updateaccount', 'containerdiv');">Update
-                existing account</a> <span class="login-link">All fields are
-						mandatory</span>--%>
         </div>
     </form>
 </div>

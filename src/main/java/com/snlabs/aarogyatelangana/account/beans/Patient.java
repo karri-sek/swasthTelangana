@@ -25,22 +25,22 @@ public class Patient extends User implements Serializable {
 	// search easy going with this option.
 	private String searchType;
 	private String operation;
-	public String toDate;
-	public String fromDate;
+	public Date toDate;
+	public Date fromDate;
 
-	public String getToDate() {
+	public Date getToDate() {
 		return toDate;
 	}
 
-	public void setToDate(String toDate) {
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
 
-	public String getFromDate() {
+	public Date getFromDate() {
 		return fromDate;
 	}
 
-	public void setFromDate(String fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
 

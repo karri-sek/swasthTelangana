@@ -211,13 +211,19 @@ public class DownloadDaoImpl implements DownloadDao {
 
 		Object[] args = null;
 		int i = 0;
-
+		
 		if (patient.getSearchType() != null
 				&& "dateRange".equals(patient.getSearchType())) {
+			
+			final long MILLIS_IN_A_DAY = 1000*60*60*24;
+			
+			java.sql.Date fDate = new java.sql.Date(patient.getFromDate().getTime());
+	        java.sql.Date tDate = new java.sql.Date(patient.getToDate().getTime() + MILLIS_IN_A_DAY);
+			
 			queryBuilder.append(" AND patient.F_CREATED_TIMESTAMP BETWEEN ? AND ?");
 			args = new Object[3];
-			args[i++] = patient.getFromDate();
-			args[i++] = patient.getToDate();
+			args[i++] = fDate;
+			args[i++] = tDate;
 		} else {
 			queryBuilder.append(" AND  patient.F_PATIENT_ID = ?");
 			args = new Object[2];
@@ -353,10 +359,10 @@ public class DownloadDaoImpl implements DownloadDao {
 					// excelRow.getNonInvasive().getDiagnosisIndication());//INDICATIONS
 					// FOR DIAGNOSIS PROCEDURE
 					cell = row.createCell(++colnum);
-					cell.setCellValue(excelRow.getNonInvasive()
+					cell.setCellValue((Date)excelRow.getNonInvasive()
 							.getDeclarationDate());
 					cell = row.createCell(++colnum);
-					cell.setCellValue(excelRow.getNonInvasive()
+					cell.setCellValue((Date)excelRow.getNonInvasive()
 							.getProcedureCarriedDate());
 					cell = row.createCell(++colnum);
 					cell.setCellValue((String) excelRow.getNonInvasive()
@@ -380,7 +386,7 @@ public class DownloadDaoImpl implements DownloadDao {
 					// cell = row.createCell(++colnum);
 					// cell.setCellValue(excelRow.getInvasive().getGeneticDisease());
 					cell = row.createCell(++colnum);
-					cell.setCellValue(excelRow.getInvasive().getFormGDate());
+					cell.setCellValue((Date)excelRow.getInvasive().getFormGDate());
 					// cell = row.createCell(++colnum);
 					// cell.setCellValue((String)
 					// excelRow.getInvasive().getInvasiveProcedures());
@@ -412,7 +418,7 @@ public class DownloadDaoImpl implements DownloadDao {
 			workBook.write(fos);
 			fos.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return downloadFile;
 	}

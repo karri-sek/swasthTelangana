@@ -11,6 +11,10 @@ public class NewUser implements Serializable {
     public String mobileNumber;
     public String district;
     public String state;
+    
+    public boolean isPasswordsSame(){
+    	return password.equals(conPassword);
+    }
 
     public String getDistrict() {
         return district;

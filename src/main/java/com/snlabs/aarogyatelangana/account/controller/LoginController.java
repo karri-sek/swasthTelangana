@@ -45,42 +45,72 @@ public class LoginController {
             return "workdeskfirstlogin";
         }
         session.setAttribute("userName", loginUser.getUserName());
-        //session.setAttribute("loginError", " Invalid ID or password, please try again.");
         return "homeerror";
     }
 
     @RequestMapping(value = {"createaccountsubmission.action"} ,method = RequestMethod.POST)
     public String createaccountsubmission(@SessionParam(value="userDetails") UserDetails userDetails, @RequestBody NewUser user, ModelMap model, HttpSession session) {
-        //Show patient entry form, Log the request.
 
-        String hashedPassword = accountUtils.md5(user.getPassword());
-        user.setPassword(hashedPassword);
+        boolean result = false;
+        String errorMsg = null;
+        
+        if("Administrator".equals(userDetails.getUserRole()) && user.isPasswordsSame()){
+        	String hashedPassword = accountUtils.md5(user.getPassword());
+            user.setPassword(hashedPassword);
 
-        boolean result = accountService.createAccount(user, userDetails);
-
-        String view = null;
-        view = result?"createaccountsubmissionsuccess":"createaccountsubmissionfail";
+        	result = accountService.createAccount(user, userDetails);
+        }else{
+        	errorMsg = "Passwords mis-match or There is no authorization for you!!";
+        }
+        
+        if(result){
+        	model.put("resultsuccess", "Account "+user.getLoginId()+" created successfully!");
+        }else{
+        	errorMsg = "Account "+user.getLoginId()+" creation failed!";
+        }
+        
+        model.put("errorMsg", errorMsg);
+        String view = "createaccountsubmissionsuccess";
 
         return view;
     }
 
     @RequestMapping(value = {"updateaccount.action"} ,method = RequestMethod.POST)
     public String updateaccount(@SessionParam(value="userDetails") UserDetails userDetails, ModelMap model) {
-        //Show patient entry form, Log the request.
         return "updateaccount";
     }
 
     @RequestMapping(value = {"updateaccountsubmission.action"} ,method = RequestMethod.POST)
     public String updateaccountsubmission(@SessionParam(value="userDetails") UserDetails userDetails, @RequestBody NewUser user, ModelMap model) {
-        //Show patient entry form, Log the request.
 
-        String hashedPassword = accountUtils.md5(user.getPassword());
-        user.setPassword(hashedPassword);
-
-        boolean result = accountService.updateAccount(user);
-
-        String view = null;
-        view = result?"updateaccountsubmissionsuccess":"updateaccountsubmissionfail";
+    	boolean result = false;
+    	
+    	String errorMsg = null;
+    	
+    	if(!user.getLoginId().equals(userDetails.getLoginId())){ 
+    		 if(!"Administrator".equals(userDetails.getUserRole())){
+    			 errorMsg = "You are not authorized to perform this operation!";
+    			 model.put("errorMsg", errorMsg);
+    			 return "updateaccountsubmissionsuccess";
+    		 } 
+    	}
+    	
+    	if(user.isPasswordsSame()){
+    		String hashedPassword = accountUtils.md5(user.getPassword());
+            user.setPassword(hashedPassword);
+            result = accountService.updateAccount(user);
+        }else{
+        	errorMsg = "Passwords mis-match !!";
+        }
+    	
+        if(result){
+        	model.put("resultsuccess", "Account "+user.getLoginId()+" edit successfully!");
+        }else{
+        	errorMsg = "Account "+user.getLoginId()+" edit failed!";
+        }
+        
+        model.put("errorMsg", errorMsg);
+        String view = "updateaccountsubmissionsuccess";
 
         return view;
     }

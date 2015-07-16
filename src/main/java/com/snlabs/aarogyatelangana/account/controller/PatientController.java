@@ -28,7 +28,10 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -218,10 +221,13 @@ public class PatientController {
 			model.put("result", "Unable to get the login details");
 		}
 		
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		final long MILLIS_IN_A_DAY = 1000*60*60*24;
 		
-		model.put("fromDate", format.format(form.getFromDate()));
-		model.put("toDate", format.format(form.getToDate()));		
+		java.sql.Date fDate = new java.sql.Date(form.getFromDate().getTime());
+        java.sql.Date tDate = new java.sql.Date(form.getToDate().getTime() + MILLIS_IN_A_DAY);
+		
+		model.put("fromDate", fDate);
+		model.put("toDate", tDate);		
 		return "viewPatientDateRangeResult";
 	}
 
@@ -271,7 +277,7 @@ public class PatientController {
 	public void downLoadForm(
 			@SessionParam(value = "userDetails") UserDetails userDetails,
 			HttpServletRequest request, HttpSession session,
-			HttpServletResponse response, ModelMap map, Long patientID, String fromDate, String toDate, String searchType) {
+			HttpServletResponse response, ModelMap map, Long patientID, String fromDate, String toDate, String searchType) throws ParseException {
 		FileInputStream inputStream = null;
 		ServletContext context = null;
 		OutputStream outputStream = null;
@@ -279,9 +285,14 @@ public class PatientController {
 		if(patientID != null){
 			patient.setPatientID(patientID);
 		}
+		
 		patient.setSearchType(searchType);
-		patient.setFromDate(fromDate);
-		patient.setToDate(toDate);
+		if(searchType != null && "dateRange".equals(searchType)){
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			patient.setFromDate(format.parse(fromDate));
+			patient.setToDate(format.parse(toDate));
+		}
+		
 		try {
 			File downloadExcelFile = patientService.prepareExcelreport(request,
 					session, userDetails, patient);
