@@ -21,12 +21,21 @@ public class NonInvasive extends FormF {
 	private String otherProcedure = "No";
 	private ConveyDetails conveyDetails;
 	private String patientName;
+	private Date edd; 
 	
 	private String operation;
     
 	private DiagnoseDetails diagnoseDetails;
 	private Procedures procedures; 
 	
+	public Date getEdd() {
+		return edd;
+	}
+
+	public void setEdd(Date edd) {
+		this.edd = edd;
+	}
+
 	public String getOperation() {
 		return operation;
 	}
@@ -193,8 +202,8 @@ public class NonInvasive extends FormF {
 				+ ", date=" + date + ", place=" + place
 				+ ", otherDiagnoseDetails=" + otherDiagnoseDetails
 				+ ", otherProcedure=" + otherProcedure + ", conveyDetails="
-				+ conveyDetails + ", patientName=" + patientName
-				+ ", operation=" + operation + ", diagnoseDetails="
+				+ conveyDetails + ", patientName=" + patientName + ", edd="
+				+ edd + ", operation=" + operation + ", diagnoseDetails="
 				+ diagnoseDetails + ", procedures=" + procedures + "]";
 	}
 

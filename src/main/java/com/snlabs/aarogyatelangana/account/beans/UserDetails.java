@@ -3,13 +3,15 @@ package com.snlabs.aarogyatelangana.account.beans;
 
 public class UserDetails {
 
-    private static String loginId;
+    private String loginId;
     private String displayName;
     private String userRole;
     private String lastlogin;
     private String mobileNumber;
     private String district;
     private String state;
+    
+    private ClinicAddress clinicAddress;
 
     public String getDistrict() {
         return district;
@@ -32,7 +34,7 @@ public class UserDetails {
     }
 
     public void setLoginId(String loginId) {
-        UserDetails.loginId = loginId;
+        this.loginId = loginId;
     }
 
     public String getDisplayName() {
@@ -67,11 +69,21 @@ public class UserDetails {
         this.mobileNumber = mobileNumber;
     }
 
-    @Override
-    public String toString() {
-        return "UserDetails [displayName=" + displayName + ", userRole="
-                + userRole + ", lastlogin=" + lastlogin + ", mobileNumber="
-                + mobileNumber + ", district=" + district + ", state=" + state
-                + "]";
-    }
+    public ClinicAddress getClinicAddress() {
+		return clinicAddress;
+	}
+
+	public void setClinicAddress(ClinicAddress clinicAddress) {
+		this.clinicAddress = clinicAddress;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDetails [loginId=" + loginId + ", displayName="
+				+ displayName + ", userRole=" + userRole + ", lastlogin="
+				+ lastlogin + ", mobileNumber=" + mobileNumber + ", district="
+				+ district + ", state=" + state + ", clinicAddress="
+				+ clinicAddress + "]";
+	}
+
 }

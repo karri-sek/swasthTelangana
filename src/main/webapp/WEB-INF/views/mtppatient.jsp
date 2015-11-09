@@ -4,7 +4,7 @@
 	name="patientDetails">
 	<div class="box box-info">
 		<div class="box-header with-border">
-			<h3 class="box-title">Patient Details</h3>
+			<h3 class="box-title"><b>MTP</b>  Patient Details</h3>
 		</div>
 		<c:if test="${error != null}">
 			<div class="alert alert-danger" role="alert">${error}</div>
@@ -25,7 +25,7 @@
 					No</label>
 
 				<div class="col-sm-5">
-					<input type="text" class="form-control aadhaarNumber"
+					<input type="text" class="form-control onlyNumber"
 						placeholder="Enter Aadhar" name="aadharNo" id="aadharNo"
 						value="${patient.aadharNo}" />
 				</div>
@@ -225,11 +225,11 @@
 			<label class="control-label col-sm-2"></label>
 			<div class="col-sm-3">
 				<a class="btn btn-primary" href="#"
-					onclick="submitForm('/account/savePatientDetails.action', 'patientDetails', 'containerdiv');">Save</a>
+					onclick="submitForm('/account/saveAbortingPatientDetails.action', 'patientDetails', 'containerdiv');">Save</a>
 			</div>
 			<div class="col-sm-3">
 				<a class="btn btn-primary" href="#"
-					onclick="submitForm('/account/savePatientDetailsAndContinue.action', 'patientDetails', 'containerdiv');">Next</a>
+					onclick="submitForm('/account/saveAbortingPatientDetailsAndContinue.action', 'patientDetails', 'containerdiv');">Next</a>
 			</div>
 		</div>
 

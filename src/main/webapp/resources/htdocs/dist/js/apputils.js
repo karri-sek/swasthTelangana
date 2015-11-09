@@ -55,7 +55,7 @@ function submitForm(url, formId, targetId) {
         processRequest(url, formData, targetId);
     } else if ('NO-DATA' == formId) {
         var formData = {};
-        if(url == '/account/enterPatientDetails.action'){
+        if(url == '/account/enterPatientDetails.action' || url == '/account/enterAbortingPatientDetails.action'){
         	formData = '{"patientID":"0"}';
         }
         processRequest(url, formData, targetId);
@@ -184,6 +184,13 @@ function isFormValid(formId) {
         }
     });
     
+    $('#'+formId+' .aadhaarNumber').each(function () {
+        if (!isANumber($(this).val()) || !isOfLength($(this).val(), 12)) {
+            isValid = false;
+            $(this).parent().addClass('has-error').append('<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i>Aadhaar should be a 12 digit number</label>');
+        }
+    });
+    
     $('#'+formId+' .onlyName').each(function () {
         if (!isANumber($(this).val())) {
             isValid = false;
@@ -238,17 +245,12 @@ function myfunction() {
 	    document.getElementById("patient.patientCurrentAddress.address").value = '';
 	}
 }
-/*
-$(function () {
-    $('#patientProfiles').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    }); 
-});
-*/
 
-
+function printPatientPage(){
+	debugger;
+	$("#patientSearchReport").hide();
+	$("#buttonGroupId").hide();
+	javascript:window.print();
+	$("#patientSearchReport").show();
+	$("#buttonGroupId").show();
+}

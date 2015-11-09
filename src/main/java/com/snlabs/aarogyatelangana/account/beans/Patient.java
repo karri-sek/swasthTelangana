@@ -21,12 +21,21 @@ public class Patient extends User implements Serializable {
 	private PatientCurrentAddress patientCurrentAddress;
 	private String patientStatus;
 
-	// As per the design standerds this field should not be here, but to make
+	// As per the design standards this field should not stay here, but to make
 	// search easy going with this option.
 	private String searchType;
 	private String operation;
 	public Date toDate;
 	public Date fromDate;
+	public String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public Date getToDate() {
 		return toDate;

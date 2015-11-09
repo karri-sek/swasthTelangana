@@ -88,6 +88,32 @@ public class ReportController {
         return "underconstruction";
     }
 
+    @RequestMapping(value = {"mtpPatientNameReportDetails.action"}, method = RequestMethod.POST)
+    public String viewMTPPatientNameReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "mtpPatientNameReport";
+    }
+    
+    @RequestMapping(value = {"mtpPatientContactReportDetails.action"}, method = RequestMethod.POST)
+    public String viewMTPPatientContactReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "mtpPatientContactReport";
+    }
+    
+    @RequestMapping(value = {"mtpPatientAadharReportDetails.action"}, method = RequestMethod.POST)
+    public String viewMTPPatientAadharReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "mtpPatientAadharReport";
+    }
+
+    @RequestMapping(value = {"mtpPatientIdReportDetails.action"}, method = RequestMethod.POST)
+    public String viewMTPPatientIdReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "mtpPatientIdReport";
+    }
+
+    @RequestMapping(value = {"mtpFormIdReportDetails.action"}, method = RequestMethod.POST)
+    public String viewMTPFormIdReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "formIdReport";
+    }
+    
+    
     @RequestMapping(value = {"patientNameReportDetails.action"}, method = RequestMethod.POST)
     public String viewPatientNameReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
         return "patientNameReport";
@@ -112,7 +138,7 @@ public class ReportController {
     public String viewFormIdReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
         return "formIdReport";
     }
-
+    
     @RequestMapping(value = {"formDateReportDetails.action"}, method = RequestMethod.POST)
     public String viewDateRangeReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map, HttpSession session) {
     	java.util.Date utilDate = new java.util.Date();
@@ -126,7 +152,21 @@ public class ReportController {
         session.setAttribute("toDate", toDate);
     	return "formDateReport";
     }
-
+    
+    @RequestMapping(value = {"mtpFormDateReportDetails.action"}, method = RequestMethod.POST)
+    public String viewMTPDateRangeReportOptions(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map, HttpSession session) {
+    	java.util.Date utilDate = new java.util.Date();
+        java.sql.Date toDate = new java.sql.Date(utilDate.getTime());
+        
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -30);
+        java.sql.Date fromDate = new java.sql.Date(cal.getTimeInMillis());
+        
+        session.setAttribute("fromDate", fromDate);
+        session.setAttribute("toDate", toDate);
+    	return "mtpFormDateReport";
+    }
+    
     @ExceptionHandler(LoginRequiredException.class)
     public String handleLoginRequiredException(LoginRequiredException ex) {
         return "loginredirect";

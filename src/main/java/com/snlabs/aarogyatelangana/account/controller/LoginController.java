@@ -130,7 +130,7 @@ public class LoginController {
 
     public static void main(String[] args) {
         AccountUtils accUtils = new AccountUtils();
-        String hashedPassword = accUtils.md5("Nag");
+        String hashedPassword = accUtils.md5("donotchange@snlabs");
         System.out.println(hashedPassword);
     }
 

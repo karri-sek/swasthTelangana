@@ -289,6 +289,14 @@ placental hemorrhage, abnormal adherence etc"><input
 						value="${nonInvasive.mtpIndication}" />
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2"
+					title="Expected date of delivery">Expected date of delivery:</label>
+				<div class="col-sm-5">
+					<input class='form-control' name="edd" type='text'
+						value="${nonInvasive.edd}" />
+				</div>
+			</div>
 			<input type="hidden" id="patientID" name="patientID"
 				value="${nonInvasive.patientID}" /> <input type="hidden"
 				id="patientName" name="patientName"

@@ -11,13 +11,15 @@
 				<fieldset>
 					<form class="form-horizontal" method="POST" name="formEntry"
 						id="formEntry">
-						<div class="form-group">
+						<div id="buttonGroupId" class="form-group">
 							<div class="col-md-7 col-lg-7"></div>
 							<div class="col-md-3 col-lg-3">
 								<div class="form-group">
 									<a class="btn btn-primary"
 										href="/account/downLoadForm.action?patientID=${form.patientID}">Download
 										Details as Excel</a>
+									<a class="btn btn-primary"
+										href="#" onclick="printPatientPage();">Print this page</a>
 								</div>
 							</div>
 						</div>

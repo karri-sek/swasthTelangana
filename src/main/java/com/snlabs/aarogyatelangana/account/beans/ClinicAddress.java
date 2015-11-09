@@ -120,12 +120,15 @@ public class ClinicAddress {
         this.clinicName = clinicName;
     }
 
-    @Override
-    public String toString() {
-        return "ClinicAddress [clinicID=" + clinicID + ", ownerName="
-                + ownerName + ", type=" + type + ", address=" + address
-                + ", district=" + district + ", state=" + state + ", pincode="
-                + pincode + ", contactNum=" + contactNum + ", clinicName="
-                + clinicName + "]";
-    }
+	@Override
+	public String toString() {
+		return "ClinicAddress [clinicID=" + clinicID + ", ownerName="
+				+ ownerName + ", type=" + type + ", address=" + address
+				+ ", district=" + district + ", state=" + state + ", pincode="
+				+ pincode + ", contactNum=" + contactNum + ", clinicName="
+				+ clinicName + ", registrationNo=" + registrationNo
+				+ ", patientID=" + patientID + ", patientName=" + patientName
+				+ ", operation=" + operation + "]";
+	}
+
 }

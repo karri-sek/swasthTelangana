@@ -11,12 +11,12 @@
 	<context:annotation-config />
 	
     <mvc:annotation-driven>
-        <mvc:argument-resolvers>
-            <bean class="com.snlabs.aarogyatelangana.account.spring.SessionParamArgumentResolver" lazy-init="false"/>
-        </mvc:argument-resolvers>
-    </mvc:annotation-driven>
-    
-    <mvc:annotation-driven />
+	  <mvc:argument-resolvers>
+	    <bean class="com.snlabs.aarogyatelangana.account.spring.SessionParamArgumentResolver" lazy-init="false"/>
+	  </mvc:argument-resolvers>
+	</mvc:annotation-driven>
+	
+	<mvc:annotation-driven />
 
 	<mvc:resources mapping="/resources/**" location="/resources/htdocs/" />
 

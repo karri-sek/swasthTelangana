@@ -153,12 +153,22 @@ public class PatientController {
 				} else {
 					clinicAddress = new ClinicAddress();
 					clinicAddress.setPatientID(patient.getPatientID());
-					// TESTING-DATA - Comment-out once testing is done.
-					/*clinicAddress.setClinicName("Rainbow");
-					clinicAddress.setRegistrationNo("456");
-					clinicAddress.setContactNum("9898989898");
-					clinicAddress.setAddress("Hyderabad");
-					clinicAddress.setPincode(500076);*/
+					if (userDetails.getClinicAddress() != null) {
+						clinicAddress.setClinicName(userDetails
+								.getClinicAddress().getClinicName());
+						clinicAddress.setRegistrationNo(userDetails
+								.getClinicAddress().getRegistrationNo());
+						clinicAddress.setContactNum(userDetails
+								.getClinicAddress().getContactNum());
+						clinicAddress.setAddress(userDetails.getClinicAddress()
+								.getAddress());
+						clinicAddress.setDistrict(userDetails
+								.getClinicAddress().getDistrict());
+						clinicAddress.setState(userDetails.getClinicAddress()
+								.getState());
+						clinicAddress.setPincode(userDetails.getClinicAddress()
+								.getPincode());
+					}
 				}
 				clinicAddress.setPatientName(patient.getPatientName());
 				model.put("clinicAddress", clinicAddress);

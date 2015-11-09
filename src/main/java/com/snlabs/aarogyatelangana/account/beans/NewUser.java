@@ -12,6 +12,9 @@ public class NewUser implements Serializable {
     public String district;
     public String state;
     
+    private String type;
+    private ClinicAddress clinicAddress;
+    
     public boolean isPasswordsSame(){
     	return password.equals(conPassword);
     }
@@ -79,5 +82,30 @@ public class NewUser implements Serializable {
     public void setConPassword(String conPassword) {
         this.conPassword = conPassword;
     }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public ClinicAddress getClinicAddress() {
+		return clinicAddress;
+	}
+
+	public void setClinicAddress(ClinicAddress clinicAddress) {
+		this.clinicAddress = clinicAddress;
+	}
+
+	@Override
+	public String toString() {
+		return "NewUser [loginId=" + loginId + ", displayName=" + displayName
+				+ ", userRole=" + userRole + ", password=" + password
+				+ ", conPassword=" + conPassword + ", mobileNumber="
+				+ mobileNumber + ", district=" + district + ", state=" + state
+				+ ", type=" + type + ", clinicAddress=" + clinicAddress + "]";
+	}
 
 }
