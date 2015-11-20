@@ -3,15 +3,15 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="box box-info" id="downloadMTPDiv">
 	<div class="box-header with-border">
-		<h3 class="box-title">Abortion details</h3>
+		<h3 class="box-title">Birth report</h3>
 	</div>
 	<!-- /.box-header -->
 	<!-- form start -->
-	<form class="form-horizontal" method="POST" name="mtpDownload"
-		id="mtpDownload" modelAttribute="declaration">
-		&nbsp; MTP has been saved successfully <a href="#"
-			onclick="submitForm('/account/mtpPatientSearchReport.action', 'mtpDownload', 'searchResultdiv');"><b>Download</b></a>
-		<input name="patientID" type="hidden" value="${mtpDetails.patientID}" />
+	<form class="form-horizontal" method="POST" name="brDownload"
+		id="brDownload" modelAttribute="declaration">
+		&nbsp; Birth report has been saved successfully <a href="#"
+			onclick="submitForm('/account/birthSearchReport.action', 'mtpDownload', 'searchResultdiv');"><b>Download</b></a>
+		<input name="birthId" type="hidden" value="${birthReport.birthId}" />
 		<input type="hidden"
 			id="searchType" name="searchType" value="ID" />
 	</form>

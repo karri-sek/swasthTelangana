@@ -16,6 +16,13 @@ public class AppConstants {
     public static String MTP_CLINIC_DETAILS = "DEMO.T_MTP_CLINIC_DETAILS";
     public static String MTP_DETAILS = "DEMO.T_MTP_OTHER_DETAILS";
     
+    public static String BR_LEGAL_INFO = "DEMO.T_BR_LEGAL_INFO";
+    public static String BR_BIRTH_ADDRESS = "DEMO.T_BR_BIRTH_ADDRESS";
+    public static String BR_PERMANENT_ADDRESS = "DEMO.T_BR_PERMANENT_ADDRESS";
+    public static String BR_STATS_FAMILY_INFO = "T_BR_STATS_FAMILY_INFO";
+    public static String BR_STATS_HEALTH_INFO = "T_BR_STATS_HEALTH_INFO";
+    
+    
     public static String FORM = "DEMO.T_FORM";
     
     public static String CLINIC_DETAILS = "DEMO.T_CLINIC_DETAILS";

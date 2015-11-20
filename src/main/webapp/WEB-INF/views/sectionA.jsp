@@ -11,7 +11,7 @@
 		id="sectionA" modelAttribute="sectionA">
 		<input type="hidden" id="lastMenstrualPeriod" name="lastMenstrualPeriod"
 			value="" />
-		<div class="form-group">
+		<div class="form-group mandatory">
 			<label class="control-label col-sm-2"> Weeks of pregnancy</label>
 			<div class="col-sm-2">
 				<input class='form-control required onlyNumber' name="weeksOfPragnancy" type='text'
@@ -26,7 +26,7 @@
 					value="${sectionA.noOfChildren}" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group mandatory">
 			<label class="control-label col-sm-2">Sons</label>
 			<div class="col-sm-2">
 				<input class="form-control required onlyNumber" type="text" name="noOfMaleKids"
@@ -38,7 +38,7 @@
 					value="${sectionA.noOfFemaleKids}" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group mandatory">
 			<label class="control-label col-sm-2">Guardian Name</label>
 
 			<div class="col-sm-5">

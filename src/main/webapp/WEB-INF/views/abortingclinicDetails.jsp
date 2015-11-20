@@ -36,14 +36,14 @@
                 <input class='form-control' name="patientName" type='text' value="${clinicAddress.patientName}"/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group mandatory">
             <label class="control-label col-sm-2"> Clinic Name</label>
 
             <div class="col-sm-5">
                 <input class='form-control required' placeholder="Enter Clinic Name ..." name="clinicName" type='text' value="${clinicAddress.clinicName}"/>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group mandatory">
             <label class="control-label col-sm-2" title="Under PC& PNDT Act, 1994"> Registration No.</label>
 
             <div class="col-sm-5">

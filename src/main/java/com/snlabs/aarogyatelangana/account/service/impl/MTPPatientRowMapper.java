@@ -83,6 +83,7 @@ public class MTPPatientRowMapper implements RowMapper {
 			mtpDtl.setClinicAddress(clinicAddress);
 
 			detailsList.add(mtpDtl);
+			
 		} while (rs.next());
 		return detailsList;
 	}

@@ -80,6 +80,7 @@ public class PatientController {
 		return "patientForm";
 	}
 
+	@SuppressWarnings("finally")
 	@RequestMapping(value = { "patientProfiles.action" }, method = RequestMethod.POST)
 	public ModelAndView patientProfiles(
 			@SessionParam(value = "userDetails") UserDetails userDetails,

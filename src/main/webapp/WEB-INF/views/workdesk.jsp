@@ -5,7 +5,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-<style></style>
+<style>
+   .form-group.mandatory .control-label:after { 
+	   content:"*";
+	   color:red;
+	}
+</style>
 <meta charset="UTF-8">
 <title>Swasth Telangana</title>
 <!-- Tell the browser to be responsive to screen width -->
@@ -64,7 +69,7 @@
 			<span class="logo-lg"><b>Swasth</b>Telangana</span>
 		</a> <!-- Header Navbar: style can be found in header.less --> <nav
 			class="navbar navbar-static-top" role="navigation"> <!-- Sidebar toggle button-->
-		<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas" id="offcanvas"
 			role="button"> <span class="sr-only">Toggle navigation</span>
 		</a> <!-- Navbar Right Menu -->
 		<div class="navbar-custom-menu">
@@ -92,7 +97,8 @@
 						<!-- Menu Footer-->
 						<li class="user-footer">
 							<div class="pull-left">
-								<a href="#" class="btn btn-default btn-flat">Profile</a>
+								<a href="#" onclick="submitForm('/account/userProfile.action', 'NO-DATA', 'containerdiv');" class="btn btn-default btn-flat">Profile</a>
+								<!--<input type="hidden" id = "__ctoken" name="__ctoken" value= '${__ctoken}'/> -->
 							</div>
 							<div class="pull-right">
 								<button type="submit" class="btn btn-default btn-flat"
@@ -117,9 +123,9 @@
 			</a></li>
 			<li class="active"><a href="#"
 				onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');">
-					<i class="fa fa-plus-square"></i> <span>Patient entry</span>
+					<i class="fa fa-bed"></i> <span>Patient entry</span>
 			</a></li>
-			<li class="treeview"><a href="#"> <i class="fa fa-bed"></i>
+			<li class="treeview"><a href="#"> <i class="fa fa-th-list"></i>
 					<span>Patient search</span> <i class="fa fa-search pull-right"></i>
 			</a>
 				<ul class="treeview-menu">
@@ -148,9 +154,9 @@
 
 			<li class="active"><a href="#"
 				onclick="submitForm('/account/enterAbortingPatientDetails.action', 'NO-DATA', 'containerdiv');">
-					<i class="fa fa-plus-square"></i> <span>MTP</span>
+					<i class="fa fa-scissors"></i> <span>MTP</span>
 			</a></li>
-			<li class="treeview"><a href="#"> <i class="fa fa-scissors"></i>
+			<li class="treeview"><a href="#"> <i class="fa fa-th-list"></i>
 					<span>MTP search</span> <i class="fa fa-search pull-right"></i>
 			</a>
 				<ul class="treeview-menu">
@@ -177,31 +183,31 @@
 
 				</ul></li>
 			<li class="active"><a href="#"
-				onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');">
-					<i class="fa fa-plus-square"></i> <span>Birth report</span>
+				onclick="submitForm('/account/enterBirthReportDetails.action', 'NO-DATA', 'containerdiv');">
+					<i class="fa fa-child"></i> <span>Birth report</span>
 			</a></li>
-			<li class="treeview"><a href="#"> <i class="fa fa-child"></i>
+			<li class="treeview"><a href="#"> <i class="fa fa-th-list"></i>
 					<span>Birth report search</span> <i class="fa fa-search pull-right"></i>
 			</a>
 				<ul class="treeview-menu">
 					<li><a href="#"
-						onclick="submitForm('/account/patientIdReportDetails.action', 'NO-DATA', 'containerdiv');">
+						onclick="submitForm('/account/birthReportIdReportDetails.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>by ID
 					</a></li>
 					<li><a href="#"
-						onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');">
-							<i class="fa fa-angle-double-right"></i>by Name
+						onclick="submitForm('/account/birthReportNameReportDetails.action', 'NO-DATA', 'containerdiv');">
+							<i class="fa fa-angle-double-right"></i>by Mother Name
 					</a></li>
 					<li><a href="#"
-						onclick="submitForm('/account/patientContactReportDetails.action', 'NO-DATA', 'containerdiv');">
-							<i class="fa fa-angle-double-right"></i>by Mobile No
+						onclick="submitForm('/account/birthReportContactReportDetails.action', 'NO-DATA', 'containerdiv');">
+							<i class="fa fa-angle-double-right"></i>by Mother Mobile No
 					</a></li>
 					<li><a href="#"
-						onclick="submitForm('/account/patientAadharReportDetails.action', 'NO-DATA', 'containerdiv');">
-							<i class="fa fa-angle-double-right"></i>by Aadhar No
+						onclick="submitForm('/account/birthReportAadharReportDetails.action', 'NO-DATA', 'containerdiv');">
+							<i class="fa fa-angle-double-right"></i>by Mother Aadhar No
 					</a></li>
 					<li><a href="#"
-						onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">
+						onclick="submitForm('/account/birthReportsByDate.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>by Dates
 					</a></li>
 
@@ -211,34 +217,17 @@
 			</a>
 				<ul class="treeview-menu">
 					<li><a href="#"
-						onclick="submitForm('/account/patientIdReportDetails.action', 'NO-DATA', 'containerdiv');">
+						onclick="submitForm('/account/formFDashboardDetails.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>Form F
 					</a></li>
 					<li><a href="#"
-						onclick="submitForm('/account/patientNameReportDetails.action', 'NO-DATA', 'containerdiv');">
+						onclick="submitForm('/account/mtpDashboardDetails.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>MTP
 					</a></li>
 					<li><a href="#"
-						onclick="submitForm('/account/patientContactReportDetails.action', 'NO-DATA', 'containerdiv');">
+						onclick="submitForm('/account/birtReporthDashboardDetails.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>Birth report
 					</a></li>
-					<li><a href="#"
-						onclick="submitForm('/account/patientAadharReportDetails.action', 'NO-DATA', 'containerdiv');">
-							<i class="fa fa-angle-double-right"></i>Scan-Abortion-Birth
-					</a></li>
-					<li><a href="#"
-						onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">
-							<i class="fa fa-angle-double-right"></i>Birth religion
-					</a></li>
-					<li><a href="#"
-						onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">
-							<i class="fa fa-angle-double-right"></i>Delivery method
-					</a></li>
-					<li><a href="#"
-						onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');">
-							<i class="fa fa-angle-double-right"></i>Pregnancy duration
-					</a></li>
-
 				</ul></li>
 			<c:if test="${userDetails.userRole == 'Administrator'}">
 				<li class="treeview"><a href="#"> <i class="fa fa-gears"></i>
@@ -254,6 +243,9 @@
 						<li><a href="#"
 							onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');"><i
 								class="fa fa-group"></i> List Accounts</a></li>
+						<li><a href="#"
+							onclick="submitForm('/account/loggedInUserCount.action', 'NO-DATA', 'containerdiv');"><i
+								class="fa fa-line-chart"></i> Logged in users info</a></li>		
 						<li><a href="#"
 							onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');"><i
 								class="fa fa-sticky-note-o"></i> Add banner</a></li>

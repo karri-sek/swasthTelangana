@@ -1,3 +1,4 @@
+<%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -35,7 +36,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="login-page" >
+<body class="login-page">
 	<div class="login-box" id="canvas" name="canvas">
 		<div class="login-logo">
 			<b>Swasth</b>Telangana
@@ -71,10 +72,9 @@
 					</div>
 				</c:if>
 				<div class="row">
-					<div class="col-xs-8">
-					</div>
+					<div class="col-xs-8"></div>
 					<div class="col-xs-4">
-						<a href="#" class="btn btn-primary btn-block btn-flat"
+						<a href="#" class="btn btn-primary btn-block btn-flat" id="signIn"
 							onclick="submitForm('/account/loginsubmission.action', 'loginform', 'canvas');"
 							value="Sign in"> Sign in</a>
 					</div>
@@ -109,6 +109,13 @@
           increaseArea: '20%' // optional
         });
       });
+      
+      $('#password').keypress(function (e) {
+    	  if(e.which == 13) {
+    		  $( "#signIn" ).click();
+    	    }
+    	 });
+      
     </script>
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/resources/dist/js/apputils.js"></script>

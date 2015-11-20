@@ -385,8 +385,8 @@ public class DownloadDaoImpl implements DownloadDao {
 							.getAdvancedMaternalAge());
 					// cell = row.createCell(++colnum);
 					// cell.setCellValue(excelRow.getInvasive().getGeneticDisease());
-					cell = row.createCell(++colnum);
-					cell.setCellValue((Date)excelRow.getInvasive().getFormGDate());
+					//cell = row.createCell(++colnum);
+					//cell.setCellValue((Date)excelRow.getInvasive().getFormGDate());
 					// cell = row.createCell(++colnum);
 					// cell.setCellValue((String)
 					// excelRow.getInvasive().getInvasiveProcedures());

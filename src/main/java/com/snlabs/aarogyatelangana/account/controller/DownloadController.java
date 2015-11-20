@@ -1,12 +1,14 @@
 package com.snlabs.aarogyatelangana.account.controller;
 
 import com.snlabs.aarogyatelangana.account.beans.UserDetails;
+import com.snlabs.aarogyatelangana.account.exceptions.LoginRequiredException;
 import com.snlabs.aarogyatelangana.account.service.DownloadService;
 import com.snlabs.aarogyatelangana.account.spring.SessionParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -59,4 +61,9 @@ public class DownloadController {
 	public void setDownloadService(DownloadService downloadService) {
 		this.downloadService = downloadService;
 	}
+	
+	@ExceptionHandler(LoginRequiredException.class)
+    public String handleLoginRequiredException(LoginRequiredException ex) {
+        return "loginredirect";
+    }
 }

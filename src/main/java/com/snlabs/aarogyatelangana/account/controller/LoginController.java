@@ -22,7 +22,7 @@ import com.snlabs.aarogyatelangana.account.utils.AccountUtils;
 @Controller
 public class LoginController {
 
-    static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     public AccountService accountService;
@@ -32,7 +32,7 @@ public class LoginController {
     @RequestMapping(value = {"loginsubmission.action"} ,method = RequestMethod.POST)
     public String loginsubmission(@RequestBody LoginUser loginUser, HttpSession session, ModelMap modelMap) {
 
-        LOGGER.info("loginsubmission-> ", loginUser.getUserName() +":"+session.getId());
+        logger.info("loginsubmission-> ", loginUser.getUserName() +":"+session.getId());
 
         loginUser.setPassword(accountUtils.md5(loginUser.getPassword()));
 
@@ -78,6 +78,12 @@ public class LoginController {
     @RequestMapping(value = {"updateaccount.action"} ,method = RequestMethod.POST)
     public String updateaccount(@SessionParam(value="userDetails") UserDetails userDetails, ModelMap model) {
         return "updateaccount";
+    }
+    
+    @RequestMapping(value = {"userProfile.action"} ,method = RequestMethod.POST)
+    public String userProfile(@SessionParam(value="userDetails") UserDetails userDetails, ModelMap model) {
+    	model.addAttribute("user", userDetails);
+        return "userProfileView";
     }
 
     @RequestMapping(value = {"updateaccountsubmission.action"} ,method = RequestMethod.POST)

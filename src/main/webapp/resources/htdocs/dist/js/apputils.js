@@ -1,5 +1,8 @@
 function processRequest(url, data, targetId) {
-   var promodomain =  'http://' + window.location.host;
+	/*if ($('#__ctoken') === undefined) {
+		data.__ctoken = $('#__ctoken').val();
+	}*/
+	var promodomain =  'http://' + window.location.host;
     jQuery.ajax({
         type: "POST",
         url: promodomain + url,
@@ -57,6 +60,9 @@ function submitForm(url, formId, targetId) {
         var formData = {};
         if(url == '/account/enterPatientDetails.action' || url == '/account/enterAbortingPatientDetails.action'){
         	formData = '{"patientID":"0"}';
+        }
+        if(url == '/account/enterBirthReportDetails.action'){
+        	formData = '{"birthId":"0"}';
         }
         processRequest(url, formData, targetId);
     } else if ('searchFormByDate' == formId) {
@@ -247,10 +253,42 @@ function myfunction() {
 }
 
 function printPatientPage(){
-	debugger;
+	$('#offcanvas').click();
 	$("#patientSearchReport").hide();
 	$("#buttonGroupId").hide();
 	javascript:window.print();
 	$("#patientSearchReport").show();
 	$("#buttonGroupId").show();
+	$('#offcanvas').click();
+}
+
+function birthReportSameAddressAction() {
+	
+	if($("#sameAsBirthAddress").is(':checked')){
+		var cityName = document.getElementById("birthPlaceAddress.cityName").value;
+	    document.getElementById("permanentAddress.cityName").value = cityName;
+
+	    var address = document.getElementById("birthPlaceAddress.address").value;
+	    document.getElementById("permanentAddress.address").value = address;
+
+	    var district = document.getElementById("birthPlaceAddress.district").value;
+	    document.getElementById("permanentAddress.district").value = district;
+
+	    var state = document.getElementById("birthPlaceAddress.state").value;
+	    document.getElementById("permanentAddress.state").value = state;
+	    
+	    var pincode = document.getElementById("birthPlaceAddress.pincode").value;
+	    document.getElementById("permanentAddress.pincode").value = pincode;
+	}    
+	else{
+	    document.getElementById("permanentAddress.cityName").value = '';
+	    
+	    document.getElementById("permanentAddress.address").value = '';
+
+	    document.getElementById("permanentAddress.district").value = '';
+
+	    document.getElementById("permanentAddress.state").value = '';
+	    
+	    document.getElementById("permanentAddress.pincode").value = '';	    
+	}
 }

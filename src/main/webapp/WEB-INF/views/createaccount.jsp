@@ -1,12 +1,22 @@
 <script type="text/javascript">
-	$("#userRole").change(function() {
-		debugger;
-		if ($("#userRole").val() != 'HealthCenterUser') {
-			$("#userClinicDetails").hide();
-		} else {
-			$("#userClinicDetails").show();
-		}
-	});
+	$("#userRole").change(
+			function() {
+				if ($("#userRole").val() != 'HealthCenterUser') {
+					$("#clinicAddressClinicName").removeClass("required");
+					$("#clinicAddressRegistrationNo").removeClass(
+							"required onlyNumber");
+					$("#clinicAddressContactNum").removeClass("onlyNumber");
+					$("#clinicAddressPincode").removeClass("onlyNumber");
+					$("#userClinicDetails").hide();
+				} else {
+					$("#clinicAddressClinicName").addClass("required");
+					$("#clinicAddressRegistrationNo").addClass(
+							"required onlyNumber");
+					$("#clinicAddressContactNum").addClass("onlyNumber");
+					$("#clinicAddressPincode").addClass("onlyNumber");
+					$("#userClinicDetails").show();
+				}
+			});
 </script>
 <div class="box box-info">
 	<div class="box-header with-border">
@@ -16,7 +26,7 @@
 		enctype="multipart/form-data" method="POST" class="form-horizontal">
 		<div class="box box-info">
 			<div class="box-body">
-				<div class="form-group">
+				<div class="form-group mandatory">
 					<label class="control-label col-sm-2">Login id</label>
 
 					<div class="col-sm-5">
@@ -24,7 +34,7 @@
 							name="loginId" id="loginId" />
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group mandatory">
 					<label class="control-label col-sm-2">Display name</label>
 
 					<div class="col-sm-5">
@@ -114,17 +124,17 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group mandatory">
 						<label class="control-label col-sm-2"> Clinic Name</label>
 
 						<div class="col-sm-5">
 							<input class='form-control required'
 								placeholder="Enter Clinic Name ..."
-								name="clinicAddress.clinicName" id="clinicAddress.clinicName"
+								name="clinicAddress.clinicName" id="clinicAddressClinicName"
 								type='text' value="${clinicAddress.clinicName}" />
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group mandatory">
 						<label class="control-label col-sm-2"
 							title="Under PC& PNDT Act, 1994"> Registration No</label>
 
@@ -132,7 +142,7 @@
 							<input class='form-control required onlyNumber'
 								placeholder="Under PC& PNDT Act, 1994"
 								name="clinicAddress.registrationNo"
-								id="clinicAddress.registrationNo" type='text'
+								id="clinicAddressRegistrationNo" type='text'
 								value="${clinicAddress.registrationNo}" />
 						</div>
 					</div>
@@ -142,7 +152,7 @@
 						<div class="col-sm-5">
 							<input class='form-control onlyNumber'
 								placeholder="Enter Clinic contact No"
-								name="clinicAddress.contactNum" id="clinicAddress.contactNum"
+								name="clinicAddress.contactNum" id="clinicAddressContactNum"
 								type='text' value="${clinicAddress.contactNum}" />
 						</div>
 					</div>
@@ -150,7 +160,8 @@
 						<label class="control-label col-sm-2">Clinic Address</label>
 
 						<div class="col-sm-5">
-							<textarea class='form-control' rows='3' name="clinicAddress.address">${clinicAddress.address}</textarea>
+							<textarea class='form-control' rows='3'
+								name="clinicAddress.address">${clinicAddress.address}</textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -184,7 +195,7 @@
 						<label class="control-label col-sm-2"> State </label>
 
 						<div class="col-sm-2">
-							<select class="form-control" id="clinicAddress.state"
+							<select class="form-control" id="clinicAddressState"
 								name="clinicAddress.state" value="${clinicAddress.state}">
 								<option value="Telangana"
 									${clinicAddress.state == 'Telangana' ? 'selected' : ''}>Telangana</option>
@@ -198,7 +209,7 @@
 						<div class="col-sm-5">
 							<input class='form-control onlyNumber'
 								name="clinicAddress.pincode" type='text'
-								id="clinicAddress.pincode" value="${clinicAddress.pincode}" />
+								id="clinicAddressPincode" value="${clinicAddress.pincode}" />
 						</div>
 					</div>
 				</div>

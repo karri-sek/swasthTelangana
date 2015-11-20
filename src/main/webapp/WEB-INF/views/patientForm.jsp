@@ -10,7 +10,7 @@
 			<div class="alert alert-danger" role="alert">${error}</div>
 		</c:if>
 		<div class="box-body">
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputEmail3" class="col-sm-2 control-label">Patient
 					Name</label>
 
@@ -20,22 +20,22 @@
 						id="patientName" value="${patient.patientName}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputPassword3" class="col-sm-2 control-label">Aadhar
 					No</label>
 
 				<div class="col-sm-5">
-					<input type="text" class="form-control aadhaarNumber"
+					<input type="text" class="form-control required aadhaarNumber"
 						placeholder="Enter Aadhar" name="aadharNo" id="aadharNo"
 						value="${patient.aadharNo}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputPassword3" class="col-sm-2 control-label">Contact
 					No</label>
 
 				<div class="col-sm-5">
-					<input type="text" class="form-control onlyMobileNum"
+					<input type="text" class="form-control required onlyMobileNum"
 						placeholder="Enter contact No"
 						id="patient.patientAddress.contactno"
 						name="patient.patientAddress.contactno"
@@ -76,7 +76,7 @@
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputEmail3" class="col-sm-2 control-label">City/Village
 					Name</label>
 
@@ -88,7 +88,7 @@
 						value="${patient.patientAddress.cityName}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputPassword3" class="col-sm-2 control-label">Address</label>
 
 				<div class="col-sm-5">
@@ -154,23 +154,23 @@
 						${patient.patientCurrentAddress.sameAsPresentAddress == 'YES' ? 'checked' : ''} />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputEmail3" class="col-sm-2 control-label">City/Village
 					Name</label>
 
 				<div class="col-sm-5">
-					<input type="text" class="form-control"
+					<input type="text" class="form-control required"
 						placeholder="City (OR) Village Name"
 						name="patient.patientCurrentAddress.cityName"
 						id="patient.patientCurrentAddress.cityName"
 						value="${patient.patientCurrentAddress.cityName}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputPassword3" class="col-sm-2 control-label">Address</label>
 
 				<div class="col-sm-5">
-					<input type="text" class="form-control"
+					<input type="text" class="form-control required"
 						placeholder="Current Address"
 						name="patient.patientCurrentAddress.address"
 						id="patient.patientCurrentAddress.address"

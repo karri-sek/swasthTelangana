@@ -9,7 +9,7 @@
 	<form class="form-horizontal" method="POST" name="mtpDetails"
 		id="mtpDetails" modelAttribute="mtpDetails">
 		<br>
-		<div class="form-group">
+		<div class="form-group mandatory">
 			<label class="control-label col-sm-2"> Weeks of pregnancy</label>
 			<div class="col-sm-2">
 				<input class='form-control required onlyNumber'
@@ -40,7 +40,7 @@
 					</table>
 				</div>
 			</div>
-		<div class="form-group">
+		<div class="form-group mandatory">
 			<label class="control-label col-sm-2">Daughter / Wife of</label>
 
 			<div class="col-sm-5">
@@ -49,7 +49,7 @@
 					value="${mtpDetails.daughterOfWifeOf}" />
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group mandatory">
 			<label class="control-label col-sm-2" title="Guardian where the woman is mentally ill person or minor">Guardian Name</label>
 
 			<div class="col-sm-5">

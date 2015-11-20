@@ -113,7 +113,7 @@ public class AccountDaoImpl implements AccountDao {
 					user.getClinicAddress().getContactNum(),
 					user.getClinicAddress().getClinicName() };
 		} else {
-			argsClinicDetails = new Object[] { "NON_END_USER", "NON_END_USER",
+			argsClinicDetails = new Object[] { user.getLoginId(), "NON_END_USER",
 					"NON_END_USER", "NON_END_USER", "NON_END_USER",
 					"NON_END_USER", "NON_END_USER", 666666, "9999999999",
 					"NON_END_USER" };

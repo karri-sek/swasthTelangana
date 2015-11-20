@@ -6,7 +6,7 @@
         <fieldset>
             <form class="form-horizontal" id="searchFormByDate"
                   name="searchFormByDate">
-                <div class="form-group">
+                <div class="form-group mandatory">
 				<label class="control-label col-sm-2">From Date:</label>
 				<div class="col-sm-2">
 					<input class="form-control required" value="${fromDate}" type="date"

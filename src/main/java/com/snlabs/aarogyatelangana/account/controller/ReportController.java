@@ -4,14 +4,17 @@ import java.util.Calendar;
 
 import com.snlabs.aarogyatelangana.account.beans.UserDetails;
 import com.snlabs.aarogyatelangana.account.exceptions.LoginRequiredException;
+import com.snlabs.aarogyatelangana.account.spring.SessionCounterListener;
 import com.snlabs.aarogyatelangana.account.spring.SessionParam;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -24,11 +27,16 @@ public class ReportController {
     }
 
     @RequestMapping(value = {"/", "home.action"}, method = RequestMethod.GET)
-    public String loginpage(ModelMap model, HttpSession session) {
-    	session.removeAttribute("loginError");
-        if (session.getAttribute("userDetails") != null) {
-            return "workdesk";
+    public String loginpage(ModelMap model, HttpServletRequest request) {
+    	
+        HttpSession session = request.getSession(false);
+        if(session != null){
+        	session.removeAttribute("loginError");
+            if (session.getAttribute("userDetails") != null) {
+                return "workdesk";
+            }
         }
+    	
         return "home";
     }
 
@@ -165,6 +173,38 @@ public class ReportController {
         session.setAttribute("fromDate", fromDate);
         session.setAttribute("toDate", toDate);
     	return "mtpFormDateReport";
+    }
+    
+    @RequestMapping(value = {"birthReportNameReportDetails.action"}, method = RequestMethod.POST)
+    public String viewBirthReportNameReportDetails(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "birthreport/birthNameReport";
+    }
+    
+    @RequestMapping(value = {"birthReportContactReportDetails.action"}, method = RequestMethod.POST)
+    public String viewBirthReportContactReportDetails(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "birthreport/birthContactReport";
+    }
+    
+    @RequestMapping(value = {"birthReportAadharReportDetails.action"}, method = RequestMethod.POST)
+    public String viewBirthReportAadharReportDetails(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "birthreport/birthAadharReport";
+    }
+
+    @RequestMapping(value = {"birthReportIdReportDetails.action"}, method = RequestMethod.POST)
+    public String viewBirthReportIdReportDetails(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "birthreport/birthIdReport";
+    }
+    
+    @RequestMapping(value = {"birthReportsByDate.action"}, method = RequestMethod.POST)
+    public String viewListBirthReportsByDate(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+        return "birthreport/birthDateReport";
+    }
+    
+    @RequestMapping(value = {"loggedInUserCount.action"}, method = RequestMethod.POST)
+    public String getLoggedInUserCount(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap map) {
+    	int loggedInUserCount = SessionCounterListener.getTotalActiveSession();
+    	map.addAttribute("loggedInUserCount", loggedInUserCount);
+        return "loggedInUserView";
     }
     
     @ExceptionHandler(LoginRequiredException.class)

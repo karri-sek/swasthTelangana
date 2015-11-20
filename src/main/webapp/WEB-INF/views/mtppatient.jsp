@@ -10,7 +10,7 @@
 			<div class="alert alert-danger" role="alert">${error}</div>
 		</c:if>
 		<div class="box-body">
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputEmail3" class="col-sm-2 control-label">Patient
 					Name</label>
 
@@ -20,22 +20,22 @@
 						id="patientName" value="${patient.patientName}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputPassword3" class="col-sm-2 control-label">Aadhar
 					No</label>
 
 				<div class="col-sm-5">
-					<input type="text" class="form-control onlyNumber"
+					<input type="text" class="form-control required onlyNumber"
 						placeholder="Enter Aadhar" name="aadharNo" id="aadharNo"
 						value="${patient.aadharNo}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputPassword3" class="col-sm-2 control-label">Contact
 					No</label>
 
 				<div class="col-sm-5">
-					<input type="text" class="form-control onlyMobileNum"
+					<input type="text" class="form-control required onlyMobileNum"
 						placeholder="Enter contact No"
 						id="patient.patientAddress.contactno"
 						name="patient.patientAddress.contactno"
@@ -76,7 +76,7 @@
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputEmail3" class="col-sm-2 control-label">City/Village
 					Name</label>
 
@@ -88,7 +88,7 @@
 						value="${patient.patientAddress.cityName}" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group mandatory">
 				<label for="inputPassword3" class="col-sm-2 control-label">Address</label>
 
 				<div class="col-sm-5">

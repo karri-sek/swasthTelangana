@@ -1,10 +1,14 @@
 package com.snlabs.aarogyatelangana.account.dao.impl;
 
-import com.snlabs.aarogyatelangana.account.beans.*;
-import com.snlabs.aarogyatelangana.account.dao.PatientDao;
-import com.snlabs.aarogyatelangana.account.service.impl.PatientProfileMapper;
-import com.snlabs.aarogyatelangana.account.service.impl.PatientRowMapper;
-import com.snlabs.aarogyatelangana.account.utils.AppConstants;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,17 +19,15 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import com.snlabs.aarogyatelangana.account.beans.Form;
-
-import javax.sql.DataSource;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
+import com.snlabs.aarogyatelangana.account.beans.Patient;
+import com.snlabs.aarogyatelangana.account.beans.PatientAddress;
+import com.snlabs.aarogyatelangana.account.beans.PatientCurrentAddress;
+import com.snlabs.aarogyatelangana.account.beans.User;
+import com.snlabs.aarogyatelangana.account.beans.UserDetails;
+import com.snlabs.aarogyatelangana.account.dao.PatientDao;
+import com.snlabs.aarogyatelangana.account.service.impl.PatientProfileMapper;
+import com.snlabs.aarogyatelangana.account.service.impl.PatientRowMapper;
+import com.snlabs.aarogyatelangana.account.utils.AppConstants;
 
 public class PatientDaoImpl implements PatientDao {
 
@@ -44,9 +46,7 @@ public class PatientDaoImpl implements PatientDao {
 				.append("(F_PATIENT_NAME,F_AGE,F_GENDER,F_CREATED_BY,")
 				.append("F_CREATED_TIMESTAMP,F_AADHAR_NO) ")
 				.append("VALUES(?,?,?,?,SYSDATE(),?)");
-		Object[] args = { patient.getPatientName(),
-				patient.getAge(), patient.getGender(), patient.getCreatedBy(),
-				patient.getAadharNo() };
+		
 		final String INSERT_SQL = insertPatientRecord.toString();
 		final String patientName = patient.getPatientName();
 		final int age = patient.getAge();
@@ -75,7 +75,7 @@ public class PatientDaoImpl implements PatientDao {
 				patient.setPatientID(patientID);
 				if (patient.getPatientAddress() != null) {
 					//patient.getPatientAddress().setContactno(
-						//	patient.getContactno());
+					//patient.getContactno());
 					savePatientAddress(patient.getPatientID(),
 							patient.getPatientAddress());
 				}

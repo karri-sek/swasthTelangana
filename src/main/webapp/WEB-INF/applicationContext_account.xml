@@ -7,7 +7,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>/WEB-INF/spring-config/dev.properties</value>
+				<value>/WEB-INF/spring-config/prod.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -79,6 +79,16 @@
 	<bean id="mtpService"
 		class="com.snlabs.aarogyatelangana.account.service.impl.MTPServiceImpl">
 		<property name="mtpDao" ref="mtpDao" />
+	</bean>
+	
+	<bean id="birthReportDao" class="com.snlabs.aarogyatelangana.account.dao.impl.BirthReportDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
+	<bean id="birthReportService"
+		class="com.snlabs.aarogyatelangana.account.service.impl.BirthReportServiceImpl">
+		<property name="birthReportDao" ref="birthReportDao" />
 	</bean>
 
 </beans>

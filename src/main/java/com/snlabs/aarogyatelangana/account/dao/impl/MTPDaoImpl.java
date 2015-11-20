@@ -38,21 +38,20 @@ public class MTPDaoImpl implements MTPDao {
 
 	@Autowired
 	DataSource dataSource;
-	
+
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
 	@Override
 	public Patient save(Patient patient) {
 		StringBuilder insertPatientRecord = new StringBuilder();
-		insertPatientRecord = insertPatientRecord
-				.append("INSERT INTO ")
+		insertPatientRecord = insertPatientRecord.append("INSERT INTO ")
 				.append(AppConstants.MTP_TABLE)
 				.append("(F_PATIENT_NAME,F_AGE,F_GENDER,F_CREATED_BY,")
 				.append("F_CREATED_TIMESTAMP,F_AADHAR_NO) ")
 				.append("VALUES(?,?,?,?,SYSDATE(),?)");
-		Object[] args = { patient.getPatientName(),
-				patient.getAge(), patient.getGender(), patient.getCreatedBy(),
+		Object[] args = { patient.getPatientName(), patient.getAge(),
+				patient.getGender(), patient.getCreatedBy(),
 				patient.getAadharNo() };
 		final String INSERT_SQL = insertPatientRecord.toString();
 		final String patientName = patient.getPatientName();
@@ -60,29 +59,29 @@ public class MTPDaoImpl implements MTPDao {
 		final String gender = patient.getGender();
 		final String createdBy = patient.getCreatedBy();
 		final String adharNo = patient.getAadharNo();
-		
+
 		try {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
-			 jdbcTemplate.update(
-				    new PreparedStatementCreator() {
-				    	@Override
-				        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-				            PreparedStatement ps =
-				                connection.prepareStatement(INSERT_SQL, new String[] {"F_PATIENT_ID"});
-				            ps.setString(1, patientName);
-				            ps.setInt(2, age);
-				            ps.setString(3, gender);
-				            ps.setString(4, createdBy);
-				            ps.setString(5, adharNo);
-				            return ps;
-				        }
-				    }, keyHolder);
+			jdbcTemplate.update(new PreparedStatementCreator() {
+				@Override
+				public PreparedStatement createPreparedStatement(
+						Connection connection) throws SQLException {
+					PreparedStatement ps = connection.prepareStatement(
+							INSERT_SQL, new String[] { "F_PATIENT_ID" });
+					ps.setString(1, patientName);
+					ps.setInt(2, age);
+					ps.setString(3, gender);
+					ps.setString(4, createdBy);
+					ps.setString(5, adharNo);
+					return ps;
+				}
+			}, keyHolder);
 			long patientID = keyHolder.getKey().longValue();
-			if(patientID > 0){
+			if (patientID > 0) {
 				patient.setPatientID(patientID);
 				if (patient.getPatientAddress() != null) {
-					//patient.getPatientAddress().setContactno(
-						//	patient.getContactno());
+					// patient.getPatientAddress().setContactno(
+					// patient.getContactno());
 					savePatientAddress(patient.getPatientID(),
 							patient.getPatientAddress());
 				}
@@ -137,8 +136,7 @@ public class MTPDaoImpl implements MTPDao {
 	@Override
 	public int update(Patient patient) {
 		StringBuilder updatePatientRecord = new StringBuilder();
-		updatePatientRecord.append("UPDATE ")
-				.append(AppConstants.MTP_TABLE)
+		updatePatientRecord.append("UPDATE ").append(AppConstants.MTP_TABLE)
 				.append(" SET F_PATIENT_NAME = ?,")
 				.append(" F_UPDATED_TIMESTAMP = SYSDATE(),")
 				.append(" F_AGE = ?,").append(" F_GENDER = ?,")
@@ -155,7 +153,8 @@ public class MTPDaoImpl implements MTPDao {
 				padd.setPatientID(patient.getPatientID());
 				result = updatePatientPermanentAddress(padd);
 				if (result > 0) {
-					PatientCurrentAddress pcadd = patient.getPatientCurrentAddress();
+					PatientCurrentAddress pcadd = patient
+							.getPatientCurrentAddress();
 					pcadd.setPatientID(patient.getPatientID());
 					result = updatePatientCurrentAddress(pcadd);
 				}
@@ -184,8 +183,7 @@ public class MTPDaoImpl implements MTPDao {
 				patientCurrentAddress.getAddress(),
 				patientCurrentAddress.getCityName(),
 				patientCurrentAddress.getSameAsPresentAddress(),
-				patientCurrentAddress.getPatientID()
-				};
+				patientCurrentAddress.getPatientID() };
 		int result = 0;
 		try {
 			result = jdbcTemplate.update(updatePatientRecord.toString(), args);
@@ -197,8 +195,7 @@ public class MTPDaoImpl implements MTPDao {
 
 	private int updatePatientPermanentAddress(PatientAddress patientAddress) {
 		StringBuilder updatePatientRecord = new StringBuilder();
-		updatePatientRecord.append("UPDATE ")
-				.append(AppConstants.MTP_ADDRESS)
+		updatePatientRecord.append("UPDATE ").append(AppConstants.MTP_ADDRESS)
 				.append(" SET F_DISTRICT = ?,").append(" F_STATE = ?,")
 				.append(" F_PINCODE = ?,").append(" F_ADDRESS = ?,")
 				.append(" F_CITY = ? ,").append(" F_CONTACT_NO = ?")
@@ -206,7 +203,7 @@ public class MTPDaoImpl implements MTPDao {
 		Object[] args = { patientAddress.getDistrict(),
 				patientAddress.getState(), patientAddress.getPincode(),
 				patientAddress.getAddress(), patientAddress.getCityName(),
-				patientAddress.getContactno(),patientAddress.getPatientID() };
+				patientAddress.getContactno(), patientAddress.getPatientID() };
 		int result = 0;
 		try {
 			result = jdbcTemplate.update(updatePatientRecord.toString(), args);
@@ -231,8 +228,7 @@ public class MTPDaoImpl implements MTPDao {
 	@Override
 	public Patient findByPatientId(Patient patient) {
 		StringBuilder patientRecord = new StringBuilder();
-		patientRecord.append("SELECT * FROM ")
-				.append(AppConstants.MTP_TABLE)
+		patientRecord.append("SELECT * FROM ").append(AppConstants.MTP_TABLE)
 				.append(" WHERE F_PATIENT_ID = ?");
 		Object[] args = { patient.getPatientID() };
 		try {
@@ -293,7 +289,7 @@ public class MTPDaoImpl implements MTPDao {
 				.append("WHERE PAT.F_PATIENT_ID = ADDR.F_PATIENT_ID AND ")
 				.append("PAT.F_PATIENT_ID = CADD.F_PATIENT_ID ")
 				.append("AND PAT.F_PATIENT_ID = ? ");
-		
+
 		args[0] = pat.getPatientID();
 
 		if ("HealthCenterUser".equals(userDetails.getUserRole())) {
@@ -328,7 +324,7 @@ public class MTPDaoImpl implements MTPDao {
 	public Patient searchPatientByName(String patientName,
 			UserDetails userDetails) {
 		Patient patient = null;
-		
+
 		return patient;
 	}
 
@@ -458,7 +454,7 @@ public class MTPDaoImpl implements MTPDao {
 			sb.append("AND ADDR.F_STATE = ? ");
 			args[1] = userDetails.getState();
 		}
-		
+
 		try {
 			@SuppressWarnings("unchecked")
 			List<User> detailsList = (List<User>) jdbcTemplate.queryForObject(
@@ -595,7 +591,8 @@ public class MTPDaoImpl implements MTPDao {
 									.getInt("F_PATIENT_ID"));
 							mtpDtl.setWeeksOfPregnancy(resultSet
 									.getString("F_WEEKS_OF_PREGNANCY"));
-							mtpDtl.setIsMentallyIll(resultSet.getString("F_IS_MENTALLY_ILL"));
+							mtpDtl.setIsMentallyIll(resultSet
+									.getString("F_IS_MENTALLY_ILL"));
 							mtpDtl.setIsMinor(resultSet
 									.getString("F_IS_A_MINOR"));
 							mtpDtl.setIsMarried(resultSet
@@ -633,14 +630,17 @@ public class MTPDaoImpl implements MTPDao {
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO ").append(AppConstants.MTP_DETAILS)
 				.append(" (F_PATIENT_ID,").append("F_WEEKS_OF_PREGNANCY,")
-				.append("F_IS_MENTALLY_ILL,").append("F_IS_A_MINOR,").append("F_IS_A_MARRIED,")
-				.append("F_IS_FATHER,").append("F_DAUGHTER_OF_WIFE_OF,").append("F_GUARDIAN_NAME,")
+				.append("F_IS_MENTALLY_ILL,").append("F_IS_A_MINOR,")
+				.append("F_IS_A_MARRIED,").append("F_IS_FATHER,")
+				.append("F_DAUGHTER_OF_WIFE_OF,").append("F_GUARDIAN_NAME,")
 				.append("F_REASON_FOR_TERMINATION)");
 		sb.append("VALUES(?,?,?,?,?,?,?,?,?)");
 		Object[] args = new Object[] { mtpDetails.getPatientID(),
-				mtpDetails.getWeeksOfPregnancy(), mtpDetails.getIsMentallyIll(), mtpDetails.getIsMinor(),
-				mtpDetails.getIsMarried(), mtpDetails.getIsFather(), mtpDetails.getDaughterOfWifeOf(),
-				mtpDetails.getGuardianName(), mtpDetails.getReasonForTermination()};
+				mtpDetails.getWeeksOfPregnancy(),
+				mtpDetails.getIsMentallyIll(), mtpDetails.getIsMinor(),
+				mtpDetails.getIsMarried(), mtpDetails.getIsFather(),
+				mtpDetails.getDaughterOfWifeOf(), mtpDetails.getGuardianName(),
+				mtpDetails.getReasonForTermination() };
 		try {
 			mtpDtl = jdbcTemplate.update(sb.toString(), args) > 0 ? mtpDetails
 					: null;
@@ -651,7 +651,7 @@ public class MTPDaoImpl implements MTPDao {
 		}
 		return null;
 	}
-	
+
 	private int updatePatientStats(MTPDetails mtpDetails) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE " + AppConstants.MTP_DETAILS + " SET ").append(
@@ -670,5 +670,4 @@ public class MTPDaoImpl implements MTPDao {
 		return 0;
 	}
 
-	
 }
