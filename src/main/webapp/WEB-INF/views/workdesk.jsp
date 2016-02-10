@@ -122,6 +122,10 @@
 					<i class="fa fa-dashboard"></i> <span>Dashboard</span>
 			</a></li>
 			<li class="active"><a href="#"
+				onclick="submitForm('/account/regBasicInfo.action', 'NO-DATA', 'containerdiv');">
+					<i class="fa fa-book"></i> <span>Registration</span>
+			</a></li>
+			<li class="active"><a href="#"
 				onclick="submitForm('/account/enterPatientDetails.action', 'NO-DATA', 'containerdiv');">
 					<i class="fa fa-bed"></i> <span>Patient entry</span>
 			</a></li>
@@ -151,6 +155,7 @@
 					</a></li>
 
 				</ul></li>
+<%-- Disabling MTP and Birth report
 
 			<li class="active"><a href="#"
 				onclick="submitForm('/account/enterAbortingPatientDetails.action', 'NO-DATA', 'containerdiv');">
@@ -212,6 +217,7 @@
 					</a></li>
 
 				</ul></li>
+		--%>
 			<li class="treeview"><a href="#"> <i class="fa fa-bar-chart"></i>
 					<span>Statistics</span> <i class="fa pull-right"></i>
 			</a>
@@ -219,7 +225,7 @@
 					<li><a href="#"
 						onclick="submitForm('/account/formFDashboardDetails.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>Form F
-					</a></li>
+					</a></li> <%-- 
 					<li><a href="#"
 						onclick="submitForm('/account/mtpDashboardDetails.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>MTP
@@ -227,7 +233,7 @@
 					<li><a href="#"
 						onclick="submitForm('/account/birtReporthDashboardDetails.action', 'NO-DATA', 'containerdiv');">
 							<i class="fa fa-angle-double-right"></i>Birth report
-					</a></li>
+					</a></li> --%>
 				</ul></li>
 			<c:if test="${userDetails.userRole == 'Administrator'}">
 				<li class="treeview"><a href="#"> <i class="fa fa-gears"></i>
@@ -248,7 +254,10 @@
 								class="fa fa-line-chart"></i> Logged in users info</a></li>		
 						<li><a href="#"
 							onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');"><i
-								class="fa fa-sticky-note-o"></i> Add banner</a></li>
+								class="fa fa-envelope"></i> Add banner</a></li>
+						<li><a href="#"
+							onclick="submitForm('/account/populateDistrictData.action', 'NO-DATA', 'containerdiv');"><i
+								class="fa fa-database"></i> populate dist data</a></li>
 					</ul></li>
 				<li><a href="#"> <i class="fa fa-wrench"></i> <span>Setting</span>
 						<small class="label pull-right bg-green">new</small>
@@ -257,12 +266,13 @@
 						<li><a href="#"
 							onclick="submitForm('/account/createaccount.action', 'NO-DATA', 'containerdiv');"><i
 								class="fa fa-angle-double-right"></i> Form F alerts</a></li>
-						<li><a href="#"
+					<%--	<li><a href="#"
 							onclick="submitForm('/account/updateaccount.action', 'NO-DATA', 'containerdiv');"><i
 								class="fa fa-angle-double-right"></i> MTP alerts</a></li>
 						<li><a href="#"
 							onclick="submitForm('/account/formDateReportDetails.action', 'NO-DATA', 'containerdiv');"><i
 								class="fa fa-angle-double-right"></i> Birth report alerts</a></li>
+					--%>
 					</ul></li>
 			</c:if>
 		</ul>

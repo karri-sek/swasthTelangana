@@ -45,7 +45,7 @@ public class ReportController {
         model.put("loginID", userDetails.getLoginId());
         return "patiententry";
     }
-
+   
     @RequestMapping(value = {"totalfinancereport.action"}, method = RequestMethod.POST)
     public String totalfinancereport(@SessionParam(value = "userDetails") UserDetails userDetails, ModelMap modelMap) {
         return "totalfinancereport";

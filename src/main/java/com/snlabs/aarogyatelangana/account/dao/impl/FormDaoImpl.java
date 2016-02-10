@@ -158,6 +158,7 @@ public class FormDaoImpl implements FormDao {
 				.append(" F_DIAGNOSIS_INDICATION = ?,")
 				.append(" F_CARRIED_NON_INVASIVE_PROCEDURE  = ?,")
 				.append(" F_DECLARATION_DATE = ?,")
+				.append(" F_EDD = ?,")
 				.append(" F_PROCEDURE_CARRIED_DATE = ?,")
 				.append(" F_PROCEDURE_RESULT = ?,").append(" F_CONVEY_ID = ?,")
 				.append(" F_MTP_INDICATION = ?,").append(" F_DATE = ?,")
@@ -169,6 +170,7 @@ public class FormDaoImpl implements FormDao {
 				nonInvasive.getDiagnosisIndication(),
 				nonInvasive.getCarriedNonInvasiveProcedure(),
 				nonInvasive.getDeclarationDate(),
+				nonInvasive.getEdd(),
 				nonInvasive.getProcedureCarriedDate(),
 				nonInvasive.getProcedureResult(),
 				nonInvasive.getConveyID(),
@@ -441,8 +443,8 @@ public class FormDaoImpl implements FormDao {
 						+ "F_CARRIED_NON_INVASIVE_PROCEDURE,"
 						+ "F_DECLARATION_DATE," + "F_PROCEDURE_CARRIED_DATE,"
 						+ "F_OTHER_DIAGNOSE," + "F_OTHER_PROCEDURE,"
-						+ "F_PROCEDURE_RESULT," + "F_MTP_INDICATION")
-				.append(")VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+						+ "F_PROCEDURE_RESULT," + "F_MTP_INDICATION" + " F_EDD")
+				.append(")VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
 		Object[] args = new Object[] {
 				nonInvasive.getPatientID(),
 				nonInvasive.getPatientName(),
@@ -455,7 +457,8 @@ public class FormDaoImpl implements FormDao {
 				nonInvasive.getOtherDiagnoseDetails(),
 				nonInvasive.getOtherProcedure(),
 				nonInvasive.getProcedureResult(),
-				nonInvasive.getMtpIndication() };
+				nonInvasive.getMtpIndication(),
+				nonInvasive.getEdd()};
 
 		int nonInvasiveResult = 0, conveyResult = 0, diagnoseResult = 0;
 		try {

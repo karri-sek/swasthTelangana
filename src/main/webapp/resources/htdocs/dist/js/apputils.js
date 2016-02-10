@@ -58,7 +58,7 @@ function submitForm(url, formId, targetId) {
         processRequest(url, formData, targetId);
     } else if ('NO-DATA' == formId) {
         var formData = {};
-        if(url == '/account/enterPatientDetails.action' || url == '/account/enterAbortingPatientDetails.action'){
+        if(url == '/account/enterPatientDetails.action' || url == '/account/enterAbortingPatientDetails.action' || '/account/regBasicInfo.action'){
         	formData = '{"patientID":"0"}';
         }
         if(url == '/account/enterBirthReportDetails.action'){

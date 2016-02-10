@@ -221,6 +221,5 @@
 	</div>
 </form>
 <form name="birthReportAddressPrevious" id="birthReportAddressPrevious">
-	<input name="birthId" type="hidden"
-		value="${birthReportAddress.birthId}" />
+	<input name="birthId" type="hidden" value="${birthReportAddress.birthId}" />
 </form>

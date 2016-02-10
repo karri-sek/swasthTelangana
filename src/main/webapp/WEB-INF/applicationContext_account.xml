@@ -7,7 +7,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>/WEB-INF/spring-config/prod.properties</value>
+				<value>/WEB-INF/spring-config/dev.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -64,6 +64,16 @@
 	<bean id="downloadDao"
 		class="com.snlabs.aarogyatelangana.account.dao.impl.DownloadDaoImpl">
 		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="dashboardDao" class="com.snlabs.aarogyatelangana.account.dao.impl.DashboardDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
+	<bean id="dashboardService"
+		class="com.snlabs.aarogyatelangana.account.service.impl.DashboardServiceImpl">
+		<property name="dashboardDao" ref="dashboardDao" />
 	</bean>
 
 	<bean id="downloadService"

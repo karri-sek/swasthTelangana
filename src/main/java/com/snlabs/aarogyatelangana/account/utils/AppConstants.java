@@ -43,4 +43,6 @@ public class AppConstants {
     public static String ADDITIONAL_TESTS = "DEMO.T_ADDITIONAL_TESTS";
     
     public static String TXN_DETAILS = "DEMO.T_TXN_DETAILS";
+    
+    public static String  MONTHLY_FORMF_STATS= "DEMO.t_district_monthly_formfs_stats";
 }
